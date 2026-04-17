@@ -1,0 +1,60 @@
+{
+  "app": { "title": "Sprint Metrics" },
+  "nav": { "data": "Sprint Data", "velocity": "Velocity", "burndown": "Burn-Down", "burnup": "Burn-Up", "forecast": "Forecast" },
+  "data": {
+    "title": "Sprint Data",
+    "projectName": "Project",
+    "projectNamePlaceholder": "e.g. Project Alpha",
+    "totalScope": "Total Backlog (story points)",
+    "addSprint": "Add Sprint",
+    "sprintName": "Sprint Name",
+    "sprintNamePlaceholder": "e.g. Sprint 1",
+    "planned": "Planned SP",
+    "completed": "Completed SP",
+    "carriedOver": "Carried Over SP",
+    "startDate": "Start",
+    "endDate": "End",
+    "add": "Add",
+    "cancel": "Cancel",
+    "delete": "Delete sprint",
+    "noSprints": "No sprints yet. Add your first sprint above.",
+    "importCSV": "Import CSV",
+    "exportCSV": "Export CSV",
+    "csvFormat": "CSV format: name,planned,completed,carriedOver,startDate,endDate"
+  },
+  "velocity": {
+    "title": "Velocity Chart",
+    "explainer": "Velocity is the amount of work a team completes per sprint. Track it over time to understand your team's sustainable pace. Use the rolling average (last 3-5 sprints) for planning, not the peak.",
+    "avg": "Rolling Avg (3 sprints)",
+    "completed": "Completed SP",
+    "noData": "Add at least 2 sprints to see the velocity chart."
+  },
+  "burndown": {
+    "title": "Sprint Burn-Down",
+    "explainer": "Burn-Down shows remaining work over time within a sprint. The ideal line assumes linear progress. Deviations reveal planning issues (planned too much) or impediments (blocked mid-sprint).",
+    "ideal": "Ideal",
+    "actual": "Actual Remaining",
+    "noData": "Add sprint data to see burn-down.",
+    "selectSprint": "Select Sprint"
+  },
+  "burnup": {
+    "title": "Release Burn-Up",
+    "explainer": "Burn-Up shows cumulative completed work vs. total scope over all sprints. Unlike burn-down, it makes scope changes visible. When the completed line meets the scope line, you're done.",
+    "completed": "Completed (cumulative)",
+    "scope": "Total Scope",
+    "noData": "Add at least 2 sprints to see burn-up."
+  },
+  "forecast": {
+    "title": "Release Forecast",
+    "explainer": "Forecast uses your rolling velocity to estimate how many sprints until the backlog is done. It shows a range (optimistic/average/pessimistic) based on velocity variance — because point estimates lie.",
+    "remaining": "Remaining Scope",
+    "velocityAvg": "Velocity (3-sprint avg)",
+    "sprintsNeeded": "Sprints to Completion",
+    "optimistic": "Optimistic",
+    "average": "Average",
+    "pessimistic": "Pessimistic",
+    "noData": "Add at least 3 sprints with completions to generate a forecast.",
+    "atCurrentPace": "at current pace"
+  },
+  "common": { "language": "RU", "save": "Save", "cancel": "Cancel" }
+}
