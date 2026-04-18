@@ -4,6 +4,7 @@ import type { Screen, SprintData, ProjectConfig } from './types'
 import { SAMPLE_SPRINTS, SAMPLE_CONFIG } from './data/sample'
 import VelocityChart from './components/VelocityChart'
 import BurnUpChart from './components/BurnUpChart'
+import BurndownChart from './components/BurndownChart'
 import SprintDataTable from './components/SprintDataTable'
 import LearnView from './components/LearnView'
 
@@ -148,6 +149,9 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <VelocityChart sprints={sprints} />
                   <BurnUpChart sprints={sprints} config={config} />
+                </div>
+                <div className="mt-6">
+                  <BurndownChart sprints={sprints} config={config} />
                 </div>
               </>
             )}

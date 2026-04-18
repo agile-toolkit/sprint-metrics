@@ -16,7 +16,12 @@
     "cumulative": "Cumulative Done",
     "target": "Target Scope",
     "ideal": "Ideal",
-    "avg_velocity": "Avg Velocity"
+    "avg_velocity": "Avg Velocity",
+    "burndown_title": "Sprint Burn-Down",
+    "remaining": "Remaining",
+    "remaining_line": "Remaining Work",
+    "burndown_done": "Target reached!",
+    "burndown_start": "Start"
   },
   "data": {
     "title": "Sprint Data",

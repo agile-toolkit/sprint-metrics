@@ -16,7 +16,12 @@
     "cumulative": "Накоп. выполнено",
     "target": "Целевой объём",
     "ideal": "Идеальный темп",
-    "avg_velocity": "Сред. velocity"
+    "avg_velocity": "Сред. velocity",
+    "burndown_title": "Burn-Down спринта",
+    "remaining": "Осталось",
+    "remaining_line": "Оставшаяся работа",
+    "burndown_done": "Цель достигнута!",
+    "burndown_start": "Старт"
   },
   "data": {
     "title": "Данные спринтов",
