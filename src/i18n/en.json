@@ -37,6 +37,35 @@
     "clear_confirm": "Delete all sprint data?",
     "csv_hint": "CSV format: Sprint Name, Planned, Completed, Carried Over"
   },
+  "burndown": {
+    "title": "Sprint burn-down (illustrative)",
+    "explainer": "Ideal vs actual remaining work within a single sprint. Uses planned and completed points as a simple projection.",
+    "noData": "Add sprint data to see a burn-down curve.",
+    "selectSprint": "Sprint",
+    "ideal": "Ideal remaining",
+    "actual": "Actual remaining"
+  },
+  "forecast": {
+    "title": "Forecast scenarios",
+    "explainer": "Uses the last three sprints with completed work and your target scope to estimate remaining sprints.",
+    "noData": "Need at least three sprints with completed points.",
+    "remaining": "Remaining scope",
+    "velocityAvg": "Avg velocity (last 3)",
+    "sprintsNeeded": "Sprints to target (rough)",
+    "optimistic": "Optimistic",
+    "average": "Average",
+    "pessimistic": "Pessimistic",
+    "atCurrentPace": "at recent pace",
+    "sampleLabel": "Last 3 velocities"
+  },
+  "dataview": {
+    "title": "Sprint data (detailed)",
+    "mode_quick": "Quick entry",
+    "mode_detailed": "Detailed table",
+    "empty": "No sprints yet.",
+    "add_row": "Add sprint",
+    "cancel": "Cancel"
+  },
   "learn": {
     "title": "About Sprint Metrics",
     "velocity_title": "What is Velocity?",

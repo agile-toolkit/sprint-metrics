@@ -1,9 +1,46 @@
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ReferenceLine, ResponsiveContainer,
 } from 'recharts'
 import type { SprintData } from '../types'
+
+export function ChartWrapper({
+  title,
+  explainer,
+  children,
+}: {
+  title: string
+  explainer?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="card">
+      <div className="mb-4">
+        <h2 className="font-semibold text-gray-900">{title}</h2>
+        {explainer && <p className="text-sm text-gray-500 mt-1">{explainer}</p>}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+export function NoData({
+  title,
+  explainer,
+  label,
+}: {
+  title: string
+  explainer: string
+  label: string
+}) {
+  return (
+    <ChartWrapper title={title} explainer={explainer}>
+      <p className="text-center text-gray-400 py-8 text-sm">{label}</p>
+    </ChartWrapper>
+  )
+}
 
 interface Props {
   sprints: SprintData[]

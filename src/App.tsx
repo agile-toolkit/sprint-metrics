@@ -4,7 +4,10 @@ import type { Screen, SprintData, ProjectConfig } from './types'
 import { SAMPLE_SPRINTS, SAMPLE_CONFIG } from './data/sample'
 import VelocityChart from './components/VelocityChart'
 import BurnUpChart from './components/BurnUpChart'
+import BurnDownChart from './components/BurnDownChart'
+import ForecastView from './components/ForecastView'
 import SprintDataTable from './components/SprintDataTable'
+import SprintDataView from './components/SprintDataView'
 import LearnView from './components/LearnView'
 
 const SPRINTS_KEY = 'sprint-metrics-sprints'
@@ -51,6 +54,7 @@ function exportCSV(sprints: SprintData[]): void {
 export default function App() {
   const { t, i18n } = useTranslation()
   const [screen, setScreen] = useState<Screen>('dashboard')
+  const [dataMode, setDataMode] = useState<'quick' | 'detailed'>('quick')
   const [sprints, setSprints] = useState<SprintData[]>(loadSprints)
   const [config, setConfig] = useState<ProjectConfig>(loadConfig)
 
@@ -96,16 +100,51 @@ export default function App() {
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
         {screen === 'learn' && <LearnView />}
         {screen === 'data' && (
-          <SprintDataTable
-            sprints={sprints}
-            config={config}
-            onAddSprint={s => updateSprints([...sprints, s])}
-            onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
-            onUpdateConfig={updateConfig}
-            onClear={() => updateSprints([])}
-            onImportCSV={text => updateSprints(parseCSV(text))}
-            onExportCSV={() => exportCSV(sprints)}
-          />
+          <div className="space-y-6">
+            <div className="flex gap-2 border-b border-gray-200 pb-2">
+              <button
+                type="button"
+                onClick={() => setDataMode('quick')}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  dataMode === 'quick' ? 'bg-brand-100 text-brand-700' : 'text-gray-500 hover:bg-gray-100'
+                }`}
+              >
+                {t('dataview.mode_quick')}
+              </button>
+              <button
+                type="button"
+                onClick={() => setDataMode('detailed')}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  dataMode === 'detailed' ? 'bg-brand-100 text-brand-700' : 'text-gray-500 hover:bg-gray-100'
+                }`}
+              >
+                {t('dataview.mode_detailed')}
+              </button>
+            </div>
+            {dataMode === 'quick' ? (
+              <SprintDataTable
+                sprints={sprints}
+                config={config}
+                onAddSprint={s => updateSprints([...sprints, s])}
+                onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
+                onUpdateConfig={updateConfig}
+                onClear={() => updateSprints([])}
+                onImportCSV={text => updateSprints(parseCSV(text))}
+                onExportCSV={() => exportCSV(sprints)}
+              />
+            ) : (
+              <SprintDataView
+                sprints={sprints}
+                config={config}
+                onAddSprint={s => updateSprints([...sprints, s])}
+                onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
+                onUpdateConfig={updateConfig}
+                onClear={() => updateSprints([])}
+                onImportCSV={text => updateSprints(parseCSV(text))}
+                onExportCSV={() => exportCSV(sprints)}
+              />
+            )}
+          </div>
         )}
         {screen === 'dashboard' && (
           <div>
@@ -148,6 +187,10 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <VelocityChart sprints={sprints} />
                   <BurnUpChart sprints={sprints} config={config} />
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                  <BurnDownChart sprints={sprints} />
+                  <ForecastView sprints={sprints} config={config} />
                 </div>
               </>
             )}
