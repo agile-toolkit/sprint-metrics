@@ -138,7 +138,7 @@ export default function SprintDataTable({
                   <td className={`px-4 py-2.5 text-right font-semibold ${sp.completed >= sp.planned ? 'text-green-600' : 'text-orange-500'}`}>{sp.completed}</td>
                   <td className={`px-4 py-2.5 text-right ${sp.carriedOver > 0 ? 'text-red-500' : 'text-gray-400'}`}>{sp.carriedOver}</td>
                   <td className="px-4 py-2.5 text-right">
-                    <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs">✕</button>
+                    <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs" title={t('data.delete')}>✕</button>
                   </td>
                 </tr>
               ))}

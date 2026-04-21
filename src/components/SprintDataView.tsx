@@ -204,6 +204,8 @@ export default function SprintDataView({
                       type="button"
                       onClick={() => onDeleteSprint(sprint.id)}
                       className="text-gray-300 hover:text-red-400"
+                      title={t('data.delete')}
+                      aria-label={t('data.delete')}
                     >
                       ×
                     </button>

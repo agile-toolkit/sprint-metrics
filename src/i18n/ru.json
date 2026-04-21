@@ -15,7 +15,6 @@
     "completed": "Выполнено",
     "cumulative": "Накоп. выполнено",
     "target": "Целевой объём",
-    "ideal": "Идеальный темп",
     "avg_velocity": "Сред. velocity"
   },
   "data": {
