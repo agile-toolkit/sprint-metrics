@@ -8,8 +8,8 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 
 - [x] Dashboard, charts, data views (`App.tsx`, chart components)
 - [x] `burndown.ideal` used in `BurnDownChart.tsx`
-- [ ] `dashboard.ideal` — present in locales, unused (duplicate / wrong namespace)
-- [ ] `data.delete` — unused; wire to delete control or remove keys
+- [x] `dashboard.ideal` — removed from en.json and ru.json (unused duplicate)
+- [x] `data.delete` — wired as `title`/`aria-label` on delete buttons in `SprintDataTable.tsx` and `SprintDataView.tsx`
 
 ## Backlog
 
@@ -18,6 +18,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-04-21 — fix: wire data.delete i18n key, remove unused dashboard.ideal
+- Done: Removed `dashboard.ideal` from en.json and ru.json (was never referenced in components; `burndown.ideal` covers BurnDownChart). Wired `data.delete` as `title`/`aria-label` on the row-delete buttons in `SprintDataTable.tsx` and `SprintDataView.tsx`.
+- All BRIEF features now implemented.
+- Next task: check needs-review issues for human feedback; run research cycle for market/integration/UX improvements
 
 ### 2026-04-19 — docs: BRIEF template (AGENT_AUTONOMOUS)
 
