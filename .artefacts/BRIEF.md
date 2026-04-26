@@ -17,12 +17,23 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [ ] [#2] Feature: Add ES and BE locale support (suite standard EN+ES+BE+RU)
 - [ ] [#3] Integration: Import velocity target from Planning Poker session
 - [ ] [#4] Feature: Sprint goal field + shareable retrospective report
+- [ ] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart)
+- [ ] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay
+- [ ] [#7] Technical: Browser print API for zero-dependency retrospective PDF
 
 ## Tech notes
 
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-04-26 — research: market + UX + integration opportunities (round 2)
+- Done: checked open issues #2 #3 #4 — all still needs-review, no human response. Created 3 new needs-review issues:
+  - #5 Team mood/happiness index per sprint (emoji scale, dual-axis VelocityChart)
+  - #6 Moving Motivators → Sprint Metrics motivator-velocity overlay (snapshot import)
+  - #7 Browser print API for zero-dependency retrospective PDF (window.print + @media print)
+- Waiting for human review on all six backlog issues (#2–#7)
+- Next task: check needs-review issues for human feedback (#2–#7)
 
 ### 2026-04-24 — research: market + integration + UX opportunities
 - Done: checked open issues (none). Created 3 needs-review issues:
