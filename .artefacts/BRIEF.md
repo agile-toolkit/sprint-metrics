@@ -10,11 +10,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] `burndown.ideal` used in `BurnDownChart.tsx`
 - [x] `dashboard.ideal` — removed from en.json and ru.json (unused duplicate)
 - [x] `data.delete` — wired as `title`/`aria-label` on delete buttons in `SprintDataTable.tsx` and `SprintDataView.tsx`
+- [x] ES and BE locale support — `es.json`, `be.json` added; language selector upgraded to 4-option dropdown (EN/ES/BE/RU)
 
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
-- [ ] [#2] Feature: Add ES and BE locale support (suite standard EN+ES+BE+RU)
 - [ ] [#3] Integration: Import velocity target from Planning Poker session
 - [ ] [#4] Feature: Sprint goal field + shareable retrospective report
 - [ ] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart)
@@ -26,6 +26,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-04-29 — feat: ES and BE locale support
+- Done: created `src/i18n/es.json` (full Spanish translations) and `src/i18n/be.json` (full Belarusian translations); wired both into `src/i18n/index.ts`; upgraded language toggle from EN↔RU button to 4-option dropdown (EN/ES/BE/RU) in `App.tsx`
+- Closed: issue #2 (approved → implemented)
+- Remaining approved issues: #3 Planning Poker integration, #4 Sprint goal + retrospective report, #5 Team mood index, #6 Moving Motivators overlay, #7 Browser print PDF
+- Next task: implement issue #3 — Import velocity target from Planning Poker session (read `pp-session` localStorage key, pre-fill target scope in project config)
 
 ### 2026-04-26 — research: market + UX + integration opportunities (round 2)
 - Done: checked open issues #2 #3 #4 — all still needs-review, no human response. Created 3 new needs-review issues:

@@ -1,0 +1,82 @@
+{
+  "app": { "title": "Métricas de Sprint" },
+  "nav": { "dashboard": "Tablero", "data": "Datos del Sprint", "learn": "Aprender" },
+  "dashboard": {
+    "title": "Tablero de Sprint",
+    "velocity_title": "Velocidad (Puntos de Historia por Sprint)",
+    "burnup_title": "Burn-Up de la Versión",
+    "stats_velocity": "Vel. Media",
+    "stats_sprints": "Sprints",
+    "stats_completed": "Total Completado",
+    "stats_forecast": "Sprints hasta el Objetivo",
+    "no_data": "Sin datos de sprint. Añade sprints en la pestaña Datos.",
+    "load_sample": "Cargar Datos de Ejemplo",
+    "planned": "Planificado",
+    "completed": "Completado",
+    "cumulative": "Acumulado",
+    "target": "Alcance Objetivo",
+    "avg_velocity": "Vel. Media"
+  },
+  "data": {
+    "title": "Datos del Sprint",
+    "add": "Añadir Sprint",
+    "import_csv": "Importar CSV",
+    "export_csv": "Exportar CSV",
+    "sprint_name": "Sprint",
+    "planned": "PS Planificados",
+    "completed": "PS Completados",
+    "carried": "Traspasados",
+    "delete": "Eliminar",
+    "config_title": "Configuración del Proyecto",
+    "project_name": "Nombre del Proyecto",
+    "target_scope": "Alcance Objetivo (PS)",
+    "sprint_length": "Duración del Sprint (semanas)",
+    "save_config": "Guardar",
+    "clear_all": "Borrar todos los Sprints",
+    "clear_confirm": "¿Eliminar todos los datos de sprint?",
+    "csv_hint": "Formato CSV: Nombre del Sprint, Planificado, Completado, Traspasado"
+  },
+  "burndown": {
+    "title": "Burn-down del Sprint (ilustrativo)",
+    "explainer": "Trabajo restante ideal vs. real en un sprint. Usa puntos planificados y completados como proyección simple.",
+    "noData": "Añade datos de sprint para ver la curva de burn-down.",
+    "selectSprint": "Sprint",
+    "ideal": "Restante ideal",
+    "actual": "Restante real"
+  },
+  "forecast": {
+    "title": "Escenarios de Previsión",
+    "explainer": "Usa los últimos tres sprints con trabajo completado y el alcance objetivo para estimar los sprints restantes.",
+    "noData": "Se necesitan al menos tres sprints con puntos completados.",
+    "remaining": "Alcance restante",
+    "velocityAvg": "Vel. media (últimos 3)",
+    "sprintsNeeded": "Sprints hasta el objetivo (aprox.)",
+    "optimistic": "Optimista",
+    "average": "Promedio",
+    "pessimistic": "Pesimista",
+    "atCurrentPace": "al ritmo actual",
+    "sampleLabel": "Velocidades de los últimos 3 sprints"
+  },
+  "dataview": {
+    "title": "Datos del Sprint (detallados)",
+    "mode_quick": "Entrada rápida",
+    "mode_detailed": "Tabla detallada",
+    "empty": "Aún no hay sprints.",
+    "add_row": "Añadir sprint",
+    "cancel": "Cancelar"
+  },
+  "learn": {
+    "title": "Acerca de Sprint Metrics",
+    "velocity_title": "¿Qué es la Velocidad?",
+    "velocity_body": "La velocidad mide cuánto trabajo (en puntos de historia) completa un equipo por sprint. Se usa para previsión, no para evaluación del rendimiento. La velocidad de un equipo debe ser estable; caídas o picos repentinos indican problemas que vale la pena investigar.",
+    "burnup_title": "Burn-Up vs Burn-Down",
+    "burnup_body": "Un gráfico burn-up muestra el trabajo acumulado completado vs. el alcance total. Hace visibles los cambios de alcance. Un burn-down muestra el trabajo restante. El burn-up es preferible cuando el alcance cambia con frecuencia; el burn-down es más simple cuando el alcance es fijo.",
+    "forecast_title": "Previsión",
+    "forecast_body": "Usa la velocidad promedio para estimar cuántos sprints quedan para alcanzar el alcance objetivo. Esto da un rango, no una estimación puntual. El cono de incertidumbre: las previsiones son más fiables a medida que se completan más sprints.",
+    "pitfalls_title": "Errores Comunes",
+    "p1": "La velocidad no es una métrica de rendimiento — no compares equipos.",
+    "p2": "Inflar las estimaciones de puntos de historia para alcanzar objetivos de velocidad es contraproducente.",
+    "p3": "Los datos de un solo sprint no tienen sentido — usa promedios móviles de 3 a 5 sprints.",
+    "p4": "El trabajo traspasado es una señal, no solo un número — investiga las causas raíz."
+  }
+}
