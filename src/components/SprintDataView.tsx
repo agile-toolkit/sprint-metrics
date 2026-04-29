@@ -27,11 +27,30 @@ export default function SprintDataView({
   const [adding, setAdding] = useState(false)
   const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '' })
   const [localConfig, setLocalConfig] = useState(config)
+  const [pokerMsg, setPokerMsg] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     setLocalConfig(config)
   }, [config])
+
+  function importFromPoker() {
+    try {
+      const raw = localStorage.getItem('sprintMetrics_planningPoker')
+      if (!raw) { setPokerMsg(t('data.poker_no_data')); setTimeout(() => setPokerMsg(null), 5000); return }
+      const stories: { title: string; finalEstimate: number | null }[] = JSON.parse(raw)
+      const estimated = stories.filter(s => s.finalEstimate !== null)
+      if (estimated.length === 0) { setPokerMsg(t('data.poker_no_data')); setTimeout(() => setPokerMsg(null), 5000); return }
+      const total = estimated.reduce((sum, s) => sum + (s.finalEstimate ?? 0), 0)
+      const next = { ...localConfig, targetScope: total }
+      setLocalConfig(next)
+      onUpdateConfig(next)
+      setPokerMsg(t('data.poker_imported', { count: estimated.length, total }))
+    } catch {
+      setPokerMsg(t('data.poker_no_data'))
+    }
+    setTimeout(() => setPokerMsg(null), 5000)
+  }
 
   function addSprint() {
     if (!form.name.trim()) return
@@ -92,7 +111,7 @@ export default function SprintDataView({
             }
           />
         </div>
-        <div className="sm:col-span-3">
+        <div className="sm:col-span-3 flex items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={() => onUpdateConfig(localConfig)}
@@ -100,6 +119,10 @@ export default function SprintDataView({
           >
             {t('data.save_config')}
           </button>
+          <button type="button" onClick={importFromPoker} className="btn-secondary text-sm">
+            🃏 {t('data.import_from_poker')}
+          </button>
+          {pokerMsg && <span className="text-xs text-brand-600">{pokerMsg}</span>}
         </div>
       </div>
 

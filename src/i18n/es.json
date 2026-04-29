@@ -32,6 +32,9 @@
     "target_scope": "Alcance Objetivo (PS)",
     "sprint_length": "Duración del Sprint (semanas)",
     "save_config": "Guardar",
+    "import_from_poker": "Importar desde Planning Poker",
+    "poker_imported": "Importadas {{count}} historias ({{total}} PS) — alcance objetivo actualizado",
+    "poker_no_data": "No se encontró sesión de Planning Poker. Finaliza una sesión en Planning Poker primero.",
     "clear_all": "Borrar todos los Sprints",
     "clear_confirm": "¿Eliminar todos los datos de sprint?",
     "csv_hint": "Formato CSV: Nombre del Sprint, Planificado, Completado, Traspasado"

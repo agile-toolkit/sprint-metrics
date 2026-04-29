@@ -32,6 +32,9 @@
     "target_scope": "Целевой объём (SP)",
     "sprint_length": "Длина спринта (недели)",
     "save_config": "Сохранить",
+    "import_from_poker": "Импорт из Planning Poker",
+    "poker_imported": "Импортировано {{count}} историй ({{total}} SP) — целевой объём обновлён",
+    "poker_no_data": "Сессия Planning Poker не найдена. Сначала завершите сессию в Planning Poker.",
     "clear_all": "Очистить все спринты",
     "clear_confirm": "Удалить все данные спринтов?",
     "csv_hint": "Формат CSV: Название спринта, Запланировано, Выполнено, Перенесено"

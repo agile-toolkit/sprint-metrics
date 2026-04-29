@@ -32,6 +32,9 @@
     "target_scope": "Target Scope (SP)",
     "sprint_length": "Sprint Length (weeks)",
     "save_config": "Save",
+    "import_from_poker": "Import from Planning Poker",
+    "poker_imported": "Imported {{count}} stories ({{total}} SP) — target scope updated",
+    "poker_no_data": "No Planning Poker session found. Finish a session in Planning Poker first.",
     "clear_all": "Clear All Sprints",
     "clear_confirm": "Delete all sprint data?",
     "csv_hint": "CSV format: Sprint Name, Planned, Completed, Carried Over"
