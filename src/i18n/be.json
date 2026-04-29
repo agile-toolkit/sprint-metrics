@@ -32,6 +32,9 @@
     "target_scope": "Мэтавы аб'ём (SP)",
     "sprint_length": "Даўжыня спрынту (тыдні)",
     "save_config": "Захаваць",
+    "import_from_poker": "Імпарт з Planning Poker",
+    "poker_imported": "Імпартавана {{count}} гісторый ({{total}} SP) — мэтавы аб'ём абноўлены",
+    "poker_no_data": "Сесія Planning Poker не знойдзена. Спачатку завяршыце сесію ў Planning Poker.",
     "clear_all": "Ачысціць усе спрынты",
     "clear_confirm": "Выдаліць усе дадзеныя спрынтаў?",
     "csv_hint": "Фармат CSV: Назва спрынту, Запланавана, Выканана, Перанесена"

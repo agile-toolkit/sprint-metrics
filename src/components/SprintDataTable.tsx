@@ -23,6 +23,25 @@ export default function SprintDataTable({
   const [carried, setCarried] = useState(0)
   const [showAdd, setShowAdd] = useState(false)
   const [localConfig, setLocalConfig] = useState(config)
+  const [pokerMsg, setPokerMsg] = useState<string | null>(null)
+
+  const handleImportFromPoker = () => {
+    try {
+      const raw = localStorage.getItem('sprintMetrics_planningPoker')
+      if (!raw) { setPokerMsg(t('data.poker_no_data')); return }
+      const stories: { title: string; finalEstimate: number | null }[] = JSON.parse(raw)
+      const estimated = stories.filter(s => s.finalEstimate !== null)
+      if (estimated.length === 0) { setPokerMsg(t('data.poker_no_data')); return }
+      const total = estimated.reduce((sum, s) => sum + (s.finalEstimate ?? 0), 0)
+      const next = { ...localConfig, targetScope: total }
+      setLocalConfig(next)
+      onUpdateConfig(next)
+      setPokerMsg(t('data.poker_imported', { count: estimated.length, total }))
+    } catch {
+      setPokerMsg(t('data.poker_no_data'))
+    }
+    setTimeout(() => setPokerMsg(null), 5000)
+  }
 
   const handleAdd = () => {
     if (!name.trim()) return
@@ -69,7 +88,13 @@ export default function SprintDataTable({
             <input type="number" min={1} max={4} className="input" value={localConfig.sprintLengthWeeks} onChange={e => setLocalConfig(c => ({ ...c, sprintLengthWeeks: Number(e.target.value) }))} />
           </div>
         </div>
-        <button onClick={() => onUpdateConfig(localConfig)} className="btn-primary text-sm mt-3">{t('data.save_config')}</button>
+        <div className="flex items-center gap-2 mt-3 flex-wrap">
+          <button onClick={() => onUpdateConfig(localConfig)} className="btn-primary text-sm">{t('data.save_config')}</button>
+          <button type="button" onClick={handleImportFromPoker} className="btn-secondary text-sm">
+            🃏 {t('data.import_from_poker')}
+          </button>
+          {pokerMsg && <span className="text-xs text-brand-600">{pokerMsg}</span>}
+        </div>
       </div>
 
       {/* Actions bar */}

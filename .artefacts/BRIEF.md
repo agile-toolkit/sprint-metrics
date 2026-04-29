@@ -11,11 +11,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] `dashboard.ideal` — removed from en.json and ru.json (unused duplicate)
 - [x] `data.delete` — wired as `title`/`aria-label` on delete buttons in `SprintDataTable.tsx` and `SprintDataView.tsx`
 - [x] ES and BE locale support — `es.json`, `be.json` added; language selector upgraded to 4-option dropdown (EN/ES/BE/RU)
+- [x] Planning Poker integration — "Import from Planning Poker" button in Project Settings; reads `sprintMetrics_planningPoker` localStorage key written by Planning Poker app; sums all finalEstimate values and pre-fills targetScope; shown in both Quick and Detailed data views
 
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
-- [ ] [#3] Integration: Import velocity target from Planning Poker session
+- [x] [#3] Integration: Import velocity target from Planning Poker session — implemented
 - [ ] [#4] Feature: Sprint goal field + shareable retrospective report
 - [ ] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart)
 - [ ] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay
@@ -26,6 +27,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-04-29 — feat: Planning Poker integration (issue #3)
+- Done: added "Import from Planning Poker" button in Project Settings panel in both `SprintDataTable.tsx` and `SprintDataView.tsx`; reads `sprintMetrics_planningPoker` localStorage key (written by Planning Poker app on session close); sums all `finalEstimate` values; updates `targetScope` in ProjectConfig and auto-saves; shows 5s feedback message; all 4 locales updated (EN/ES/BE/RU)
+- Closed: issue #3 (approved → implemented)
+- Next task: check needs-review issues for human feedback (#4 sprint goal + retrospective report, #5 team mood index, #6 Moving Motivators overlay, #7 browser print PDF)
 
 ### 2026-04-29 — feat: ES and BE locale support
 - Done: created `src/i18n/es.json` (full Spanish translations) and `src/i18n/be.json` (full Belarusian translations); wired both into `src/i18n/index.ts`; upgraded language toggle from EN↔RU button to 4-option dropdown (EN/ES/BE/RU) in `App.tsx`
