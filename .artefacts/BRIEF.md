@@ -12,12 +12,13 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] `data.delete` — wired as `title`/`aria-label` on delete buttons in `SprintDataTable.tsx` and `SprintDataView.tsx`
 - [x] ES and BE locale support — `es.json`, `be.json` added; language selector upgraded to 4-option dropdown (EN/ES/BE/RU)
 - [x] Planning Poker integration — "Import from Planning Poker" button in Project Settings; reads `sprintMetrics_planningPoker` localStorage key written by Planning Poker app; sums all finalEstimate values and pre-fills targetScope; shown in both Quick and Detailed data views
+- [x] Sprint goal field + Copy Image — `goal?: string` added to SprintData; goal input in both data views; latest sprint goal shown as subtitle on dashboard; Copy Image button captures dashboard via html2canvas
 
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
 - [x] [#3] Integration: Import velocity target from Planning Poker session — implemented
-- [ ] [#4] Feature: Sprint goal field + shareable retrospective report
+- [x] [#4] Feature: Sprint goal field + shareable retrospective report — implemented
 - [ ] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart)
 - [ ] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay
 - [ ] [#7] Technical: Browser print API for zero-dependency retrospective PDF
@@ -27,6 +28,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-09 — feat: sprint goal field + copy image (issue #4)
+- Done: added `goal?: string` to SprintData type; goal text input in SprintDataTable and SprintDataView add-sprint forms; goal shown as italic line in table rows; latest sprint goal shown as italic subtitle on dashboard; Copy Image button on dashboard using html2canvas; all 4 locales updated with data.goal and results.copyImage keys
+- Installed: html2canvas
+- Closed: issue #4 (approved → implemented, set to In Review)
+- Next task: check issues for human feedback (#5 team mood index, #6 Moving Motivators overlay, #7 browser print PDF)
 
 ### 2026-05-09 — research: checked human feedback on open issues
 - Found 4 approved issues: #4 (sprint goal + shareable report), #5 (team mood index), #6 (Moving Motivators overlay), #7 (browser print PDF)

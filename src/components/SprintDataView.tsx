@@ -25,7 +25,7 @@ export default function SprintDataView({
 }: Props) {
   const { t } = useTranslation()
   const [adding, setAdding] = useState(false)
-  const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '' })
+  const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '', goal: '' })
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -60,8 +60,9 @@ export default function SprintDataView({
       planned: Number(form.planned) || 0,
       completed: Number(form.completed) || 0,
       carriedOver: Number(form.carriedOver) || 0,
+      goal: form.goal.trim() || undefined,
     })
-    setForm({ name: '', planned: '', completed: '', carriedOver: '' })
+    setForm({ name: '', planned: '', completed: '', carriedOver: '', goal: '' })
     setAdding(false)
   }
 
@@ -179,6 +180,14 @@ export default function SprintDataView({
                 />
               </div>
             ))}
+            <div className="col-span-2 sm:col-span-4">
+              <label className="label">{t('data.goal')}</label>
+              <input
+                className="input"
+                value={form.goal}
+                onChange={e => setForm(f => ({ ...f, goal: e.target.value }))}
+              />
+            </div>
           </div>
           <div className="flex gap-2">
             <button type="button" onClick={addSprint} className="btn-primary text-sm">
@@ -208,7 +217,10 @@ export default function SprintDataView({
             <tbody>
               {sprints.map((sprint, idx) => (
                 <tr key={sprint.id} className={idx % 2 === 0 ? '' : 'bg-gray-50/80'}>
-                  <td className="px-3 py-2 border-b border-gray-100 font-medium">{sprint.name}</td>
+                  <td className="px-3 py-2 border-b border-gray-100">
+                    <span className="font-medium">{sprint.name}</span>
+                    {sprint.goal && <span className="block text-xs text-gray-400 italic">{sprint.goal}</span>}
+                  </td>
                   <td className="px-3 py-2 border-b border-gray-100">{sprint.planned}</td>
                   <td className="px-3 py-2 border-b border-gray-100">
                     <span

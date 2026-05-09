@@ -37,7 +37,11 @@
     "poker_no_data": "No se encontró sesión de Planning Poker. Finaliza una sesión en Planning Poker primero.",
     "clear_all": "Borrar todos los Sprints",
     "clear_confirm": "¿Eliminar todos los datos de sprint?",
-    "csv_hint": "Formato CSV: Nombre del Sprint, Planificado, Completado, Traspasado"
+    "csv_hint": "Formato CSV: Nombre del Sprint, Planificado, Completado, Traspasado",
+    "goal": "Objetivo del Sprint"
+  },
+  "results": {
+    "copyImage": "Copiar imagen"
   },
   "burndown": {
     "title": "Burn-down del Sprint (ilustrativo)",
