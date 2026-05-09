@@ -6,6 +6,7 @@ export interface SprintData {
   planned: number
   completed: number
   carriedOver: number
+  goal?: string
 }
 
 export interface ProjectConfig {

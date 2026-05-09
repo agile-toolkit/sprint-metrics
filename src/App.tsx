@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import html2canvas from 'html2canvas'
 import type { Screen, SprintData, ProjectConfig } from './types'
 import { SAMPLE_SPRINTS, SAMPLE_CONFIG } from './data/sample'
 import VelocityChart from './components/VelocityChart'
@@ -57,9 +58,24 @@ export default function App() {
   const [dataMode, setDataMode] = useState<'quick' | 'detailed'>('quick')
   const [sprints, setSprints] = useState<SprintData[]>(loadSprints)
   const [config, setConfig] = useState<ProjectConfig>(loadConfig)
+  const [copying, setCopying] = useState(false)
+  const dashboardRef = useRef<HTMLDivElement>(null)
 
   const updateSprints = (next: SprintData[]) => { setSprints(next); saveSprints(next) }
   const updateConfig = (next: ProjectConfig) => { setConfig(next); saveConfig(next) }
+
+  const copyDashboardImage = async () => {
+    if (!dashboardRef.current || copying) return
+    setCopying(true)
+    try {
+      const canvas = await html2canvas(dashboardRef.current, { backgroundColor: '#f9fafb', scale: 2 })
+      canvas.toBlob(blob => {
+        if (blob) navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+      })
+    } finally {
+      setCopying(false)
+    }
+  }
 
   const avgVelocity = sprints.length > 0
     ? Math.round(sprints.reduce((s, sp) => s + sp.completed, 0) / sprints.length)
@@ -181,19 +197,37 @@ export default function App() {
           </div>
         )}
         {screen === 'dashboard' && (
-          <div>
+          <div ref={dashboardRef}>
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">
-                {config.name || t('dashboard.title')}
-              </h1>
-              {sprints.length === 0 && (
-                <button
-                  onClick={() => { updateSprints(SAMPLE_SPRINTS); updateConfig(SAMPLE_CONFIG) }}
-                  className="btn-secondary text-sm"
-                >
-                  {t('dashboard.load_sample')}
-                </button>
-              )}
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {config.name || t('dashboard.title')}
+                </h1>
+                {sprints.length > 0 && sprints[sprints.length - 1].goal && (
+                  <p className="text-sm text-gray-500 mt-0.5 italic">
+                    {sprints[sprints.length - 1].goal}
+                  </p>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {sprints.length > 0 && (
+                  <button
+                    onClick={copyDashboardImage}
+                    disabled={copying}
+                    className="btn-secondary text-sm"
+                  >
+                    {copying ? '…' : `📋 ${t('results.copyImage')}`}
+                  </button>
+                )}
+                {sprints.length === 0 && (
+                  <button
+                    onClick={() => { updateSprints(SAMPLE_SPRINTS); updateConfig(SAMPLE_CONFIG) }}
+                    className="btn-secondary text-sm"
+                  >
+                    {t('dashboard.load_sample')}
+                  </button>
+                )}
+              </div>
             </div>
 
             {sprints.length === 0 ? (

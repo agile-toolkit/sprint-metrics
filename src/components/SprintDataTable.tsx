@@ -21,6 +21,7 @@ export default function SprintDataTable({
   const [planned, setPlanned] = useState(40)
   const [completed, setCompleted] = useState(0)
   const [carried, setCarried] = useState(0)
+  const [goal, setGoal] = useState('')
   const [showAdd, setShowAdd] = useState(false)
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
@@ -51,10 +52,12 @@ export default function SprintDataTable({
       planned,
       completed,
       carriedOver: carried,
+      goal: goal.trim() || undefined,
     })
     setName(`Sprint ${sprints.length + 2}`)
     setCompleted(0)
     setCarried(0)
+    setGoal('')
     setShowAdd(false)
   }
 
@@ -134,6 +137,10 @@ export default function SprintDataTable({
               <label className="label">{t('data.carried')}</label>
               <input type="number" min={0} className="input" value={carried} onChange={e => setCarried(Number(e.target.value))} />
             </div>
+            <div className="col-span-2 sm:col-span-4">
+              <label className="label">{t('data.goal')}</label>
+              <input className="input" value={goal} onChange={e => setGoal(e.target.value)} placeholder="" />
+            </div>
           </div>
           <div className="flex gap-2 mt-3">
             <button onClick={handleAdd} disabled={!name.trim()} className="btn-primary text-sm">{t('data.add')}</button>
@@ -158,7 +165,10 @@ export default function SprintDataTable({
             <tbody>
               {sprints.map(sp => (
                 <tr key={sp.id} className="border-b border-gray-50 hover:bg-gray-50">
-                  <td className="px-4 py-2.5 font-medium">{sp.name}</td>
+                  <td className="px-4 py-2.5">
+                    <span className="font-medium">{sp.name}</span>
+                    {sp.goal && <span className="block text-xs text-gray-400 italic">{sp.goal}</span>}
+                  </td>
                   <td className="px-4 py-2.5 text-right text-gray-600">{sp.planned}</td>
                   <td className={`px-4 py-2.5 text-right font-semibold ${sp.completed >= sp.planned ? 'text-green-600' : 'text-orange-500'}`}>{sp.completed}</td>
                   <td className={`px-4 py-2.5 text-right ${sp.carriedOver > 0 ? 'text-red-500' : 'text-gray-400'}`}>{sp.carriedOver}</td>

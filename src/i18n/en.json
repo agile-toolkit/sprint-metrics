@@ -37,7 +37,11 @@
     "poker_no_data": "No Planning Poker session found. Finish a session in Planning Poker first.",
     "clear_all": "Clear All Sprints",
     "clear_confirm": "Delete all sprint data?",
-    "csv_hint": "CSV format: Sprint Name, Planned, Completed, Carried Over"
+    "csv_hint": "CSV format: Sprint Name, Planned, Completed, Carried Over",
+    "goal": "Sprint Goal"
+  },
+  "results": {
+    "copyImage": "Copy Image"
   },
   "burndown": {
     "title": "Sprint burn-down (illustrative)",
