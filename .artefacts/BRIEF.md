@@ -28,6 +28,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 
 ## Agent Log
 
+### 2026-05-09 — research: checked human feedback on open issues
+- Found 4 approved issues: #4 (sprint goal + shareable report), #5 (team mood index), #6 (Moving Motivators overlay), #7 (browser print PDF)
+- Picked #4 as next implementation target; set project status → In Progress
+- Next task: implement #4 — sprint goal field (add `goal?: string` to SprintData, text input in SprintDataTable + SprintDataView, display in dashboard) + shareable report via html2canvas (Copy Image button on dashboard)
+
 ### 2026-04-29 — feat: Planning Poker integration (issue #3)
 - Done: added "Import from Planning Poker" button in Project Settings panel in both `SprintDataTable.tsx` and `SprintDataView.tsx`; reads `sprintMetrics_planningPoker` localStorage key (written by Planning Poker app on session close); sums all `finalEstimate` values; updates `targetScope` in ProjectConfig and auto-saves; shows 5s feedback message; all 4 locales updated (EN/ES/BE/RU)
 - Closed: issue #3 (approved → implemented)
