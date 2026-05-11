@@ -7,6 +7,7 @@ export interface SprintData {
   completed: number
   carriedOver: number
   goal?: string
+  mood?: number
 }
 
 export interface ProjectConfig {

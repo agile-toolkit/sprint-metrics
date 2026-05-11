@@ -26,6 +26,7 @@ export default function SprintDataView({
   const { t } = useTranslation()
   const [adding, setAdding] = useState(false)
   const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '', goal: '' })
+  const [formMood, setFormMood] = useState(0)
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -61,8 +62,10 @@ export default function SprintDataView({
       completed: Number(form.completed) || 0,
       carriedOver: Number(form.carriedOver) || 0,
       goal: form.goal.trim() || undefined,
+      mood: formMood > 0 ? formMood : undefined,
     })
     setForm({ name: '', planned: '', completed: '', carriedOver: '', goal: '' })
+    setFormMood(0)
     setAdding(false)
   }
 
@@ -188,6 +191,22 @@ export default function SprintDataView({
                 onChange={e => setForm(f => ({ ...f, goal: e.target.value }))}
               />
             </div>
+            <div className="col-span-2 sm:col-span-4">
+              <label className="label">{t('data.mood')}</label>
+              <div className="flex gap-1 mt-1">
+                {(['😫', '😟', '😐', '🙂', '😄'] as const).map((emoji, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setFormMood(formMood === i + 1 ? 0 : i + 1)}
+                    className={`text-xl px-2 py-1 rounded transition-colors ${formMood === i + 1 ? 'bg-brand-100 ring-2 ring-brand-400' : 'hover:bg-gray-100'}`}
+                    title={`${i + 1}/5`}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="flex gap-2">
             <button type="button" onClick={addSprint} className="btn-primary text-sm">
@@ -211,6 +230,7 @@ export default function SprintDataView({
                 <th className="px-3 py-2 font-semibold text-gray-600">{t('data.planned')}</th>
                 <th className="px-3 py-2 font-semibold text-gray-600">{t('data.completed')}</th>
                 <th className="px-3 py-2 font-semibold text-gray-600">{t('data.carried')}</th>
+                <th className="px-3 py-2 font-semibold text-gray-600 text-center">{t('data.moodLabel')}</th>
                 <th className="px-3 py-2" />
               </tr>
             </thead>
@@ -233,6 +253,9 @@ export default function SprintDataView({
                   </td>
                   <td className="px-3 py-2 border-b border-gray-100 text-gray-500">
                     {sprint.carriedOver}
+                  </td>
+                  <td className="px-3 py-2 border-b border-gray-100 text-center text-lg">
+                    {sprint.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sprint.mood - 1] : <span className="text-gray-200 text-sm">—</span>}
                   </td>
                   <td className="px-3 py-2 border-b border-gray-100 text-right">
                     <button

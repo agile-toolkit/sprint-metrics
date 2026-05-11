@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ReferenceLine, ResponsiveContainer,
 } from 'recharts'
 import type { SprintData } from '../types'
@@ -42,6 +42,8 @@ export function NoData({
   )
 }
 
+const MOOD_EMOJIS = ['😫', '😟', '😐', '🙂', '😄']
+
 interface Props {
   sprints: SprintData[]
 }
@@ -53,11 +55,17 @@ export default function VelocityChart({ sprints }: Props) {
     ? Math.round(sprints.reduce((s, sp) => s + sp.completed, 0) / sprints.length)
     : 0
 
+  const hasMood = sprints.some(sp => sp.mood !== undefined)
+
   const data = sprints.map(sp => ({
     name: sp.name,
     [t('dashboard.planned')]: sp.planned,
     [t('dashboard.completed')]: sp.completed,
+    ...(hasMood ? { [t('data.moodLabel')]: sp.mood ?? null } : {}),
   }))
+
+  const moodTickFormatter = (value: number) =>
+    MOOD_EMOJIS[value - 1] ?? String(value)
 
   return (
     <div className="card">
@@ -70,18 +78,47 @@ export default function VelocityChart({ sprints }: Props) {
         )}
       </div>
       <ResponsiveContainer width="100%" height={220}>
-        <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+        <ComposedChart data={data} margin={{ top: 5, right: hasMood ? 40 : 10, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-          <YAxis tick={{ fontSize: 11 }} />
-          <Tooltip />
-          <Legend wrapperStyle={{ fontSize: 12 }} />
-          <Bar dataKey={t('dashboard.planned')} fill="#d1fae5" radius={[4,4,0,0]} />
-          <Bar dataKey={t('dashboard.completed')} fill="#059669" radius={[4,4,0,0]} />
-          {avgVelocity > 0 && (
-            <ReferenceLine y={avgVelocity} stroke="#f59e0b" strokeDasharray="6 3" label={{ value: 'avg', fontSize: 11, fill: '#f59e0b' }} />
+          <YAxis yAxisId="sp" tick={{ fontSize: 11 }} />
+          {hasMood && (
+            <YAxis
+              yAxisId="mood"
+              orientation="right"
+              domain={[1, 5]}
+              ticks={[1, 2, 3, 4, 5]}
+              tickFormatter={moodTickFormatter}
+              tick={{ fontSize: 14 }}
+              width={36}
+            />
           )}
-        </BarChart>
+          <Tooltip
+            formatter={(value, name) => {
+              if (name === t('data.moodLabel') && typeof value === 'number') {
+                return [MOOD_EMOJIS[value - 1] ?? value, name]
+              }
+              return [value, name]
+            }}
+          />
+          <Legend wrapperStyle={{ fontSize: 12 }} />
+          <Bar yAxisId="sp" dataKey={t('dashboard.planned')} fill="#d1fae5" radius={[4, 4, 0, 0]} />
+          <Bar yAxisId="sp" dataKey={t('dashboard.completed')} fill="#059669" radius={[4, 4, 0, 0]} />
+          {avgVelocity > 0 && (
+            <ReferenceLine yAxisId="sp" y={avgVelocity} stroke="#f59e0b" strokeDasharray="6 3" label={{ value: 'avg', fontSize: 11, fill: '#f59e0b' }} />
+          )}
+          {hasMood && (
+            <Line
+              yAxisId="mood"
+              dataKey={t('data.moodLabel')}
+              type="monotone"
+              stroke="#8b5cf6"
+              strokeWidth={2}
+              dot={{ r: 4, fill: '#8b5cf6' }}
+              connectNulls={false}
+            />
+          )}
+        </ComposedChart>
       </ResponsiveContainer>
     </div>
   )
