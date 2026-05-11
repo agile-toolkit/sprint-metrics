@@ -29,6 +29,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 
 ## Agent Log
 
+### 2026-05-11 — research: checked human feedback on open issues
+- Found 3 approved issues: #5 (team mood index), #6 (Moving Motivators overlay), #7 (browser print PDF)
+- Picked #5 as next implementation target; set project status → In Progress
+- Next task: implement #5 — team mood/happiness index: add `mood?: number` to SprintData type; emoji scale input (😫😕😐🙂😄 = 1–5) in SprintDataTable and SprintDataView add-sprint forms; overlay secondary line on VelocityChart using Recharts ComposedChart with right Y-axis scaled 1–5; skip sprints with no mood; add data.mood and data.moodLabel i18n keys to all 4 locales
+
 ### 2026-05-09 — feat: sprint goal field + copy image (issue #4)
 - Done: added `goal?: string` to SprintData type; goal text input in SprintDataTable and SprintDataView add-sprint forms; goal shown as italic line in table rows; latest sprint goal shown as italic subtitle on dashboard; Copy Image button on dashboard using html2canvas; all 4 locales updated with data.goal and results.copyImage keys
 - Installed: html2canvas
