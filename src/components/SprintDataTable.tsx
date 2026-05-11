@@ -22,6 +22,7 @@ export default function SprintDataTable({
   const [completed, setCompleted] = useState(0)
   const [carried, setCarried] = useState(0)
   const [goal, setGoal] = useState('')
+  const [mood, setMood] = useState(0)
   const [showAdd, setShowAdd] = useState(false)
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
@@ -53,11 +54,13 @@ export default function SprintDataTable({
       completed,
       carriedOver: carried,
       goal: goal.trim() || undefined,
+      mood: mood > 0 ? mood : undefined,
     })
     setName(`Sprint ${sprints.length + 2}`)
     setCompleted(0)
     setCarried(0)
     setGoal('')
+    setMood(0)
     setShowAdd(false)
   }
 
@@ -141,6 +144,22 @@ export default function SprintDataTable({
               <label className="label">{t('data.goal')}</label>
               <input className="input" value={goal} onChange={e => setGoal(e.target.value)} placeholder="" />
             </div>
+            <div className="col-span-2 sm:col-span-4">
+              <label className="label">{t('data.mood')}</label>
+              <div className="flex gap-1 mt-1">
+                {(['😫', '😟', '😐', '🙂', '😄'] as const).map((emoji, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setMood(mood === i + 1 ? 0 : i + 1)}
+                    className={`text-xl px-2 py-1 rounded transition-colors ${mood === i + 1 ? 'bg-brand-100 ring-2 ring-brand-400' : 'hover:bg-gray-100'}`}
+                    title={`${i + 1}/5`}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="flex gap-2 mt-3">
             <button onClick={handleAdd} disabled={!name.trim()} className="btn-primary text-sm">{t('data.add')}</button>
@@ -159,6 +178,7 @@ export default function SprintDataTable({
                 <th className="text-right px-4 py-3 font-medium text-gray-600">{t('data.planned')}</th>
                 <th className="text-right px-4 py-3 font-medium text-gray-600">{t('data.completed')}</th>
                 <th className="text-right px-4 py-3 font-medium text-gray-600">{t('data.carried')}</th>
+                <th className="text-center px-4 py-3 font-medium text-gray-600">{t('data.moodLabel')}</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
@@ -172,6 +192,9 @@ export default function SprintDataTable({
                   <td className="px-4 py-2.5 text-right text-gray-600">{sp.planned}</td>
                   <td className={`px-4 py-2.5 text-right font-semibold ${sp.completed >= sp.planned ? 'text-green-600' : 'text-orange-500'}`}>{sp.completed}</td>
                   <td className={`px-4 py-2.5 text-right ${sp.carriedOver > 0 ? 'text-red-500' : 'text-gray-400'}`}>{sp.carriedOver}</td>
+                  <td className="px-4 py-2.5 text-center text-lg">
+                    {sp.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sp.mood - 1] : <span className="text-gray-200 text-sm">—</span>}
+                  </td>
                   <td className="px-4 py-2.5 text-right">
                     <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs" title={t('data.delete')}>✕</button>
                   </td>

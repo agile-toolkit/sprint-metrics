@@ -38,7 +38,9 @@
     "clear_all": "Borrar todos los Sprints",
     "clear_confirm": "¿Eliminar todos los datos de sprint?",
     "csv_hint": "Formato CSV: Nombre del Sprint, Planificado, Completado, Traspasado",
-    "goal": "Objetivo del Sprint"
+    "goal": "Objetivo del Sprint",
+    "mood": "Estado del equipo",
+    "moodLabel": "Ánimo"
   },
   "results": {
     "copyImage": "Copiar imagen"

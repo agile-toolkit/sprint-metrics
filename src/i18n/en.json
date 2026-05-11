@@ -38,7 +38,9 @@
     "clear_all": "Clear All Sprints",
     "clear_confirm": "Delete all sprint data?",
     "csv_hint": "CSV format: Sprint Name, Planned, Completed, Carried Over",
-    "goal": "Sprint Goal"
+    "goal": "Sprint Goal",
+    "mood": "Team Mood",
+    "moodLabel": "Mood"
   },
   "results": {
     "copyImage": "Copy Image"

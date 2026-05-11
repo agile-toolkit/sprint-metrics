@@ -13,13 +13,14 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] ES and BE locale support — `es.json`, `be.json` added; language selector upgraded to 4-option dropdown (EN/ES/BE/RU)
 - [x] Planning Poker integration — "Import from Planning Poker" button in Project Settings; reads `sprintMetrics_planningPoker` localStorage key written by Planning Poker app; sums all finalEstimate values and pre-fills targetScope; shown in both Quick and Detailed data views
 - [x] Sprint goal field + Copy Image — `goal?: string` added to SprintData; goal input in both data views; latest sprint goal shown as subtitle on dashboard; Copy Image button captures dashboard via html2canvas
+- [x] Team mood/happiness index — `mood?: number` (1–5) added to SprintData; emoji picker (😫😟😐🙂😄) in both add-sprint forms; mood column in both data tables; VelocityChart upgraded to ComposedChart with secondary right Y-axis mood trend line (purple); i18n keys in all 4 locales
 
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
 - [x] [#3] Integration: Import velocity target from Planning Poker session — implemented
 - [x] [#4] Feature: Sprint goal field + shareable retrospective report — implemented
-- [ ] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart)
+- [x] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart) — implemented
 - [ ] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay
 - [ ] [#7] Technical: Browser print API for zero-dependency retrospective PDF
 
@@ -28,6 +29,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-11 — feat: team mood/happiness index (issue #5)
+- Done: added `mood?: number` to SprintData type; emoji picker (😫😟😐🙂😄 = 1–5) in SprintDataTable and SprintDataView add-sprint forms; mood column in both data tables; upgraded VelocityChart from BarChart to ComposedChart with secondary right Y-axis (domain 1–5, emoji ticks) and purple mood trend Line; skip sprints with no mood via `connectNulls={false}`; i18n keys `data.mood` and `data.moodLabel` added to EN/ES/BE/RU
+- Closed: issue #5 (set to In Review)
+- Remaining approved: #6 (Moving Motivators overlay), #7 (browser print PDF)
+- Next task: implement #6 — Moving Motivators motivation-velocity overlay: read `moving-motivators:lastSession` localStorage key; show top motivator as annotation on VelocityChart; or implement #7 — browser print API (@media print CSS)
 
 ### 2026-05-11 — research: checked human feedback on open issues
 - Found 3 approved issues: #5 (team mood index), #6 (Moving Motivators overlay), #7 (browser print PDF)
