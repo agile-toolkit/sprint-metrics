@@ -22,13 +22,19 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#4] Feature: Sprint goal field + shareable retrospective report — implemented
 - [x] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart) — implemented
 - [ ] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay
-- [ ] [#7] Technical: Browser print API for zero-dependency retrospective PDF
+- [x] [#7] Technical: Browser print API for zero-dependency retrospective PDF — implemented
 
 ## Tech notes
 
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-12 — feat: browser print API (issue #7)
+- Done: added `@media print` CSS to `src/index.css` (hide header, white background, card border normalisation); added `print:hidden` class to `<header>` and dashboard action buttons; added "🖨️ Print Report" button alongside "Copy Image" button (visible only with data), calls `window.print()`; added `results.printReport` i18n key to all 4 locales (EN/ES/BE/RU)
+- Closed: issue #7 (set to In Review)
+- Remaining approved: #6 (Moving Motivators motivation-velocity overlay)
+- Next task: implement #6 — read `moving-motivators:lastSession` localStorage key; display top motivator name as annotation label on VelocityChart at the most recent sprint
 
 ### 2026-05-11 — feat: team mood/happiness index (issue #5)
 - Done: added `mood?: number` to SprintData type; emoji picker (😫😟😐🙂😄 = 1–5) in SprintDataTable and SprintDataView add-sprint forms; mood column in both data tables; upgraded VelocityChart from BarChart to ComposedChart with secondary right Y-axis (domain 1–5, emoji ticks) and purple mood trend Line; skip sprints with no mood via `connectNulls={false}`; i18n keys `data.mood` and `data.moodLabel` added to EN/ES/BE/RU

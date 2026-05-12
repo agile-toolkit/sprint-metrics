@@ -43,7 +43,8 @@
     "moodLabel": "Настрой"
   },
   "results": {
-    "copyImage": "Капіраваць выяву"
+    "copyImage": "Капіраваць выяву",
+    "printReport": "Раздрукаваць справаздачу"
   },
   "burndown": {
     "title": "Burn-down спрынту (схематычна)",

@@ -93,7 +93,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10 print:hidden">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <a
@@ -195,15 +195,23 @@ export default function App() {
                   </p>
                 )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 print:hidden">
                 {sprints.length > 0 && (
-                  <button
-                    onClick={copyDashboardImage}
-                    disabled={copying}
-                    className="btn-secondary text-sm"
-                  >
-                    {copying ? '…' : `📋 ${t('results.copyImage')}`}
-                  </button>
+                  <>
+                    <button
+                      onClick={copyDashboardImage}
+                      disabled={copying}
+                      className="btn-secondary text-sm"
+                    >
+                      {copying ? '…' : `📋 ${t('results.copyImage')}`}
+                    </button>
+                    <button
+                      onClick={() => window.print()}
+                      className="btn-secondary text-sm"
+                    >
+                      🖨️ {t('results.printReport')}
+                    </button>
+                  </>
                 )}
                 {sprints.length === 0 && (
                   <button

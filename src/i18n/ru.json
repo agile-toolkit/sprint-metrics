@@ -43,7 +43,8 @@
     "moodLabel": "Настрой"
   },
   "results": {
-    "copyImage": "Копировать изображение"
+    "copyImage": "Копировать изображение",
+    "printReport": "Распечатать отчёт"
   },
   "burndown": {
     "title": "Burn-down спринта (схематично)",
