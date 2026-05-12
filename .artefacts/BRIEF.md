@@ -14,6 +14,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Planning Poker integration — "Import from Planning Poker" button in Project Settings; reads `sprintMetrics_planningPoker` localStorage key written by Planning Poker app; sums all finalEstimate values and pre-fills targetScope; shown in both Quick and Detailed data views
 - [x] Sprint goal field + Copy Image — `goal?: string` added to SprintData; goal input in both data views; latest sprint goal shown as subtitle on dashboard; Copy Image button captures dashboard via html2canvas
 - [x] Team mood/happiness index — `mood?: number` (1–5) added to SprintData; emoji picker (😫😟😐🙂😄) in both add-sprint forms; mood column in both data tables; VelocityChart upgraded to ComposedChart with secondary right Y-axis mood trend line (purple); i18n keys in all 4 locales
+- [x] Moving Motivators integration — `MotivatorSnapshot` type added; "Import Motivators" JSON file button on dashboard; auto-detects `moving-motivators:lastSession` localStorage key; orange `★ Top motivator` ReferenceLine annotation on VelocityChart at most recent sprint; snapshot persisted in `sprint-metrics:motivatorSnapshot`; i18n keys in all 4 locales
 
 ## Backlog
 
@@ -21,7 +22,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#3] Integration: Import velocity target from Planning Poker session — implemented
 - [x] [#4] Feature: Sprint goal field + shareable retrospective report — implemented
 - [x] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart) — implemented
-- [ ] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay
+- [x] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay — implemented
 - [x] [#7] Technical: Browser print API for zero-dependency retrospective PDF — implemented
 
 ## Tech notes
@@ -29,6 +30,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-12 — feat: Moving Motivators integration (issue #6)
+- Done: added `MotivatorSnapshot` interface to `types.ts`; "🎯 Import Motivators" JSON file picker on dashboard header; auto-detects `moving-motivators:lastSession` localStorage key on mount; persists imported snapshot in `sprint-metrics:motivatorSnapshot`; orange `★ TopMotivator` `ReferenceLine` annotation on VelocityChart at most recent sprint; badge shows top 2 motivators with × clear button; `integration.importMotivators` and `integration.motivatorsClear` i18n keys in all 4 locales (EN/ES/BE/RU)
+- Closed: issue #6 (set to In Review)
+- All BRIEF features implemented
+- Next task: check issues for human feedback
 
 ### 2026-05-12 — feat: browser print API (issue #7)
 - Done: added `@media print` CSS to `src/index.css` (hide header, white background, card border normalisation); added `print:hidden` class to `<header>` and dashboard action buttons; added "🖨️ Print Report" button alongside "Copy Image" button (visible only with data), calls `window.print()`; added `results.printReport` i18n key to all 4 locales (EN/ES/BE/RU)
