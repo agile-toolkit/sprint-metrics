@@ -43,7 +43,8 @@
     "moodLabel": "Ánimo"
   },
   "results": {
-    "copyImage": "Copiar imagen"
+    "copyImage": "Copiar imagen",
+    "printReport": "Imprimir informe"
   },
   "burndown": {
     "title": "Burn-down del Sprint (ilustrativo)",

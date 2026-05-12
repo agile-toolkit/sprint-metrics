@@ -43,7 +43,8 @@
     "moodLabel": "Mood"
   },
   "results": {
-    "copyImage": "Copy Image"
+    "copyImage": "Copy Image",
+    "printReport": "Print Report"
   },
   "burndown": {
     "title": "Sprint burn-down (illustrative)",
