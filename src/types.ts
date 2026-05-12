@@ -15,3 +15,9 @@ export interface ProjectConfig {
   targetScope: number
   sprintLengthWeeks: number
 }
+
+export interface MotivatorSnapshot {
+  date: string
+  topMotivators: string[]
+  shifts?: { name: string; delta: number }[]
+}

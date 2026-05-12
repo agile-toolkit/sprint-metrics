@@ -4,7 +4,7 @@ import {
   ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ReferenceLine, ResponsiveContainer,
 } from 'recharts'
-import type { SprintData } from '../types'
+import type { SprintData, MotivatorSnapshot } from '../types'
 
 export function ChartWrapper({
   title,
@@ -46,9 +46,10 @@ const MOOD_EMOJIS = ['😫', '😟', '😐', '🙂', '😄']
 
 interface Props {
   sprints: SprintData[]
+  motivatorSnapshot?: MotivatorSnapshot | null
 }
 
-export default function VelocityChart({ sprints }: Props) {
+export default function VelocityChart({ sprints, motivatorSnapshot }: Props) {
   const { t } = useTranslation()
 
   const avgVelocity = sprints.length > 0
@@ -106,6 +107,16 @@ export default function VelocityChart({ sprints }: Props) {
           <Bar yAxisId="sp" dataKey={t('dashboard.completed')} fill="#059669" radius={[4, 4, 0, 0]} />
           {avgVelocity > 0 && (
             <ReferenceLine yAxisId="sp" y={avgVelocity} stroke="#f59e0b" strokeDasharray="6 3" label={{ value: 'avg', fontSize: 11, fill: '#f59e0b' }} />
+          )}
+          {motivatorSnapshot && sprints.length > 0 && motivatorSnapshot.topMotivators.length > 0 && (
+            <ReferenceLine
+              yAxisId="sp"
+              x={sprints[sprints.length - 1].name}
+              stroke="#f97316"
+              strokeWidth={2}
+              strokeDasharray="4 2"
+              label={{ value: `★ ${motivatorSnapshot.topMotivators[0]}`, fontSize: 10, fill: '#f97316', position: 'insideTopRight' }}
+            />
           )}
           {hasMood && (
             <Line

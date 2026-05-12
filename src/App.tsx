@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import html2canvas from 'html2canvas'
-import type { Screen, SprintData, ProjectConfig } from './types'
+import type { Screen, SprintData, ProjectConfig, MotivatorSnapshot } from './types'
 import { SAMPLE_SPRINTS, SAMPLE_CONFIG } from './data/sample'
 import VelocityChart from './components/VelocityChart'
 import BurnUpChart from './components/BurnUpChart'
@@ -13,6 +13,8 @@ import LearnView from './components/LearnView'
 
 const SPRINTS_KEY = 'sprint-metrics-sprints'
 const CONFIG_KEY = 'sprint-metrics-config'
+const MOTIVATOR_KEY = 'sprint-metrics:motivatorSnapshot'
+const MM_LAST_SESSION_KEY = 'moving-motivators:lastSession'
 
 function loadSprints(): SprintData[] {
   try { return JSON.parse(localStorage.getItem(SPRINTS_KEY) ?? '[]') } catch { return [] }
@@ -22,6 +24,25 @@ function loadConfig(): ProjectConfig {
 }
 function saveSprints(s: SprintData[]) { localStorage.setItem(SPRINTS_KEY, JSON.stringify(s)) }
 function saveConfig(c: ProjectConfig) { localStorage.setItem(CONFIG_KEY, JSON.stringify(c)) }
+function loadMotivatorSnapshot(): MotivatorSnapshot | null {
+  try {
+    const saved = localStorage.getItem(MOTIVATOR_KEY)
+    if (saved) return JSON.parse(saved) as MotivatorSnapshot
+    // Auto-detect from Moving Motivators lastSession key
+    const mm = localStorage.getItem(MM_LAST_SESSION_KEY)
+    if (mm) {
+      const parsed = JSON.parse(mm)
+      if (Array.isArray(parsed?.topMotivators) && parsed.topMotivators.length > 0) {
+        return { date: parsed.date ?? new Date().toISOString().slice(0, 10), topMotivators: parsed.topMotivators, shifts: parsed.shifts }
+      }
+    }
+  } catch { /* ignore */ }
+  return null
+}
+function saveMotivatorSnapshot(s: MotivatorSnapshot | null) {
+  if (s) localStorage.setItem(MOTIVATOR_KEY, JSON.stringify(s))
+  else localStorage.removeItem(MOTIVATOR_KEY)
+}
 
 function parseCSV(text: string): SprintData[] {
   return text.split('\n')
@@ -59,7 +80,15 @@ export default function App() {
   const [sprints, setSprints] = useState<SprintData[]>(loadSprints)
   const [config, setConfig] = useState<ProjectConfig>(loadConfig)
   const [copying, setCopying] = useState(false)
+  const [motivatorSnapshot, setMotivatorSnapshot] = useState<MotivatorSnapshot | null>(loadMotivatorSnapshot)
   const dashboardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!motivatorSnapshot) {
+      const detected = loadMotivatorSnapshot()
+      if (detected) { setMotivatorSnapshot(detected); saveMotivatorSnapshot(detected) }
+    }
+  }, [motivatorSnapshot])
 
   const updateSprints = (next: SprintData[]) => { setSprints(next); saveSprints(next) }
   const updateConfig = (next: ProjectConfig) => { setConfig(next); saveConfig(next) }
@@ -76,6 +105,21 @@ export default function App() {
       setCopying(false)
     }
   }
+
+  const importMotivatorFile = (file: File) => {
+    const reader = new FileReader()
+    reader.onload = e => {
+      try {
+        const parsed = JSON.parse(e.target?.result as string) as MotivatorSnapshot
+        if (!Array.isArray(parsed.topMotivators)) return
+        setMotivatorSnapshot(parsed)
+        saveMotivatorSnapshot(parsed)
+      } catch { /* ignore invalid JSON */ }
+    }
+    reader.readAsText(file)
+  }
+
+  const clearMotivatorSnapshot = () => { setMotivatorSnapshot(null); saveMotivatorSnapshot(null) }
 
   const avgVelocity = sprints.length > 0
     ? Math.round(sprints.reduce((s, sp) => s + sp.completed, 0) / sprints.length)
@@ -196,6 +240,26 @@ export default function App() {
                 )}
               </div>
               <div className="flex items-center gap-2 print:hidden">
+                {motivatorSnapshot ? (
+                  <span className="flex items-center gap-1 text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded-lg px-2 py-1">
+                    ★ {motivatorSnapshot.topMotivators.slice(0, 2).join(', ')}
+                    <button
+                      onClick={clearMotivatorSnapshot}
+                      className="ml-1 text-orange-400 hover:text-orange-600"
+                      title={t('integration.motivatorsClear')}
+                    >×</button>
+                  </span>
+                ) : (
+                  <label className="btn-secondary text-sm cursor-pointer">
+                    🎯 {t('integration.importMotivators')}
+                    <input
+                      type="file"
+                      accept=".json,application/json"
+                      className="sr-only"
+                      onChange={e => { const f = e.target.files?.[0]; if (f) importMotivatorFile(f); e.target.value = '' }}
+                    />
+                  </label>
+                )}
                 {sprints.length > 0 && (
                   <>
                     <button
@@ -247,7 +311,7 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <VelocityChart sprints={sprints} />
+                  <VelocityChart sprints={sprints} motivatorSnapshot={motivatorSnapshot} />
                   <BurnUpChart sprints={sprints} config={config} />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">

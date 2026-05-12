@@ -46,6 +46,10 @@
     "copyImage": "Copiar imagen",
     "printReport": "Imprimir informe"
   },
+  "integration": {
+    "importMotivators": "Importar motivadores",
+    "motivatorsClear": "Borrar instantánea de motivadores"
+  },
   "burndown": {
     "title": "Burn-down del Sprint (ilustrativo)",
     "explainer": "Trabajo restante ideal vs. real en un sprint. Usa puntos planificados y completados como proyección simple.",

@@ -46,6 +46,10 @@
     "copyImage": "Copy Image",
     "printReport": "Print Report"
   },
+  "integration": {
+    "importMotivators": "Import Motivators",
+    "motivatorsClear": "Clear motivator snapshot"
+  },
   "burndown": {
     "title": "Sprint burn-down (illustrative)",
     "explainer": "Ideal vs actual remaining work within a single sprint. Uses planned and completed points as a simple projection.",
