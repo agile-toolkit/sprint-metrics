@@ -24,12 +24,24 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart) — implemented
 - [x] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay — implemented
 - [x] [#7] Technical: Browser print API for zero-dependency retrospective PDF — implemented
+- [ ] [#15] Feature: CSV export of sprint data (Blob download, no dependencies)
+- [ ] [#16] Feature: Team capacity normalization — velocity per point-day (teamSize + absenceDays fields)
+- [ ] [#17] Integration: Improvement Board → Sprint Metrics retrospective link (read improvement-board-items on sprint add)
 
 ## Tech notes
 
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-15 — research: market + integration opportunities (round 3)
+- Done: checked all open issues (#2–#7) — all already implemented; no pending human feedback requiring action
+- Created 3 new needs-review issues:
+  - #15 Feature: CSV export of sprint data (Blob download, ~20 lines, no new deps)
+  - #16 Feature: Team capacity normalization — velocity per point-day (teamSize + absenceDays in SprintData)
+  - #17 Integration: Improvement Board → Sprint Metrics retrospective link (read improvement-board-items on sprint save)
+- All 3 added to project board as Backlog
+- Next task: check issues for human feedback
 
 ### 2026-05-12 — feat: Moving Motivators integration (issue #6)
 - Done: added `MotivatorSnapshot` interface to `types.ts`; "🎯 Import Motivators" JSON file picker on dashboard header; auto-detects `moving-motivators:lastSession` localStorage key on mount; persists imported snapshot in `sprint-metrics:motivatorSnapshot`; orange `★ TopMotivator` `ReferenceLine` annotation on VelocityChart at most recent sprint; badge shows top 2 motivators with × clear button; `integration.importMotivators` and `integration.motivatorsClear` i18n keys in all 4 locales (EN/ES/BE/RU)
