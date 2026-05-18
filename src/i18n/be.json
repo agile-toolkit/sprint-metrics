@@ -46,7 +46,10 @@
     "csv_hint": "Фармат CSV: Назва спрынту, Запланавана, Выканана, Перанесена",
     "goal": "Мэта спрынту",
     "mood": "Настрой каманды",
-    "moodLabel": "Настрой"
+    "moodLabel": "Настрой",
+    "teamSize": "Памер каманды",
+    "absenceDays": "Дні адсутнасці",
+    "normalizedVelocity": "Нарм. velocity"
   },
   "results": {
     "copyImage": "Капіраваць выяву",
@@ -55,7 +58,9 @@
   },
   "integration": {
     "importMotivators": "Імпарт матыватараў",
-    "motivatorsClear": "Ачысціць здымак матыватараў"
+    "motivatorsClear": "Ачысціць здымак матыватараў",
+    "improvementBoardOpen": "{{count}} паляпшэнне(яў) яшчэ адкрыта — прагледзьце перад рэтраспектывай.",
+    "improvementBoardLink": "Адкрыць дошку паляпшэнняў"
   },
   "burndown": {
     "title": "Burn-down спрынту (схематычна)",

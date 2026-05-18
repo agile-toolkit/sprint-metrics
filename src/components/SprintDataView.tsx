@@ -27,6 +27,8 @@ export default function SprintDataView({
   const [adding, setAdding] = useState(false)
   const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '', goal: '' })
   const [formMood, setFormMood] = useState(0)
+  const [formTeamSize, setFormTeamSize] = useState(0)
+  const [formAbsenceDays, setFormAbsenceDays] = useState(0)
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -63,9 +65,13 @@ export default function SprintDataView({
       carriedOver: Number(form.carriedOver) || 0,
       goal: form.goal.trim() || undefined,
       mood: formMood > 0 ? formMood : undefined,
+      teamSize: formTeamSize > 0 ? formTeamSize : undefined,
+      absenceDays: formTeamSize > 0 && formAbsenceDays > 0 ? formAbsenceDays : undefined,
     })
     setForm({ name: '', planned: '', completed: '', carriedOver: '', goal: '' })
     setFormMood(0)
+    setFormTeamSize(0)
+    setFormAbsenceDays(0)
     setAdding(false)
   }
 
@@ -206,6 +212,14 @@ export default function SprintDataView({
                   </button>
                 ))}
               </div>
+            </div>
+            <div>
+              <label className="label">{t('data.teamSize')}</label>
+              <input type="number" min={0} className="input" value={formTeamSize || ''} placeholder="—" onChange={e => setFormTeamSize(Number(e.target.value))} />
+            </div>
+            <div>
+              <label className="label">{t('data.absenceDays')}</label>
+              <input type="number" min={0} className="input" value={formAbsenceDays || ''} placeholder="—" disabled={formTeamSize === 0} onChange={e => setFormAbsenceDays(Number(e.target.value))} />
             </div>
           </div>
           <div className="flex gap-2">

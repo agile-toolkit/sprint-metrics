@@ -8,6 +8,8 @@ export interface SprintData {
   carriedOver: number
   goal?: string
   mood?: number
+  teamSize?: number
+  absenceDays?: number
 }
 
 export interface ProjectConfig {

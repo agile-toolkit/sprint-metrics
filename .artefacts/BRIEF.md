@@ -16,6 +16,8 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Team mood/happiness index — `mood?: number` (1–5) added to SprintData; emoji picker (😫😟😐🙂😄) in both add-sprint forms; mood column in both data tables; VelocityChart upgraded to ComposedChart with secondary right Y-axis mood trend line (purple); i18n keys in all 4 locales
 - [x] Moving Motivators integration — `MotivatorSnapshot` type added; "Import Motivators" JSON file button on dashboard; auto-detects `moving-motivators:lastSession` localStorage key; orange `★ Top motivator` ReferenceLine annotation on VelocityChart at most recent sprint; snapshot persisted in `sprint-metrics:motivatorSnapshot`; i18n keys in all 4 locales
 - [x] CSV export — "Export CSV" button on dashboard header and in both data views; exports sprint name, planned, completed, carried over, goal, mood; dynamic filename `sprint-metrics-<project>-<date>.csv`; `results.exportCsv` i18n key in all 4 locales
+- [x] Team capacity normalization — `teamSize?: number` and `absenceDays?: number` added to SprintData; optional inputs in both add-sprint forms; `normalizedVelocity = completed / ((teamSize * sprintLengthWeeks * 5) - absenceDays)` shown as indigo dashed line on VelocityChart right Y-axis (when no mood data) or in tooltip only (when mood data also present); `data.teamSize`, `data.absenceDays`, `data.normalizedVelocity` i18n keys in all 4 locales
+- [x] Improvement Board integration — after adding a sprint, reads `improvement-board-items` localStorage key; if open items (status ≠ 'done') exist, shows dismissible amber toast with count and link to `https://agile-toolkit.github.io/improvement-board/`; `integration.improvementBoardOpen`, `integration.improvementBoardLink` i18n keys in all 4 locales
 
 ## Backlog
 
@@ -26,14 +28,20 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay — implemented
 - [x] [#7] Technical: Browser print API for zero-dependency retrospective PDF — implemented
 - [x] [#15] Feature: CSV export of sprint data — implemented
-- [ ] [#16] Feature: Team capacity normalization — velocity per point-day (teamSize + absenceDays fields)
-- [ ] [#17] Integration: Improvement Board → Sprint Metrics retrospective link (read improvement-board-items on sprint add)
+- [x] [#16] Feature: Team capacity normalization — implemented
+- [x] [#17] Integration: Improvement Board → Sprint Metrics retrospective link — implemented
 
 ## Tech notes
 
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-18 — feat: team capacity normalization + Improvement Board integration (#16, #17)
+- Done: `teamSize?: number` and `absenceDays?: number` added to SprintData type; optional numeric inputs in both SprintDataTable and SprintDataView add-sprint forms (absenceDays disabled when no teamSize); VelocityChart now accepts `config` prop, computes `normalizedVelocity = completed / ((teamSize * sprintLengthWeeks * 5) - absenceDays)` per sprint; shown as indigo dashed line on right Y-axis when no mood data, or via hidden Line in tooltip only when mood data coexists; amber dismissible toast appears after sprint add when `improvement-board-items` localStorage key contains open items (status ≠ 'done'), with link to https://agile-toolkit.github.io/improvement-board/; i18n keys added to all 4 locales
+- Closed: issues #16 and #17 (both approved → set to In Review)
+- All known BRIEF features implemented
+- Next task: check issues for human feedback
 
 ### 2026-05-18 — feat: CSV export of sprint data (issue #15)
 - Done: updated `exportCSV(sprints, projectName)` in App.tsx to include goal, mood columns and dynamic filename `sprint-metrics-<project>-<date>.csv`; added "⬇ Export CSV" button to dashboard header (visible when sprints.length > 0); added `results.exportCsv` i18n key to EN/ES/BE/RU locales; existing export button in SprintDataTable and SprintDataView continues to work
