@@ -15,6 +15,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Sprint goal field + Copy Image — `goal?: string` added to SprintData; goal input in both data views; latest sprint goal shown as subtitle on dashboard; Copy Image button captures dashboard via html2canvas
 - [x] Team mood/happiness index — `mood?: number` (1–5) added to SprintData; emoji picker (😫😟😐🙂😄) in both add-sprint forms; mood column in both data tables; VelocityChart upgraded to ComposedChart with secondary right Y-axis mood trend line (purple); i18n keys in all 4 locales
 - [x] Moving Motivators integration — `MotivatorSnapshot` type added; "Import Motivators" JSON file button on dashboard; auto-detects `moving-motivators:lastSession` localStorage key; orange `★ Top motivator` ReferenceLine annotation on VelocityChart at most recent sprint; snapshot persisted in `sprint-metrics:motivatorSnapshot`; i18n keys in all 4 locales
+- [x] CSV export — "Export CSV" button on dashboard header and in both data views; exports sprint name, planned, completed, carried over, goal, mood; dynamic filename `sprint-metrics-<project>-<date>.csv`; `results.exportCsv` i18n key in all 4 locales
 
 ## Backlog
 
@@ -24,7 +25,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart) — implemented
 - [x] [#6] Integration: Moving Motivators → Sprint Metrics motivation-velocity overlay — implemented
 - [x] [#7] Technical: Browser print API for zero-dependency retrospective PDF — implemented
-- [ ] [#15] Feature: CSV export of sprint data (Blob download, no dependencies)
+- [x] [#15] Feature: CSV export of sprint data — implemented
 - [ ] [#16] Feature: Team capacity normalization — velocity per point-day (teamSize + absenceDays fields)
 - [ ] [#17] Integration: Improvement Board → Sprint Metrics retrospective link (read improvement-board-items on sprint add)
 
@@ -33,6 +34,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-18 — feat: CSV export of sprint data (issue #15)
+- Done: updated `exportCSV(sprints, projectName)` in App.tsx to include goal, mood columns and dynamic filename `sprint-metrics-<project>-<date>.csv`; added "⬇ Export CSV" button to dashboard header (visible when sprints.length > 0); added `results.exportCsv` i18n key to EN/ES/BE/RU locales; existing export button in SprintDataTable and SprintDataView continues to work
+- Closed: issue #15 (set to In Review)
+- Remaining approved: #16 (team capacity normalization), #17 (Improvement Board integration)
+- Next task: implement #16 — add teamSize/absenceDays to SprintData type; inputs in both add-sprint forms (SprintDataTable and SprintDataView); derive normalizedVelocity = completed / ((teamSize * sprintLengthWeeks * 5) - absenceDays); show as tooltip chip on VelocityChart bars; add data.teamSize, data.absenceDays, data.normalizedVelocity i18n keys to all 4 locales
 
 ### 2026-05-15 — research: market + integration opportunities (round 3)
 - Done: checked all open issues (#2–#7) — all already implemented; no pending human feedback requiring action
