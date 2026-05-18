@@ -46,7 +46,10 @@
     "csv_hint": "CSV format: Sprint Name, Planned, Completed, Carried Over",
     "goal": "Sprint Goal",
     "mood": "Team Mood",
-    "moodLabel": "Mood"
+    "moodLabel": "Mood",
+    "teamSize": "Team Size",
+    "absenceDays": "Absence Days",
+    "normalizedVelocity": "Norm. Velocity"
   },
   "results": {
     "copyImage": "Copy Image",
@@ -55,7 +58,9 @@
   },
   "integration": {
     "importMotivators": "Import Motivators",
-    "motivatorsClear": "Clear motivator snapshot"
+    "motivatorsClear": "Clear motivator snapshot",
+    "improvementBoardOpen": "{{count}} improvement(s) still open — review before your retrospective.",
+    "improvementBoardLink": "Open Improvement Board"
   },
   "burndown": {
     "title": "Sprint burn-down (illustrative)",

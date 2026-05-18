@@ -23,6 +23,8 @@ export default function SprintDataTable({
   const [carried, setCarried] = useState(0)
   const [goal, setGoal] = useState('')
   const [mood, setMood] = useState(0)
+  const [teamSize, setTeamSize] = useState(0)
+  const [absenceDays, setAbsenceDays] = useState(0)
   const [showAdd, setShowAdd] = useState(false)
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
@@ -55,12 +57,16 @@ export default function SprintDataTable({
       carriedOver: carried,
       goal: goal.trim() || undefined,
       mood: mood > 0 ? mood : undefined,
+      teamSize: teamSize > 0 ? teamSize : undefined,
+      absenceDays: teamSize > 0 && absenceDays > 0 ? absenceDays : undefined,
     })
     setName(`Sprint ${sprints.length + 2}`)
     setCompleted(0)
     setCarried(0)
     setGoal('')
     setMood(0)
+    setTeamSize(0)
+    setAbsenceDays(0)
     setShowAdd(false)
   }
 
@@ -159,6 +165,14 @@ export default function SprintDataTable({
                   </button>
                 ))}
               </div>
+            </div>
+            <div>
+              <label className="label">{t('data.teamSize')}</label>
+              <input type="number" min={0} className="input" value={teamSize || ''} placeholder="—" onChange={e => setTeamSize(Number(e.target.value))} />
+            </div>
+            <div>
+              <label className="label">{t('data.absenceDays')}</label>
+              <input type="number" min={0} className="input" value={absenceDays || ''} placeholder="—" disabled={teamSize === 0} onChange={e => setAbsenceDays(Number(e.target.value))} />
             </div>
           </div>
           <div className="flex gap-2 mt-3">

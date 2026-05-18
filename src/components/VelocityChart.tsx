@@ -4,7 +4,7 @@ import {
   ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ReferenceLine, ResponsiveContainer,
 } from 'recharts'
-import type { SprintData, MotivatorSnapshot } from '../types'
+import type { SprintData, MotivatorSnapshot, ProjectConfig } from '../types'
 
 export function ChartWrapper({
   title,
@@ -43,13 +43,15 @@ export function NoData({
 }
 
 const MOOD_EMOJIS = ['😫', '😟', '😐', '🙂', '😄']
+const NORM_KEY = '_normVel'
 
 interface Props {
   sprints: SprintData[]
   motivatorSnapshot?: MotivatorSnapshot | null
+  config: ProjectConfig
 }
 
-export default function VelocityChart({ sprints, motivatorSnapshot }: Props) {
+export default function VelocityChart({ sprints, motivatorSnapshot, config }: Props) {
   const { t } = useTranslation()
 
   const avgVelocity = sprints.length > 0
@@ -57,16 +59,41 @@ export default function VelocityChart({ sprints, motivatorSnapshot }: Props) {
     : 0
 
   const hasMood = sprints.some(sp => sp.mood !== undefined)
+  const hasCapacity = sprints.some(sp => sp.teamSize !== undefined)
 
-  const data = sprints.map(sp => ({
-    name: sp.name,
-    [t('dashboard.planned')]: sp.planned,
-    [t('dashboard.completed')]: sp.completed,
-    ...(hasMood ? { [t('data.moodLabel')]: sp.mood ?? null } : {}),
-  }))
+  const data = sprints.map(sp => {
+    let normVel: number | null = null
+    if (sp.teamSize && sp.teamSize > 0) {
+      const availDays = (sp.teamSize * config.sprintLengthWeeks * 5) - (sp.absenceDays ?? 0)
+      if (availDays > 0) {
+        normVel = Math.round((sp.completed / availDays) * 10) / 10
+      }
+    }
+    return {
+      name: sp.name,
+      [t('dashboard.planned')]: sp.planned,
+      [t('dashboard.completed')]: sp.completed,
+      ...(hasMood ? { [t('data.moodLabel')]: sp.mood ?? null } : {}),
+      ...(hasCapacity ? { [NORM_KEY]: normVel } : {}),
+    }
+  })
 
-  const moodTickFormatter = (value: number) =>
-    MOOD_EMOJIS[value - 1] ?? String(value)
+  const hasNormData = hasCapacity && data.some(d => d[NORM_KEY] !== null && d[NORM_KEY] !== undefined)
+
+  const rightAxesCount = (hasMood ? 1 : 0) + (hasNormData && !hasMood ? 1 : 0)
+  const rightMargin = rightAxesCount > 0 ? 40 : 10
+
+  const normVelLabel = t('data.normalizedVelocity')
+
+  const tooltipFormatter = (value: number | string | (string | number)[], name: string): [string | number, string] => {
+    if (name === t('data.moodLabel') && typeof value === 'number') {
+      return [MOOD_EMOJIS[value - 1] ?? String(value), name]
+    }
+    if (name === NORM_KEY) {
+      return [value !== null && value !== undefined ? `${value} SP/day` : '—', normVelLabel]
+    }
+    return [value as string | number, name]
+  }
 
   return (
     <div className="card">
@@ -79,7 +106,7 @@ export default function VelocityChart({ sprints, motivatorSnapshot }: Props) {
         )}
       </div>
       <ResponsiveContainer width="100%" height={220}>
-        <ComposedChart data={data} margin={{ top: 5, right: hasMood ? 40 : 10, left: 0, bottom: 5 }}>
+        <ComposedChart data={data} margin={{ top: 5, right: rightMargin, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis dataKey="name" tick={{ fontSize: 11 }} />
           <YAxis yAxisId="sp" tick={{ fontSize: 11 }} />
@@ -89,20 +116,26 @@ export default function VelocityChart({ sprints, motivatorSnapshot }: Props) {
               orientation="right"
               domain={[1, 5]}
               ticks={[1, 2, 3, 4, 5]}
-              tickFormatter={moodTickFormatter}
+              tickFormatter={(v: number) => MOOD_EMOJIS[v - 1] ?? String(v)}
               tick={{ fontSize: 14 }}
               width={36}
             />
           )}
-          <Tooltip
-            formatter={(value, name) => {
-              if (name === t('data.moodLabel') && typeof value === 'number') {
-                return [MOOD_EMOJIS[value - 1] ?? value, name]
-              }
-              return [value, name]
-            }}
+          {hasNormData && !hasMood && (
+            <YAxis
+              yAxisId="norm"
+              orientation="right"
+              tick={{ fontSize: 11 }}
+              width={36}
+              tickFormatter={(v: number) => String(v)}
+              label={{ value: 'SP/d', angle: -90, position: 'insideRight', fontSize: 9, fill: '#6366f1' }}
+            />
+          )}
+          <Tooltip formatter={tooltipFormatter} />
+          <Legend
+            wrapperStyle={{ fontSize: 12 }}
+            formatter={(value) => value === NORM_KEY ? normVelLabel : value}
           />
-          <Legend wrapperStyle={{ fontSize: 12 }} />
           <Bar yAxisId="sp" dataKey={t('dashboard.planned')} fill="#d1fae5" radius={[4, 4, 0, 0]} />
           <Bar yAxisId="sp" dataKey={t('dashboard.completed')} fill="#059669" radius={[4, 4, 0, 0]} />
           {avgVelocity > 0 && (
@@ -127,6 +160,28 @@ export default function VelocityChart({ sprints, motivatorSnapshot }: Props) {
               strokeWidth={2}
               dot={{ r: 4, fill: '#8b5cf6' }}
               connectNulls={false}
+            />
+          )}
+          {hasNormData && !hasMood && (
+            <Line
+              yAxisId="norm"
+              dataKey={NORM_KEY}
+              name={NORM_KEY}
+              type="monotone"
+              stroke="#6366f1"
+              strokeWidth={1.5}
+              strokeDasharray="4 2"
+              dot={{ r: 3, fill: '#6366f1' }}
+              connectNulls={false}
+            />
+          )}
+          {hasNormData && hasMood && (
+            <Line
+              yAxisId="sp"
+              dataKey={NORM_KEY}
+              name={NORM_KEY}
+              hide
+              legendType="none"
             />
           )}
         </ComposedChart>

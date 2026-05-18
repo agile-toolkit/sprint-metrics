@@ -46,7 +46,10 @@
     "csv_hint": "Formato CSV: Nombre del Sprint, Planificado, Completado, Traspasado",
     "goal": "Objetivo del Sprint",
     "mood": "Estado del equipo",
-    "moodLabel": "Ánimo"
+    "moodLabel": "Ánimo",
+    "teamSize": "Tamaño del equipo",
+    "absenceDays": "Días de ausencia",
+    "normalizedVelocity": "Vel. normalizada"
   },
   "results": {
     "copyImage": "Copiar imagen",
@@ -55,7 +58,9 @@
   },
   "integration": {
     "importMotivators": "Importar motivadores",
-    "motivatorsClear": "Borrar instantánea de motivadores"
+    "motivatorsClear": "Borrar instantánea de motivadores",
+    "improvementBoardOpen": "{{count}} mejora(s) aún abiertas — revisa antes de tu retrospectiva.",
+    "improvementBoardLink": "Abrir Panel de Mejoras"
   },
   "burndown": {
     "title": "Burn-down del Sprint (ilustrativo)",

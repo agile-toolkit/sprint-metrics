@@ -46,7 +46,10 @@
     "csv_hint": "Формат CSV: Название спринта, Запланировано, Выполнено, Перенесено",
     "goal": "Цель спринта",
     "mood": "Настрой команды",
-    "moodLabel": "Настрой"
+    "moodLabel": "Настрой",
+    "teamSize": "Размер команды",
+    "absenceDays": "Дни отсутствия",
+    "normalizedVelocity": "Норм. velocity"
   },
   "results": {
     "copyImage": "Копировать изображение",
@@ -55,7 +58,9 @@
   },
   "integration": {
     "importMotivators": "Импорт мотиваторов",
-    "motivatorsClear": "Удалить снимок мотиваторов"
+    "motivatorsClear": "Удалить снимок мотиваторов",
+    "improvementBoardOpen": "{{count}} улучшение(й) ещё открыто — просмотрите перед ретроспективой.",
+    "improvementBoardLink": "Открыть доску улучшений"
   },
   "burndown": {
     "title": "Burn-down спринта (схематично)",

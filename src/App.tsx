@@ -85,6 +85,7 @@ export default function App() {
   const [config, setConfig] = useState<ProjectConfig>(loadConfig)
   const [copying, setCopying] = useState(false)
   const [motivatorSnapshot, setMotivatorSnapshot] = useState<MotivatorSnapshot | null>(loadMotivatorSnapshot)
+  const [improvementToast, setImprovementToast] = useState<number | null>(null)
   const dashboardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -96,6 +97,18 @@ export default function App() {
 
   const updateSprints = (next: SprintData[]) => { setSprints(next); saveSprints(next) }
   const updateConfig = (next: ProjectConfig) => { setConfig(next); saveConfig(next) }
+
+  const handleAddSprint = (sprint: SprintData) => {
+    updateSprints([...sprints, sprint])
+    try {
+      const raw = localStorage.getItem('improvement-board-items')
+      if (raw) {
+        const items: { status: string }[] = JSON.parse(raw)
+        const openCount = items.filter(it => it.status !== 'done').length
+        if (openCount > 0) setImprovementToast(openCount)
+      }
+    } catch { /* ignore */ }
+  }
 
   const copyDashboardImage = async () => {
     if (!dashboardRef.current || copying) return
@@ -182,6 +195,29 @@ export default function App() {
       </header>
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+        {improvementToast !== null && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-800">
+            <span>
+              🔔 {t('integration.improvementBoardOpen', { count: improvementToast })}{' '}
+              <a
+                href="https://agile-toolkit.github.io/improvement-board/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline font-medium hover:text-amber-900"
+              >
+                {t('integration.improvementBoardLink')}
+              </a>
+            </span>
+            <button
+              type="button"
+              onClick={() => setImprovementToast(null)}
+              className="text-amber-500 hover:text-amber-700 flex-shrink-0"
+              aria-label="Dismiss"
+            >
+              ✕
+            </button>
+          </div>
+        )}
         {screen === 'learn' && <LearnView />}
         {screen === 'data' && (
           <div className="space-y-6">
@@ -209,7 +245,7 @@ export default function App() {
               <SprintDataTable
                 sprints={sprints}
                 config={config}
-                onAddSprint={s => updateSprints([...sprints, s])}
+                onAddSprint={handleAddSprint}
                 onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
                 onUpdateConfig={updateConfig}
                 onClear={() => updateSprints([])}
@@ -220,7 +256,7 @@ export default function App() {
               <SprintDataView
                 sprints={sprints}
                 config={config}
-                onAddSprint={s => updateSprints([...sprints, s])}
+                onAddSprint={handleAddSprint}
                 onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
                 onUpdateConfig={updateConfig}
                 onClear={() => updateSprints([])}
@@ -321,7 +357,7 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <VelocityChart sprints={sprints} motivatorSnapshot={motivatorSnapshot} />
+                  <VelocityChart sprints={sprints} motivatorSnapshot={motivatorSnapshot} config={config} />
                   <BurnUpChart sprints={sprints} config={config} />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
