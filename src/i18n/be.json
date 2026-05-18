@@ -1,6 +1,12 @@
 {
-  "app": { "title": "Метрыкі спрынту" },
-  "nav": { "dashboard": "Дашборд", "data": "Дадзеныя спрынту", "learn": "Навучанне" },
+  "app": {
+    "title": "Метрыкі спрынту"
+  },
+  "nav": {
+    "dashboard": "Дашборд",
+    "data": "Дадзеныя спрынту",
+    "learn": "Навучанне"
+  },
   "dashboard": {
     "title": "Дашборд спрынту",
     "velocity_title": "Velocity (ачкі гісторый за спрынт)",
@@ -44,7 +50,8 @@
   },
   "results": {
     "copyImage": "Капіраваць выяву",
-    "printReport": "Раздрукаваць справаздачу"
+    "printReport": "Раздрукаваць справаздачу",
+    "exportCsv": "Экспарт CSV"
   },
   "integration": {
     "importMotivators": "Імпарт матыватараў",

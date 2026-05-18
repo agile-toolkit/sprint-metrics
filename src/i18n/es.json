@@ -1,6 +1,12 @@
 {
-  "app": { "title": "Métricas de Sprint" },
-  "nav": { "dashboard": "Tablero", "data": "Datos del Sprint", "learn": "Aprender" },
+  "app": {
+    "title": "Métricas de Sprint"
+  },
+  "nav": {
+    "dashboard": "Tablero",
+    "data": "Datos del Sprint",
+    "learn": "Aprender"
+  },
   "dashboard": {
     "title": "Tablero de Sprint",
     "velocity_title": "Velocidad (Puntos de Historia por Sprint)",
@@ -44,7 +50,8 @@
   },
   "results": {
     "copyImage": "Copiar imagen",
-    "printReport": "Imprimir informe"
+    "printReport": "Imprimir informe",
+    "exportCsv": "Exportar CSV"
   },
   "integration": {
     "importMotivators": "Importar motivadores",

@@ -61,14 +61,18 @@ function parseCSV(text: string): SprintData[] {
     .filter(s => s.name)
 }
 
-function exportCSV(sprints: SprintData[]): void {
-  const header = '# Sprint Name,Planned SP,Completed SP,Carried Over\n'
-  const rows = sprints.map(s => `${s.name},${s.planned},${s.completed},${s.carriedOver}`).join('\n')
+function exportCSV(sprints: SprintData[], projectName: string): void {
+  const header = 'Sprint Name,Planned SP,Completed SP,Carried Over,Goal,Mood\n'
+  const rows = sprints.map(s =>
+    [s.name, s.planned, s.completed, s.carriedOver, s.goal ?? '', s.mood ?? ''].join(',')
+  ).join('\n')
   const blob = new Blob([header + rows], { type: 'text/csv' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = 'sprint-metrics.csv'
+  const date = new Date().toISOString().slice(0, 10)
+  const safeName = (projectName || 'project').replace(/[^a-z0-9]/gi, '-').toLowerCase()
+  a.download = `sprint-metrics-${safeName}-${date}.csv`
   a.click()
   URL.revokeObjectURL(url)
 }
@@ -210,7 +214,7 @@ export default function App() {
                 onUpdateConfig={updateConfig}
                 onClear={() => updateSprints([])}
                 onImportCSV={text => updateSprints(parseCSV(text))}
-                onExportCSV={() => exportCSV(sprints)}
+                onExportCSV={() => exportCSV(sprints, config.name)}
               />
             ) : (
               <SprintDataView
@@ -221,7 +225,7 @@ export default function App() {
                 onUpdateConfig={updateConfig}
                 onClear={() => updateSprints([])}
                 onImportCSV={text => updateSprints(parseCSV(text))}
-                onExportCSV={() => exportCSV(sprints)}
+                onExportCSV={() => exportCSV(sprints, config.name)}
               />
             )}
           </div>
@@ -262,6 +266,12 @@ export default function App() {
                 )}
                 {sprints.length > 0 && (
                   <>
+                    <button
+                      onClick={() => exportCSV(sprints, config.name)}
+                      className="btn-secondary text-sm"
+                    >
+                      ⬇ {t('results.exportCsv')}
+                    </button>
                     <button
                       onClick={copyDashboardImage}
                       disabled={copying}

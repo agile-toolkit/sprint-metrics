@@ -1,6 +1,12 @@
 {
-  "app": { "title": "Метрики спринта" },
-  "nav": { "dashboard": "Дашборд", "data": "Данные спринтов", "learn": "Обучение" },
+  "app": {
+    "title": "Метрики спринта"
+  },
+  "nav": {
+    "dashboard": "Дашборд",
+    "data": "Данные спринтов",
+    "learn": "Обучение"
+  },
   "dashboard": {
     "title": "Дашборд спринтов",
     "velocity_title": "Velocity (очки историй за спринт)",
@@ -44,7 +50,8 @@
   },
   "results": {
     "copyImage": "Копировать изображение",
-    "printReport": "Распечатать отчёт"
+    "printReport": "Распечатать отчёт",
+    "exportCsv": "Экспорт CSV"
   },
   "integration": {
     "importMotivators": "Импорт мотиваторов",

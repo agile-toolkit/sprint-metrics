@@ -1,6 +1,12 @@
 {
-  "app": { "title": "Sprint Metrics" },
-  "nav": { "dashboard": "Dashboard", "data": "Sprint Data", "learn": "Learn" },
+  "app": {
+    "title": "Sprint Metrics"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "data": "Sprint Data",
+    "learn": "Learn"
+  },
   "dashboard": {
     "title": "Sprint Dashboard",
     "velocity_title": "Velocity (Story Points per Sprint)",
@@ -44,7 +50,8 @@
   },
   "results": {
     "copyImage": "Copy Image",
-    "printReport": "Print Report"
+    "printReport": "Print Report",
+    "exportCsv": "Export CSV"
   },
   "integration": {
     "importMotivators": "Import Motivators",
