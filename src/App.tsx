@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import html2canvas from 'html2canvas'
 import type { Screen, SprintData, ProjectConfig, MotivatorSnapshot } from './types'
 import { SAMPLE_SPRINTS, SAMPLE_CONFIG } from './data/sample'
+import AppHeader from './components/AppHeader'
 import VelocityChart from './components/VelocityChart'
 import BurnUpChart from './components/BurnUpChart'
 import BurnDownChart from './components/BurnDownChart'
@@ -78,7 +79,7 @@ function exportCSV(sprints: SprintData[], projectName: string): void {
 }
 
 export default function App() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [screen, setScreen] = useState<Screen>('dashboard')
   const [dataMode, setDataMode] = useState<'quick' | 'detailed'>('quick')
   const [sprints, setSprints] = useState<SprintData[]>(loadSprints)
@@ -154,45 +155,18 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10 print:hidden">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <a
-              href="https://agile-toolkit.github.io/"
-              title="Agile Toolkit"
-              className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
-                <rect x="1" y="1" width="6" height="6" rx="1"/>
-                <rect x="9" y="1" width="6" height="6" rx="1"/>
-                <rect x="1" y="9" width="6" height="6" rx="1"/>
-                <rect x="9" y="9" width="6" height="6" rx="1"/>
-              </svg>
-            </a>
-            <button onClick={() => setScreen('dashboard')} className="font-semibold text-brand-600 hover:text-brand-700">
-              {t('app.title')}
-            </button>
-          </div>
-          <div className="flex items-center gap-1">
-            {navItems.map(item => (
-              <button key={item.key} onClick={() => setScreen(item.key)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${screen === item.key ? 'bg-brand-100 text-brand-700' : 'text-gray-500 hover:bg-gray-100'}`}>
-                {item.label}
-              </button>
-            ))}
-            <select
-              value={i18n.language.slice(0, 2)}
-              onChange={e => i18n.changeLanguage(e.target.value)}
-              className="ml-2 text-sm text-gray-500 bg-transparent border border-gray-200 rounded px-1 py-0.5 cursor-pointer hover:border-gray-400 focus:outline-none"
-            >
-              <option value="en">EN</option>
-              <option value="es">ES</option>
-              <option value="be">BE</option>
-              <option value="ru">RU</option>
-            </select>
-          </div>
-        </div>
-      </header>
+      <div className="print:hidden">
+        <AppHeader
+          title={t('app.title')}
+          onTitleClick={() => setScreen('dashboard')}
+          navItems={navItems.map(item => ({
+            key: item.key,
+            label: item.label,
+            active: screen === item.key,
+            onClick: () => setScreen(item.key as Screen),
+          }))}
+        />
+      </div>
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
         {improvementToast !== null && (
