@@ -18,6 +18,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] CSV export — "Export CSV" button on dashboard header and in both data views; exports sprint name, planned, completed, carried over, goal, mood; dynamic filename `sprint-metrics-<project>-<date>.csv`; `results.exportCsv` i18n key in all 4 locales
 - [x] Team capacity normalization — `teamSize?: number` and `absenceDays?: number` added to SprintData; optional inputs in both add-sprint forms; `normalizedVelocity = completed / ((teamSize * sprintLengthWeeks * 5) - absenceDays)` shown as indigo dashed line on VelocityChart right Y-axis (when no mood data) or in tooltip only (when mood data also present); `data.teamSize`, `data.absenceDays`, `data.normalizedVelocity` i18n keys in all 4 locales
 - [x] Improvement Board integration — after adding a sprint, reads `improvement-board-items` localStorage key; if open items (status ≠ 'done') exist, shows dismissible amber toast with count and link to `https://agile-toolkit.github.io/improvement-board/`; `integration.improvementBoardOpen`, `integration.improvementBoardLink` i18n keys in all 4 locales
+- [x] Header unification — `AppHeader.tsx` and `LanguagePicker.tsx` copied from design system into `src/components/`; inline `<header>` replaced with `<AppHeader>` using nav pills and `LanguagePicker`; native `<select>` language toggle removed (issue #20)
 
 ## Backlog
 
@@ -36,6 +37,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-24 — feat: header unification (issue #20)
+- Done: copied `AppHeader.tsx` and `LanguagePicker.tsx` from design system into `src/components/`; replaced inline `<header>` block in `App.tsx` with `<AppHeader>` component passing nav items and title; removed native `<select>` language toggle; import of `i18n` from `useTranslation` dropped (no longer needed in App.tsx)
+- Closed: issue #20 (set to In Review)
+- Remaining approved: #21 (light/dark theme support — ThemeToggle + dark: Tailwind variants)
+- Next task: implement #21 — dark mode: add `darkMode: 'class'` to tailwind.config.js; copy ThemeToggle.tsx from design system; add anti-flash script to index.html; add dark: variants to all Tailwind color classes in src/
 
 ### 2026-05-18 — feat: team capacity normalization + Improvement Board integration (#16, #17)
 - Done: `teamSize?: number` and `absenceDays?: number` added to SprintData type; optional numeric inputs in both SprintDataTable and SprintDataView add-sprint forms (absenceDays disabled when no teamSize); VelocityChart now accepts `config` prop, computes `normalizedVelocity = completed / ((teamSize * sprintLengthWeeks * 5) - absenceDays)` per sprint; shown as indigo dashed line on right Y-axis when no mood data, or via hidden Line in tooltip only when mood data coexists; amber dismissible toast appears after sprint add when `improvement-board-items` localStorage key contains open items (status ≠ 'done'), with link to https://agile-toolkit.github.io/improvement-board/; i18n keys added to all 4 locales
