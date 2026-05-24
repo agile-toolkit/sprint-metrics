@@ -81,11 +81,11 @@ export default function SprintDataTable({
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">{t('data.title')}</h1>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">{t('data.title')}</h1>
 
       {/* Project config */}
       <div className="card">
-        <h2 className="font-semibold text-gray-900 mb-4">{t('data.config_title')}</h2>
+        <h2 className="font-semibold text-gray-900 mb-4 dark:text-gray-50">{t('data.config_title')}</h2>
         <div className="grid grid-cols-3 gap-3">
           <div>
             <label className="label">{t('data.project_name')}</label>
@@ -128,7 +128,7 @@ export default function SprintDataTable({
 
       {/* Add form */}
       {showAdd && (
-        <div className="card bg-gray-50">
+        <div className="card bg-gray-50 dark:bg-gray-800">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div>
               <label className="label">{t('data.sprint_name')}</label>
@@ -158,7 +158,7 @@ export default function SprintDataTable({
                     key={i}
                     type="button"
                     onClick={() => setMood(mood === i + 1 ? 0 : i + 1)}
-                    className={`text-xl px-2 py-1 rounded transition-colors ${mood === i + 1 ? 'bg-brand-100 ring-2 ring-brand-400' : 'hover:bg-gray-100'}`}
+                    className={`text-xl px-2 py-1 rounded transition-colors ${mood === i + 1 ? 'bg-brand-100 ring-2 ring-brand-400 dark:bg-brand-700/20 dark:ring-brand-500' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
                     title={`${i + 1}/5`}
                   >
                     {emoji}
@@ -187,30 +187,30 @@ export default function SprintDataTable({
         <div className="card overflow-x-auto p-0">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left px-4 py-3 font-medium text-gray-600">{t('data.sprint_name')}</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600">{t('data.planned')}</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600">{t('data.completed')}</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600">{t('data.carried')}</th>
-                <th className="text-center px-4 py-3 font-medium text-gray-600">{t('data.moodLabel')}</th>
+              <tr className="border-b border-gray-100 dark:border-gray-800">
+                <th className="text-left px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.sprint_name')}</th>
+                <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.planned')}</th>
+                <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.completed')}</th>
+                <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.carried')}</th>
+                <th className="text-center px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.moodLabel')}</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
               {sprints.map(sp => (
-                <tr key={sp.id} className="border-b border-gray-50 hover:bg-gray-50">
+                <tr key={sp.id} className="border-b border-gray-50 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50">
                   <td className="px-4 py-2.5">
                     <span className="font-medium">{sp.name}</span>
-                    {sp.goal && <span className="block text-xs text-gray-400 italic">{sp.goal}</span>}
+                    {sp.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sp.goal}</span>}
                   </td>
-                  <td className="px-4 py-2.5 text-right text-gray-600">{sp.planned}</td>
+                  <td className="px-4 py-2.5 text-right text-gray-600 dark:text-gray-400">{sp.planned}</td>
                   <td className={`px-4 py-2.5 text-right font-semibold ${sp.completed >= sp.planned ? 'text-green-600' : 'text-orange-500'}`}>{sp.completed}</td>
                   <td className={`px-4 py-2.5 text-right ${sp.carriedOver > 0 ? 'text-red-500' : 'text-gray-400'}`}>{sp.carriedOver}</td>
                   <td className="px-4 py-2.5 text-center text-lg">
-                    {sp.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sp.mood - 1] : <span className="text-gray-200 text-sm">—</span>}
+                    {sp.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sp.mood - 1] : <span className="text-gray-200 text-sm dark:text-gray-700">—</span>}
                   </td>
                   <td className="px-4 py-2.5 text-right">
-                    <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs" title={t('data.delete')}>✕</button>
+                    <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs dark:text-gray-700 dark:hover:text-red-400" title={t('data.delete')}>✕</button>
                   </td>
                 </tr>
               ))}
@@ -219,7 +219,7 @@ export default function SprintDataTable({
         </div>
       )}
 
-      <p className="text-xs text-gray-400">{t('data.csv_hint')}</p>
+      <p className="text-xs text-gray-400 dark:text-gray-600">{t('data.csv_hint')}</p>
     </div>
   )
 }

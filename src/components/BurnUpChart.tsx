@@ -42,7 +42,7 @@ export default function BurnUpChart({ sprints, config }: Props) {
 
   return (
     <div className="card">
-      <h2 className="font-semibold text-gray-900 mb-4">{t('dashboard.burnup_title')}</h2>
+      <h2 className="font-semibold text-gray-900 mb-4 dark:text-gray-50">{t('dashboard.burnup_title')}</h2>
       <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />

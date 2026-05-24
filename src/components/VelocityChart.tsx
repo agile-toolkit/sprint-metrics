@@ -18,8 +18,8 @@ export function ChartWrapper({
   return (
     <div className="card">
       <div className="mb-4">
-        <h2 className="font-semibold text-gray-900">{title}</h2>
-        {explainer && <p className="text-sm text-gray-500 mt-1">{explainer}</p>}
+        <h2 className="font-semibold text-gray-900 dark:text-gray-50">{title}</h2>
+        {explainer && <p className="text-sm text-gray-500 mt-1 dark:text-gray-400">{explainer}</p>}
       </div>
       {children}
     </div>
@@ -37,7 +37,7 @@ export function NoData({
 }) {
   return (
     <ChartWrapper title={title} explainer={explainer}>
-      <p className="text-center text-gray-400 py-8 text-sm">{label}</p>
+      <p className="text-center text-gray-400 py-8 text-sm dark:text-gray-600">{label}</p>
     </ChartWrapper>
   )
 }
@@ -98,9 +98,9 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-semibold text-gray-900">{t('dashboard.velocity_title')}</h2>
+        <h2 className="font-semibold text-gray-900 dark:text-gray-50">{t('dashboard.velocity_title')}</h2>
         {avgVelocity > 0 && (
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-500 dark:text-gray-400">
             {t('dashboard.avg_velocity')}: <strong className="text-brand-600">{avgVelocity} SP</strong>
           </span>
         )}

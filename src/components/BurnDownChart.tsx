@@ -44,11 +44,11 @@ export default function BurnDownChart({ sprints }: Props) {
   return (
     <ChartWrapper title={t('burndown.title')} explainer={t('burndown.explainer')}>
       <div className="mb-4">
-        <label className="text-xs font-semibold text-gray-600 mr-2">{t('burndown.selectSprint')}</label>
+        <label className="text-xs font-semibold text-gray-600 mr-2 dark:text-gray-400">{t('burndown.selectSprint')}</label>
         <select
           value={selectedIdx}
           onChange={e => setSelectedIdx(Number(e.target.value))}
-          className="border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"
+          className="border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-50"
         >
           {sprints.map((s, i) => (
             <option key={s.id} value={i}>

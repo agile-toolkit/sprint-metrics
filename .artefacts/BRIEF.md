@@ -19,6 +19,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Team capacity normalization — `teamSize?: number` and `absenceDays?: number` added to SprintData; optional inputs in both add-sprint forms; `normalizedVelocity = completed / ((teamSize * sprintLengthWeeks * 5) - absenceDays)` shown as indigo dashed line on VelocityChart right Y-axis (when no mood data) or in tooltip only (when mood data also present); `data.teamSize`, `data.absenceDays`, `data.normalizedVelocity` i18n keys in all 4 locales
 - [x] Improvement Board integration — after adding a sprint, reads `improvement-board-items` localStorage key; if open items (status ≠ 'done') exist, shows dismissible amber toast with count and link to `https://agile-toolkit.github.io/improvement-board/`; `integration.improvementBoardOpen`, `integration.improvementBoardLink` i18n keys in all 4 locales
 - [x] Header unification — `AppHeader.tsx` and `LanguagePicker.tsx` copied from design system into `src/components/`; inline `<header>` replaced with `<AppHeader>` using nav pills and `LanguagePicker`; native `<select>` language toggle removed (issue #20)
+- [x] Dark mode — `darkMode: 'class'` in `tailwind.config.js`; anti-flash script in `index.html`; `ThemeToggle.tsx` copied from design system into `src/components/`; `<ThemeToggle />` placed inside `<AppHeader>` children slot; `dark:` Tailwind variants added to all color classes in `index.css` component layer, `AppHeader.tsx`, `LanguagePicker.tsx`, `App.tsx`, `SprintDataTable.tsx`, `SprintDataView.tsx`, `VelocityChart.tsx`, `BurnUpChart.tsx`, `BurnDownChart.tsx`, `ForecastView.tsx`, `LearnView.tsx`; theme persisted to `localStorage('theme')` (issue #21)
 
 ## Backlog
 
@@ -37,6 +38,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-24 — feat: dark mode (issue #21)
+- Done: `darkMode: 'class'` added to `tailwind.config.js`; anti-flash `<script>` added to `index.html <head>`; `ThemeToggle.tsx` copied from design system to `src/components/`; `<ThemeToggle />` added as child of `<AppHeader>` in `App.tsx`; `dark:` Tailwind variants applied to all color classes across `index.css` (component layer), `AppHeader.tsx`, `LanguagePicker.tsx`, `App.tsx`, `SprintDataTable.tsx`, `SprintDataView.tsx`, `VelocityChart.tsx` (ChartWrapper/NoData), `BurnUpChart.tsx`, `BurnDownChart.tsx`, `ForecastView.tsx`, `LearnView.tsx`; theme toggle persists to `localStorage('theme')` and respects `prefers-color-scheme`
+- Closed: issue #21 (set to In Review)
+- All known BRIEF features implemented
+- Next task: check issues for human feedback
 
 ### 2026-05-24 — feat: header unification (issue #20)
 - Done: copied `AppHeader.tsx` and `LanguagePicker.tsx` from design system into `src/components/`; replaced inline `<header>` block in `App.tsx` with `<AppHeader>` component passing nav items and title; removed native `<select>` language toggle; import of `i18n` from `useTranslation` dropped (no longer needed in App.tsx)
