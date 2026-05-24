@@ -38,19 +38,19 @@ export default function ForecastView({ sprints, config }: Props) {
       label: t('forecast.optimistic'),
       value: optimisticSprints,
       color: 'text-green-600',
-      bg: 'bg-green-50 border-green-200',
+      bg: 'bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-900',
     },
     {
       label: t('forecast.average'),
       value: avgSprints,
       color: 'text-brand-600',
-      bg: 'bg-brand-50 border-brand-200',
+      bg: 'bg-brand-50 border-brand-200 dark:bg-brand-700/10 dark:border-brand-800',
     },
     {
       label: t('forecast.pessimistic'),
       value: pessimisticSprints,
       color: 'text-red-500',
-      bg: 'bg-red-50 border-red-200',
+      bg: 'bg-red-50 border-red-200 dark:bg-red-950/20 dark:border-red-900',
     },
   ]
 
@@ -58,32 +58,32 @@ export default function ForecastView({ sprints, config }: Props) {
     <ChartWrapper title={t('forecast.title')} explainer={t('forecast.explainer')}>
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-4 text-sm">
-          <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-gray-500 mb-0.5">{t('forecast.remaining')}</p>
-            <p className="text-2xl font-bold text-gray-900">{Math.round(remaining)} SP</p>
+          <div className="bg-gray-50 rounded-lg p-3 dark:bg-gray-800">
+            <p className="text-gray-500 mb-0.5 dark:text-gray-400">{t('forecast.remaining')}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-50">{Math.round(remaining)} SP</p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-gray-500 mb-0.5">{t('forecast.velocityAvg')}</p>
-            <p className="text-2xl font-bold text-gray-900">{Math.round(avg * 10) / 10} SP</p>
+          <div className="bg-gray-50 rounded-lg p-3 dark:bg-gray-800">
+            <p className="text-gray-500 mb-0.5 dark:text-gray-400">{t('forecast.velocityAvg')}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-50">{Math.round(avg * 10) / 10} SP</p>
           </div>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold text-gray-600 mb-3">{t('forecast.sprintsNeeded')}</h3>
+          <h3 className="text-sm font-semibold text-gray-600 mb-3 dark:text-gray-400">{t('forecast.sprintsNeeded')}</h3>
           <div className="grid grid-cols-3 gap-3">
             {scenarios.map(s => (
               <div key={s.label} className={`rounded-xl border p-4 text-center ${s.bg}`}>
-                <p className="text-xs font-semibold text-gray-500 mb-1">{s.label}</p>
+                <p className="text-xs font-semibold text-gray-500 mb-1 dark:text-gray-400">{s.label}</p>
                 <p className={`text-4xl font-bold ${s.color}`}>
                   {s.value !== null ? s.value : '∞'}
                 </p>
-                <p className="text-xs text-gray-400 mt-1">{t('forecast.atCurrentPace')}</p>
+                <p className="text-xs text-gray-400 mt-1 dark:text-gray-500">{t('forecast.atCurrentPace')}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-gray-400 dark:text-gray-600">
           {t('forecast.sampleLabel')}: {last3.join(', ')} SP
         </p>
       </div>

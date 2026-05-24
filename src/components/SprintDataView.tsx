@@ -86,7 +86,7 @@ export default function SprintDataView({
 
   return (
     <div className="space-y-5">
-      <h2 className="text-2xl font-bold text-gray-900">{t('dataview.title')}</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-50">{t('dataview.title')}</h2>
 
       <div className="card grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="sm:col-span-1">
@@ -157,10 +157,10 @@ export default function SprintDataView({
         )}
         <input ref={fileRef} type="file" accept=".csv,.txt" className="hidden" onChange={importCSV} />
       </div>
-      <p className="text-xs text-gray-400">{t('data.csv_hint')}</p>
+      <p className="text-xs text-gray-400 dark:text-gray-600">{t('data.csv_hint')}</p>
 
       {adding && (
-        <div className="card bg-gray-50">
+        <div className="card bg-gray-50 dark:bg-gray-800">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
             <div className="col-span-2 sm:col-span-1">
               <label className="label">{t('data.sprint_name')}</label>
@@ -205,7 +205,7 @@ export default function SprintDataView({
                     key={i}
                     type="button"
                     onClick={() => setFormMood(formMood === i + 1 ? 0 : i + 1)}
-                    className={`text-xl px-2 py-1 rounded transition-colors ${formMood === i + 1 ? 'bg-brand-100 ring-2 ring-brand-400' : 'hover:bg-gray-100'}`}
+                    className={`text-xl px-2 py-1 rounded transition-colors ${formMood === i + 1 ? 'bg-brand-100 ring-2 ring-brand-400 dark:bg-brand-700/20 dark:ring-brand-500' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
                     title={`${i + 1}/5`}
                   >
                     {emoji}
@@ -234,29 +234,29 @@ export default function SprintDataView({
       )}
 
       {sprints.length === 0 ? (
-        <p className="text-gray-400 text-sm italic">{t('dataview.empty')}</p>
+        <p className="text-gray-400 text-sm italic dark:text-gray-600">{t('dataview.empty')}</p>
       ) : (
         <div className="overflow-x-auto card p-0">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 text-left border-b border-gray-200">
-                <th className="px-3 py-2 font-semibold text-gray-600">{t('data.sprint_name')}</th>
-                <th className="px-3 py-2 font-semibold text-gray-600">{t('data.planned')}</th>
-                <th className="px-3 py-2 font-semibold text-gray-600">{t('data.completed')}</th>
-                <th className="px-3 py-2 font-semibold text-gray-600">{t('data.carried')}</th>
-                <th className="px-3 py-2 font-semibold text-gray-600 text-center">{t('data.moodLabel')}</th>
+              <tr className="bg-gray-50 text-left border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.sprint_name')}</th>
+                <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.planned')}</th>
+                <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.completed')}</th>
+                <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.carried')}</th>
+                <th className="px-3 py-2 font-semibold text-gray-600 text-center dark:text-gray-400">{t('data.moodLabel')}</th>
                 <th className="px-3 py-2" />
               </tr>
             </thead>
             <tbody>
               {sprints.map((sprint, idx) => (
-                <tr key={sprint.id} className={idx % 2 === 0 ? '' : 'bg-gray-50/80'}>
-                  <td className="px-3 py-2 border-b border-gray-100">
+                <tr key={sprint.id} className={idx % 2 === 0 ? '' : 'bg-gray-50/80 dark:bg-gray-800/50'}>
+                  <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
                     <span className="font-medium">{sprint.name}</span>
-                    {sprint.goal && <span className="block text-xs text-gray-400 italic">{sprint.goal}</span>}
+                    {sprint.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sprint.goal}</span>}
                   </td>
-                  <td className="px-3 py-2 border-b border-gray-100">{sprint.planned}</td>
-                  <td className="px-3 py-2 border-b border-gray-100">
+                  <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">{sprint.planned}</td>
+                  <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
                     <span
                       className={`font-semibold ${
                         sprint.completed >= sprint.planned ? 'text-green-600' : 'text-amber-600'
@@ -265,17 +265,17 @@ export default function SprintDataView({
                       {sprint.completed}
                     </span>
                   </td>
-                  <td className="px-3 py-2 border-b border-gray-100 text-gray-500">
+                  <td className="px-3 py-2 border-b border-gray-100 text-gray-500 dark:border-gray-800 dark:text-gray-400">
                     {sprint.carriedOver}
                   </td>
-                  <td className="px-3 py-2 border-b border-gray-100 text-center text-lg">
-                    {sprint.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sprint.mood - 1] : <span className="text-gray-200 text-sm">—</span>}
+                  <td className="px-3 py-2 border-b border-gray-100 text-center text-lg dark:border-gray-800">
+                    {sprint.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sprint.mood - 1] : <span className="text-gray-200 text-sm dark:text-gray-700">—</span>}
                   </td>
-                  <td className="px-3 py-2 border-b border-gray-100 text-right">
+                  <td className="px-3 py-2 border-b border-gray-100 text-right dark:border-gray-800">
                     <button
                       type="button"
                       onClick={() => onDeleteSprint(sprint.id)}
-                      className="text-gray-300 hover:text-red-400"
+                      className="text-gray-300 hover:text-red-400 dark:text-gray-700 dark:hover:text-red-400"
                       title={t('data.delete')}
                       aria-label={t('data.delete')}
                     >
