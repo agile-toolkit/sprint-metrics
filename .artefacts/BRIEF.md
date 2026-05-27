@@ -24,6 +24,9 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
+- [ ] [#24] Feature: Velocity forecasting — "When will we finish?" projection (optimistic/average/pessimistic rolling-average projection in ForecastView)
+- [ ] [#25] Feature: Sprint health composite score (velocity + mood + capacity badge, 0–10, colored badge in sprint rows)
+- [ ] [#26] Integration: Sprint Metrics → Change Planner velocity/mood decline alert (dismissible banner when velocity or mood declines 2+ sprints)
 - [x] [#3] Integration: Import velocity target from Planning Poker session — implemented
 - [x] [#4] Feature: Sprint goal field + shareable retrospective report — implemented
 - [x] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart) — implemented
@@ -38,6 +41,15 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-27 — research: velocity forecasting + health score + Change Planner integration
+- Done: checked all open issues (#2–#21) — all fully implemented; no pending human feedback requiring action
+- Created 3 new needs-review issues:
+  - #24 Feature: Velocity forecasting — "When will we finish?" projection (optimistic/average/pessimistic in ForecastView, no new deps)
+  - #25 Feature: Sprint health composite score (0–10 badge from velocity+mood+capacity, health trend line on VelocityChart)
+  - #26 Integration: Sprint Metrics → Change Planner velocity/mood decline alert (dismissible banner linking to Change Planner when 2+ sprint decline detected)
+- All 3 added to project board as Backlog
+- Next task: check issues for human feedback
 
 ### 2026-05-24 — feat: dark mode (issue #21)
 - Done: `darkMode: 'class'` added to `tailwind.config.js`; anti-flash `<script>` added to `index.html <head>`; `ThemeToggle.tsx` copied from design system to `src/components/`; `<ThemeToggle />` added as child of `<AppHeader>` in `App.tsx`; `dark:` Tailwind variants applied to all color classes across `index.css` (component layer), `AppHeader.tsx`, `LanguagePicker.tsx`, `App.tsx`, `SprintDataTable.tsx`, `SprintDataView.tsx`, `VelocityChart.tsx` (ChartWrapper/NoData), `BurnUpChart.tsx`, `BurnDownChart.tsx`, `ForecastView.tsx`, `LearnView.tsx`; theme toggle persists to `localStorage('theme')` and respects `prefers-color-scheme`
