@@ -24,6 +24,9 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
+- [ ] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep (write sprint-metrics:lastSession localStorage key after sprint add; Scrum Facilitator reads it during retrospective/review ceremonies)
+- [ ] [#28] Feature: Sprint retrospective notes field (retrospective?: string in SprintData; textarea in add-sprint forms; shown in table, CSV export, print view; data.retrospective i18n key in all 4 locales)
+- [ ] [#29] Technical: PWA offline support via vite-plugin-pwa (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
 - [ ] [#24] Feature: Velocity forecasting — "When will we finish?" projection (optimistic/average/pessimistic rolling-average projection in ForecastView)
 - [ ] [#25] Feature: Sprint health composite score (velocity + mood + capacity badge, 0–10, colored badge in sprint rows)
 - [ ] [#26] Integration: Sprint Metrics → Change Planner velocity/mood decline alert (dismissible banner when velocity or mood declines 2+ sprints)
@@ -41,6 +44,15 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-30 — research: Scrum Facilitator integration + retrospective notes + PWA offline
+- Done: checked all open issues (#24–#26) — all `needs-review`, no human feedback to process
+- Created 3 new needs-review issues:
+  - #27 Integration: Sprint Metrics → Scrum Facilitator ceremony prep (write sprint-metrics:lastSession localStorage key after sprint add; Scrum Facilitator reads it to surface sprint context during retro/review)
+  - #28 Feature: Sprint retrospective notes field (retrospective?: string on SprintData; textarea in both forms; shown in table, CSV, print view; data.retrospective i18n key all 4 locales)
+  - #29 Technical: PWA offline support via vite-plugin-pwa (service worker precaches app shell; works offline in sprint ceremonies; ~2 kB runtime)
+- All 3 added to project board as Backlog
+- Next task: check issues for human feedback
 
 ### 2026-05-27 — research: velocity forecasting + health score + Change Planner integration
 - Done: checked all open issues (#2–#21) — all fully implemented; no pending human feedback requiring action
