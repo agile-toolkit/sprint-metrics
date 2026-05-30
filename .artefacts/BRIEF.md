@@ -24,6 +24,9 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
+- [ ] [#30] Integration: Work Profiles → Sprint Metrics team size auto-fill (read work-profiles:savedProfiles on mount; pre-fill teamSize input with profile count; hint "Based on N Work Profiles"; integration.teamSizeFromProfiles i18n key all 4 locales)
+- [ ] [#31] Feature: Sprint milestone/event annotations on velocity chart (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
+- [ ] [#32] UX: Guided empty state with onboarding steps (replace no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" + "Load sample data" CTAs; 6 new i18n keys in all 4 locales)
 - [ ] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep (write sprint-metrics:lastSession localStorage key after sprint add; Scrum Facilitator reads it during retrospective/review ceremonies)
 - [ ] [#28] Feature: Sprint retrospective notes field (retrospective?: string in SprintData; textarea in add-sprint forms; shown in table, CSV export, print view; data.retrospective i18n key in all 4 locales)
 - [ ] [#29] Technical: PWA offline support via vite-plugin-pwa (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
@@ -44,6 +47,15 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-05-30 — research: Work Profiles integration + milestone annotations + empty state UX
+- Done: checked all open issues (#24–#29) — all `needs-review`, no label changes, none yet 7 days old; no human feedback to process
+- Created 3 new needs-review issues:
+  - #30 Integration: Work Profiles → Sprint Metrics team size auto-fill (read work-profiles:savedProfiles; pre-fill teamSize; hint label; integration.teamSizeFromProfiles i18n key)
+  - #31 Feature: Sprint milestone/event annotations on velocity chart (milestone?: string; ReferenceLines on VelocityChart + BurnUpChart; pill badge in table; CSV column; data.milestone i18n key)
+  - #32 UX: Guided empty state with onboarding steps (3-step indicator, heading/subtitle, dual CTAs, 6 new i18n keys)
+- All 3 added to project board as Backlog
+- Next task: check issues for human feedback
 
 ### 2026-05-30 — research: Scrum Facilitator integration + retrospective notes + PWA offline
 - Done: checked all open issues (#24–#26) — all `needs-review`, no human feedback to process
