@@ -81,6 +81,8 @@
     "average": "Promedio",
     "pessimistic": "Pesimista",
     "atCurrentPace": "al ritmo actual",
+    "sprints": "sprints",
+    "finishBy": "~{{date}}",
     "sampleLabel": "Velocidades de los últimos 3 sprints"
   },
   "dataview": {
