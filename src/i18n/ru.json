@@ -49,7 +49,11 @@
     "moodLabel": "Настрой",
     "teamSize": "Размер команды",
     "absenceDays": "Дни отсутствия",
-    "normalizedVelocity": "Норм. velocity"
+    "normalizedVelocity": "Норм. velocity",
+    "healthScore": "Здоровье",
+    "healthScoreLow": "Низкий (< 4)",
+    "healthScoreMid": "Средний (4–6.9)",
+    "healthScoreHigh": "Высокий (≥ 7)"
   },
   "results": {
     "copyImage": "Копировать изображение",

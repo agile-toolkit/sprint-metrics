@@ -21,6 +21,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Header unification — `AppHeader.tsx` and `LanguagePicker.tsx` copied from design system into `src/components/`; inline `<header>` replaced with `<AppHeader>` using nav pills and `LanguagePicker`; native `<select>` language toggle removed (issue #20)
 - [x] Dark mode — `darkMode: 'class'` in `tailwind.config.js`; anti-flash script in `index.html`; `ThemeToggle.tsx` copied from design system into `src/components/`; `<ThemeToggle />` placed inside `<AppHeader>` children slot; `dark:` Tailwind variants added to all color classes in `index.css` component layer, `AppHeader.tsx`, `LanguagePicker.tsx`, `App.tsx`, `SprintDataTable.tsx`, `SprintDataView.tsx`, `VelocityChart.tsx`, `BurnUpChart.tsx`, `BurnDownChart.tsx`, `ForecastView.tsx`, `LearnView.tsx`; theme persisted to `localStorage('theme')` (issue #21)
 - [x] Velocity forecasting finish dates — ForecastView: editable "Backlog remaining" input (pre-filled from targetScope − totalCompleted, user-overridable); finish date displayed per scenario ("~DD MMM YYYY" = today + sprints × sprintLengthWeeks × 7 days); `forecast.sprints` and `forecast.finishBy` i18n keys added to EN/ES/BE/RU (issue #24)
+- [x] Sprint health composite score — `computeHealthScore()` in `src/utils/healthScore.ts`; velocity (0–4 pts) + mood (0–3 pts) + capacity (0–3 pts) computed on-the-fly per sprint; colored badge (red <4, amber 4–6.9, green ≥7) in sprint rows in SprintDataTable and SprintDataView; optional dotted gray health trend line on VelocityChart right Y-axis (0–10) when ≥3 sprints; `data.healthScore`, `data.healthScoreLow`, `data.healthScoreMid`, `data.healthScoreHigh` i18n keys in all 4 locales (issue #25)
 
 ## Backlog
 
@@ -32,7 +33,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [ ] [#28] Feature: Sprint retrospective notes field (retrospective?: string in SprintData; textarea in add-sprint forms; shown in table, CSV export, print view; data.retrospective i18n key in all 4 locales)
 - [ ] [#29] Technical: PWA offline support via vite-plugin-pwa (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
 - [x] [#24] Feature: Velocity forecasting — "When will we finish?" projection — implemented
-- [ ] [#25] Feature: Sprint health composite score (velocity + mood + capacity badge, 0–10, colored badge in sprint rows)
+- [x] [#25] Feature: Sprint health composite score — implemented
 - [ ] [#26] Integration: Sprint Metrics → Change Planner velocity/mood decline alert (dismissible banner when velocity or mood declines 2+ sprints)
 - [x] [#3] Integration: Import velocity target from Planning Poker session — implemented
 - [x] [#4] Feature: Sprint goal field + shareable retrospective report — implemented
@@ -48,6 +49,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-05 — feat: sprint health composite score (issue #25)
+- Done: `src/utils/healthScore.ts` — `computeHealthScore()` (velocity 0–4 pts + mood 0–3 pts + capacity 0–3 pts), `buildMaxNormVel()`, `getHealthColor()`, `HEALTH_BADGE_CLASSES`; colored badge (red/amber/green) added as new column in SprintDataTable and SprintDataView; health trend line (dotted gray, right Y-axis 0–10, ≥3 sprints threshold) added to VelocityChart alongside existing mood/norm axes; `data.healthScore`, `data.healthScoreLow`, `data.healthScoreMid`, `data.healthScoreHigh` added to EN/ES/BE/RU
+- Remaining: #26 (Change Planner decline alert), #27–#32 (backlog)
+- Next task: implement #26 (Sprint Metrics → Change Planner velocity/mood decline alert — dismissible banner when velocity or mood declines 2+ consecutive sprints, linking to Change Planner; `integration.changePlannerAlert`, `integration.changePlannerLink` i18n keys all 4 locales)
 
 ### 2026-06-05 — feat: velocity forecasting finish dates (issue #24)
 - Done: ForecastView upgraded — "Backlog remaining" input is now editable (pre-filled from targetScope − totalCompleted, user can override); each scenario card now shows "X sprints" label and "~DD MMM YYYY" finish date computed from today + numSprints × sprintLengthWeeks × 7 days; `forecast.sprints` and `forecast.finishBy` i18n keys added to all 4 locales; closed already-implemented issues #2–#7 #15–#17 #20–#21; auto-approved stale needs-review issues #24 #25 #26 (9 days old)
