@@ -5,6 +5,7 @@ import {
   ReferenceLine, ResponsiveContainer,
 } from 'recharts'
 import type { SprintData, MotivatorSnapshot, ProjectConfig } from '../types'
+import { computeHealthScore, buildMaxNormVel } from '../utils/healthScore'
 
 export function ChartWrapper({
   title,
@@ -44,6 +45,7 @@ export function NoData({
 
 const MOOD_EMOJIS = ['😫', '😟', '😐', '🙂', '😄']
 const NORM_KEY = '_normVel'
+const HEALTH_KEY = '_health'
 
 interface Props {
   sprints: SprintData[]
@@ -61,7 +63,11 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
   const hasMood = sprints.some(sp => sp.mood !== undefined)
   const hasCapacity = sprints.some(sp => sp.teamSize !== undefined)
 
-  const data = sprints.map(sp => {
+  const maxNV = buildMaxNormVel(sprints, config)
+  const healthScores = sprints.map(sp => computeHealthScore(sp, maxNV, config))
+  const hasEnoughHealth = healthScores.length >= 3
+
+  const data = sprints.map((sp, i) => {
     let normVel: number | null = null
     if (sp.teamSize && sp.teamSize > 0) {
       const availDays = (sp.teamSize * config.sprintLengthWeeks * 5) - (sp.absenceDays ?? 0)
@@ -75,15 +81,17 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
       [t('dashboard.completed')]: sp.completed,
       ...(hasMood ? { [t('data.moodLabel')]: sp.mood ?? null } : {}),
       ...(hasCapacity ? { [NORM_KEY]: normVel } : {}),
+      ...(hasEnoughHealth ? { [HEALTH_KEY]: healthScores[i] } : {}),
     }
   })
 
   const hasNormData = hasCapacity && data.some(d => d[NORM_KEY] !== null && d[NORM_KEY] !== undefined)
 
-  const rightAxesCount = (hasMood ? 1 : 0) + (hasNormData && !hasMood ? 1 : 0)
+  const rightAxesCount = (hasMood ? 1 : 0) + (hasNormData && !hasMood ? 1 : 0) + (hasEnoughHealth && !hasMood ? 1 : 0)
   const rightMargin = rightAxesCount > 0 ? 40 : 10
 
   const normVelLabel = t('data.normalizedVelocity')
+  const healthLabel = t('data.healthScore')
 
   const tooltipFormatter = (value: number | string | (string | number)[], name: string): [string | number, string] => {
     if (name === t('data.moodLabel') && typeof value === 'number') {
@@ -91,6 +99,9 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
     }
     if (name === NORM_KEY) {
       return [value !== null && value !== undefined ? `${value} SP/day` : '—', normVelLabel]
+    }
+    if (name === HEALTH_KEY) {
+      return [value !== null && value !== undefined ? String(value) : '—', healthLabel]
     }
     return [value as string | number, name]
   }
@@ -131,10 +142,26 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
               label={{ value: 'SP/d', angle: -90, position: 'insideRight', fontSize: 9, fill: '#6366f1' }}
             />
           )}
+          {hasEnoughHealth && !hasMood && (
+            <YAxis
+              yAxisId="health"
+              orientation="right"
+              domain={[0, 10]}
+              ticks={[0, 2, 4, 6, 8, 10]}
+              tick={{ fontSize: 10 }}
+              width={hasNormData ? 0 : 36}
+              tickFormatter={(v: number) => String(v)}
+            />
+          )}
+          {hasEnoughHealth && hasMood && (
+            <YAxis yAxisId="health" orientation="right" domain={[0, 10]} hide />
+          )}
           <Tooltip formatter={tooltipFormatter} />
           <Legend
             wrapperStyle={{ fontSize: 12 }}
-            formatter={(value) => value === NORM_KEY ? normVelLabel : value}
+            formatter={(value) =>
+              value === NORM_KEY ? normVelLabel : value === HEALTH_KEY ? healthLabel : value
+            }
           />
           <Bar yAxisId="sp" dataKey={t('dashboard.planned')} fill="#d1fae5" radius={[4, 4, 0, 0]} />
           <Bar yAxisId="sp" dataKey={t('dashboard.completed')} fill="#059669" radius={[4, 4, 0, 0]} />
@@ -182,6 +209,19 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
               name={NORM_KEY}
               hide
               legendType="none"
+            />
+          )}
+          {hasEnoughHealth && (
+            <Line
+              yAxisId="health"
+              dataKey={HEALTH_KEY}
+              name={HEALTH_KEY}
+              type="monotone"
+              stroke="#9ca3af"
+              strokeWidth={1.5}
+              strokeDasharray="3 3"
+              dot={{ r: 3, fill: '#9ca3af' }}
+              connectNulls={false}
             />
           )}
         </ComposedChart>

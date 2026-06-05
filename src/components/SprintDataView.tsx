@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
+import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
 
 interface Props {
   sprints: SprintData[]
@@ -237,55 +238,73 @@ export default function SprintDataView({
         <p className="text-gray-400 text-sm italic dark:text-gray-600">{t('dataview.empty')}</p>
       ) : (
         <div className="overflow-x-auto card p-0">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-gray-50 text-left border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-                <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.sprint_name')}</th>
-                <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.planned')}</th>
-                <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.completed')}</th>
-                <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.carried')}</th>
-                <th className="px-3 py-2 font-semibold text-gray-600 text-center dark:text-gray-400">{t('data.moodLabel')}</th>
-                <th className="px-3 py-2" />
-              </tr>
-            </thead>
-            <tbody>
-              {sprints.map((sprint, idx) => (
-                <tr key={sprint.id} className={idx % 2 === 0 ? '' : 'bg-gray-50/80 dark:bg-gray-800/50'}>
-                  <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
-                    <span className="font-medium">{sprint.name}</span>
-                    {sprint.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sprint.goal}</span>}
-                  </td>
-                  <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">{sprint.planned}</td>
-                  <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
-                    <span
-                      className={`font-semibold ${
-                        sprint.completed >= sprint.planned ? 'text-green-600' : 'text-amber-600'
-                      }`}
-                    >
-                      {sprint.completed}
-                    </span>
-                  </td>
-                  <td className="px-3 py-2 border-b border-gray-100 text-gray-500 dark:border-gray-800 dark:text-gray-400">
-                    {sprint.carriedOver}
-                  </td>
-                  <td className="px-3 py-2 border-b border-gray-100 text-center text-lg dark:border-gray-800">
-                    {sprint.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sprint.mood - 1] : <span className="text-gray-200 text-sm dark:text-gray-700">—</span>}
-                  </td>
-                  <td className="px-3 py-2 border-b border-gray-100 text-right dark:border-gray-800">
-                    <button
-                      type="button"
-                      onClick={() => onDeleteSprint(sprint.id)}
-                      className="text-gray-300 hover:text-red-400 dark:text-gray-700 dark:hover:text-red-400"
-                      title={t('data.delete')}
-                      aria-label={t('data.delete')}
-                    >
-                      ×
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {(() => {
+            const maxNV = buildMaxNormVel(sprints, config)
+            return (
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-gray-50 text-left border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.sprint_name')}</th>
+                    <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.planned')}</th>
+                    <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.completed')}</th>
+                    <th className="px-3 py-2 font-semibold text-gray-600 dark:text-gray-400">{t('data.carried')}</th>
+                    <th className="px-3 py-2 font-semibold text-gray-600 text-center dark:text-gray-400">{t('data.moodLabel')}</th>
+                    <th className="px-3 py-2 font-semibold text-gray-600 text-center dark:text-gray-400">{t('data.healthScore')}</th>
+                    <th className="px-3 py-2" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {sprints.map((sprint, idx) => {
+                    const score = computeHealthScore(sprint, maxNV, config)
+                    const color = getHealthColor(score)
+                    return (
+                      <tr key={sprint.id} className={idx % 2 === 0 ? '' : 'bg-gray-50/80 dark:bg-gray-800/50'}>
+                        <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+                          <span className="font-medium">{sprint.name}</span>
+                          {sprint.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sprint.goal}</span>}
+                        </td>
+                        <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">{sprint.planned}</td>
+                        <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+                          <span
+                            className={`font-semibold ${
+                              sprint.completed >= sprint.planned ? 'text-green-600' : 'text-amber-600'
+                            }`}
+                          >
+                            {sprint.completed}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 border-b border-gray-100 text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                          {sprint.carriedOver}
+                        </td>
+                        <td className="px-3 py-2 border-b border-gray-100 text-center text-lg dark:border-gray-800">
+                          {sprint.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sprint.mood - 1] : <span className="text-gray-200 text-sm dark:text-gray-700">—</span>}
+                        </td>
+                        <td className="px-3 py-2 border-b border-gray-100 text-center dark:border-gray-800">
+                          <span
+                            className={`inline-block px-1.5 py-0.5 rounded text-xs font-semibold ${HEALTH_BADGE_CLASSES[color]}`}
+                            title={color === 'red' ? t('data.healthScoreLow') : color === 'amber' ? t('data.healthScoreMid') : t('data.healthScoreHigh')}
+                          >
+                            {score.toFixed(1)}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 border-b border-gray-100 text-right dark:border-gray-800">
+                          <button
+                            type="button"
+                            onClick={() => onDeleteSprint(sprint.id)}
+                            className="text-gray-300 hover:text-red-400 dark:text-gray-700 dark:hover:text-red-400"
+                            title={t('data.delete')}
+                            aria-label={t('data.delete')}
+                          >
+                            ×
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            )
+          })()}
         </div>
       )}
     </div>

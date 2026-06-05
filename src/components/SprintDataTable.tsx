@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
+import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
 
 interface Props {
   sprints: SprintData[]
@@ -185,37 +186,55 @@ export default function SprintDataTable({
       {/* Table */}
       {sprints.length > 0 && (
         <div className="card overflow-x-auto p-0">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-100 dark:border-gray-800">
-                <th className="text-left px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.sprint_name')}</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.planned')}</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.completed')}</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.carried')}</th>
-                <th className="text-center px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.moodLabel')}</th>
-                <th className="px-4 py-3"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {sprints.map(sp => (
-                <tr key={sp.id} className="border-b border-gray-50 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50">
-                  <td className="px-4 py-2.5">
-                    <span className="font-medium">{sp.name}</span>
-                    {sp.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sp.goal}</span>}
-                  </td>
-                  <td className="px-4 py-2.5 text-right text-gray-600 dark:text-gray-400">{sp.planned}</td>
-                  <td className={`px-4 py-2.5 text-right font-semibold ${sp.completed >= sp.planned ? 'text-green-600' : 'text-orange-500'}`}>{sp.completed}</td>
-                  <td className={`px-4 py-2.5 text-right ${sp.carriedOver > 0 ? 'text-red-500' : 'text-gray-400'}`}>{sp.carriedOver}</td>
-                  <td className="px-4 py-2.5 text-center text-lg">
-                    {sp.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sp.mood - 1] : <span className="text-gray-200 text-sm dark:text-gray-700">—</span>}
-                  </td>
-                  <td className="px-4 py-2.5 text-right">
-                    <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs dark:text-gray-700 dark:hover:text-red-400" title={t('data.delete')}>✕</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {(() => {
+            const maxNV = buildMaxNormVel(sprints, config)
+            return (
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-100 dark:border-gray-800">
+                    <th className="text-left px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.sprint_name')}</th>
+                    <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.planned')}</th>
+                    <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.completed')}</th>
+                    <th className="text-right px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.carried')}</th>
+                    <th className="text-center px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.moodLabel')}</th>
+                    <th className="text-center px-4 py-3 font-medium text-gray-600 dark:text-gray-400">{t('data.healthScore')}</th>
+                    <th className="px-4 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sprints.map(sp => {
+                    const score = computeHealthScore(sp, maxNV, config)
+                    const color = getHealthColor(score)
+                    return (
+                      <tr key={sp.id} className="border-b border-gray-50 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50">
+                        <td className="px-4 py-2.5">
+                          <span className="font-medium">{sp.name}</span>
+                          {sp.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sp.goal}</span>}
+                        </td>
+                        <td className="px-4 py-2.5 text-right text-gray-600 dark:text-gray-400">{sp.planned}</td>
+                        <td className={`px-4 py-2.5 text-right font-semibold ${sp.completed >= sp.planned ? 'text-green-600' : 'text-orange-500'}`}>{sp.completed}</td>
+                        <td className={`px-4 py-2.5 text-right ${sp.carriedOver > 0 ? 'text-red-500' : 'text-gray-400'}`}>{sp.carriedOver}</td>
+                        <td className="px-4 py-2.5 text-center text-lg">
+                          {sp.mood ? (['😫', '😟', '😐', '🙂', '😄'] as const)[sp.mood - 1] : <span className="text-gray-200 text-sm dark:text-gray-700">—</span>}
+                        </td>
+                        <td className="px-4 py-2.5 text-center">
+                          <span
+                            className={`inline-block px-1.5 py-0.5 rounded text-xs font-semibold ${HEALTH_BADGE_CLASSES[color]}`}
+                            title={color === 'red' ? t('data.healthScoreLow') : color === 'amber' ? t('data.healthScoreMid') : t('data.healthScoreHigh')}
+                          >
+                            {score.toFixed(1)}
+                          </span>
+                        </td>
+                        <td className="px-4 py-2.5 text-right">
+                          <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs dark:text-gray-700 dark:hover:text-red-400" title={t('data.delete')}>✕</button>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            )
+          })()}
         </div>
       )}
 

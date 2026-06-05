@@ -49,7 +49,11 @@
     "moodLabel": "Ánimo",
     "teamSize": "Tamaño del equipo",
     "absenceDays": "Días de ausencia",
-    "normalizedVelocity": "Vel. normalizada"
+    "normalizedVelocity": "Vel. normalizada",
+    "healthScore": "Salud",
+    "healthScoreLow": "Bajo (< 4)",
+    "healthScoreMid": "Medio (4–6.9)",
+    "healthScoreHigh": "Alto (≥ 7)"
   },
   "results": {
     "copyImage": "Copiar imagen",

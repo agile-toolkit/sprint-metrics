@@ -49,7 +49,11 @@
     "moodLabel": "Настрой",
     "teamSize": "Памер каманды",
     "absenceDays": "Дні адсутнасці",
-    "normalizedVelocity": "Нарм. velocity"
+    "normalizedVelocity": "Нарм. velocity",
+    "healthScore": "Здароўе",
+    "healthScoreLow": "Нізкі (< 4)",
+    "healthScoreMid": "Сярэдні (4–6.9)",
+    "healthScoreHigh": "Высокі (≥ 7)"
   },
   "results": {
     "copyImage": "Капіраваць выяву",
