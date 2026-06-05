@@ -81,7 +81,9 @@
     "average": "Средне",
     "pessimistic": "Пессимистично",
     "atCurrentPace": "при текущем темпе",
-    "sampleLabel": "Velocity последних 3 спринтов"
+    "sampleLabel": "Velocity последних 3 спринтов",
+    "sprints": "спринтов",
+    "finishBy": "~{{date}}"
   },
   "dataview": {
     "title": "Данные спринтов (подробно)",

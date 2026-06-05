@@ -81,7 +81,9 @@
     "average": "Сярэдне",
     "pessimistic": "Песімістычна",
     "atCurrentPace": "пры бягучым тэмпе",
-    "sampleLabel": "Velocity апошніх 3 спрынтаў"
+    "sampleLabel": "Velocity апошніх 3 спрынтаў",
+    "sprints": "спрынтаў",
+    "finishBy": "~{{date}}"
   },
   "dataview": {
     "title": "Дадзеныя спрынту (падрабязна)",

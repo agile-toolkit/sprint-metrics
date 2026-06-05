@@ -81,6 +81,8 @@
     "average": "Average",
     "pessimistic": "Pessimistic",
     "atCurrentPace": "at recent pace",
+    "sprints": "sprints",
+    "finishBy": "~{{date}}",
     "sampleLabel": "Last 3 velocities"
   },
   "dataview": {
