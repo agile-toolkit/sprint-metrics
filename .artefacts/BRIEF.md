@@ -20,6 +20,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Improvement Board integration — after adding a sprint, reads `improvement-board-items` localStorage key; if open items (status ≠ 'done') exist, shows dismissible amber toast with count and link to `https://agile-toolkit.github.io/improvement-board/`; `integration.improvementBoardOpen`, `integration.improvementBoardLink` i18n keys in all 4 locales
 - [x] Header unification — `AppHeader.tsx` and `LanguagePicker.tsx` copied from design system into `src/components/`; inline `<header>` replaced with `<AppHeader>` using nav pills and `LanguagePicker`; native `<select>` language toggle removed (issue #20)
 - [x] Dark mode — `darkMode: 'class'` in `tailwind.config.js`; anti-flash script in `index.html`; `ThemeToggle.tsx` copied from design system into `src/components/`; `<ThemeToggle />` placed inside `<AppHeader>` children slot; `dark:` Tailwind variants added to all color classes in `index.css` component layer, `AppHeader.tsx`, `LanguagePicker.tsx`, `App.tsx`, `SprintDataTable.tsx`, `SprintDataView.tsx`, `VelocityChart.tsx`, `BurnUpChart.tsx`, `BurnDownChart.tsx`, `ForecastView.tsx`, `LearnView.tsx`; theme persisted to `localStorage('theme')` (issue #21)
+- [x] Change Planner decline alert — `hasTwoConsecutiveDeclines()` helper in `App.tsx`; red dismissible banner appears on dashboard when velocity or mood declines 2+ consecutive sprints; links to Change Planner; resets on new sprint add; `integration.changePlannerAlert`, `integration.changePlannerLink` i18n keys in EN/ES/BE/RU (issue #26)
 - [x] Velocity forecasting finish dates — ForecastView: editable "Backlog remaining" input (pre-filled from targetScope − totalCompleted, user-overridable); finish date displayed per scenario ("~DD MMM YYYY" = today + sprints × sprintLengthWeeks × 7 days); `forecast.sprints` and `forecast.finishBy` i18n keys added to EN/ES/BE/RU (issue #24)
 - [x] Sprint health composite score — `computeHealthScore()` in `src/utils/healthScore.ts`; velocity (0–4 pts) + mood (0–3 pts) + capacity (0–3 pts) computed on-the-fly per sprint; colored badge (red <4, amber 4–6.9, green ≥7) in sprint rows in SprintDataTable and SprintDataView; optional dotted gray health trend line on VelocityChart right Y-axis (0–10) when ≥3 sprints; `data.healthScore`, `data.healthScoreLow`, `data.healthScoreMid`, `data.healthScoreHigh` i18n keys in all 4 locales (issue #25)
 
@@ -34,7 +35,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [ ] [#29] Technical: PWA offline support via vite-plugin-pwa (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
 - [x] [#24] Feature: Velocity forecasting — "When will we finish?" projection — implemented
 - [x] [#25] Feature: Sprint health composite score — implemented
-- [ ] [#26] Integration: Sprint Metrics → Change Planner velocity/mood decline alert (dismissible banner when velocity or mood declines 2+ sprints)
+- [x] [#26] Integration: Sprint Metrics → Change Planner velocity/mood decline alert (dismissible banner when velocity or mood declines 2+ sprints) — implemented
 - [x] [#3] Integration: Import velocity target from Planning Poker session — implemented
 - [x] [#4] Feature: Sprint goal field + shareable retrospective report — implemented
 - [x] [#5] Feature: Team mood/happiness index per sprint (emoji 1–5, overlay on VelocityChart) — implemented
@@ -49,6 +50,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-06 — feat: Change Planner decline alert (issue #26)
+- Done: `hasTwoConsecutiveDeclines(values)` helper added to `App.tsx`; checks last 3 velocity or mood values for 2 consecutive declines; red dismissible banner on dashboard with link to `https://agile-toolkit.github.io/change-planner/`; resets on new sprint add; `integration.changePlannerAlert` + `integration.changePlannerLink` i18n keys in EN/ES/BE/RU
+- Remaining: #27–#32 (backlog)
+- Next task: check issues for human feedback; if any approved, implement next one
 
 ### 2026-06-05 — feat: sprint health composite score (issue #25)
 - Done: `src/utils/healthScore.ts` — `computeHealthScore()` (velocity 0–4 pts + mood 0–3 pts + capacity 0–3 pts), `buildMaxNormVel()`, `getHealthColor()`, `HEALTH_BADGE_CLASSES`; colored badge (red/amber/green) added as new column in SprintDataTable and SprintDataView; health trend line (dotted gray, right Y-axis 0–10, ≥3 sprints threshold) added to VelocityChart alongside existing mood/norm axes; `data.healthScore`, `data.healthScoreLow`, `data.healthScoreMid`, `data.healthScoreHigh` added to EN/ES/BE/RU

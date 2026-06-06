@@ -64,7 +64,9 @@
     "importMotivators": "Import Motivators",
     "motivatorsClear": "Clear motivator snapshot",
     "improvementBoardOpen": "{{count}} improvement(s) still open — review before your retrospective.",
-    "improvementBoardLink": "Open Improvement Board"
+    "improvementBoardLink": "Open Improvement Board",
+    "changePlannerAlert": "Velocity or team mood has declined for 2+ consecutive sprints — this may signal a systemic issue.",
+    "changePlannerLink": "Review with Change Planner"
   },
   "burndown": {
     "title": "Sprint burn-down (illustrative)",
