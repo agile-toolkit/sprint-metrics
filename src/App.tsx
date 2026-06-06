@@ -18,6 +18,12 @@ const CONFIG_KEY = 'sprint-metrics-config'
 const MOTIVATOR_KEY = 'sprint-metrics:motivatorSnapshot'
 const MM_LAST_SESSION_KEY = 'moving-motivators:lastSession'
 
+function hasTwoConsecutiveDeclines(values: number[]): boolean {
+  const n = values.length
+  if (n < 3) return false
+  return values[n - 3] > values[n - 2] && values[n - 2] > values[n - 1]
+}
+
 function loadSprints(): SprintData[] {
   try { return JSON.parse(localStorage.getItem(SPRINTS_KEY) ?? '[]') } catch { return [] }
 }
@@ -88,6 +94,7 @@ export default function App() {
   const [copying, setCopying] = useState(false)
   const [motivatorSnapshot, setMotivatorSnapshot] = useState<MotivatorSnapshot | null>(loadMotivatorSnapshot)
   const [improvementToast, setImprovementToast] = useState<number | null>(null)
+  const [changePlannerDismissed, setChangePlannerDismissed] = useState(false)
   const dashboardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -100,7 +107,14 @@ export default function App() {
   const updateSprints = (next: SprintData[]) => { setSprints(next); saveSprints(next) }
   const updateConfig = (next: ProjectConfig) => { setConfig(next); saveConfig(next) }
 
+  const velocityValues = sprints.map(s => s.completed)
+  const moodValues = sprints.filter(s => s.mood != null).map(s => s.mood as number)
+  const showChangePlannerAlert =
+    !changePlannerDismissed &&
+    (hasTwoConsecutiveDeclines(velocityValues) || hasTwoConsecutiveDeclines(moodValues))
+
   const handleAddSprint = (sprint: SprintData) => {
+    setChangePlannerDismissed(false)
     updateSprints([...sprints, sprint])
     try {
       const raw = localStorage.getItem('improvement-board-items')
@@ -189,6 +203,29 @@ export default function App() {
               type="button"
               onClick={() => setImprovementToast(null)}
               className="text-amber-500 hover:text-amber-700 flex-shrink-0"
+              aria-label="Dismiss"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+        {showChangePlannerAlert && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/30 dark:text-red-300">
+            <span>
+              📉 {t('integration.changePlannerAlert')}{' '}
+              <a
+                href="https://agile-toolkit.github.io/change-planner/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline font-medium hover:text-red-900 dark:hover:text-red-200"
+              >
+                {t('integration.changePlannerLink')}
+              </a>
+            </span>
+            <button
+              type="button"
+              onClick={() => setChangePlannerDismissed(true)}
+              className="text-red-500 hover:text-red-700 flex-shrink-0"
               aria-label="Dismiss"
             >
               ✕

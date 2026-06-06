@@ -64,7 +64,9 @@
     "importMotivators": "Импорт мотиваторов",
     "motivatorsClear": "Удалить снимок мотиваторов",
     "improvementBoardOpen": "{{count}} улучшение(й) ещё открыто — просмотрите перед ретроспективой.",
-    "improvementBoardLink": "Открыть доску улучшений"
+    "improvementBoardLink": "Открыть доску улучшений",
+    "changePlannerAlert": "Velocity или настрой команды снижается 2+ спринта подряд — возможно, есть системная проблема.",
+    "changePlannerLink": "Проанализировать в Change Planner"
   },
   "burndown": {
     "title": "Burn-down спринта (схематично)",

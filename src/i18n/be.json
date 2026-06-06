@@ -64,7 +64,9 @@
     "importMotivators": "Імпарт матыватараў",
     "motivatorsClear": "Ачысціць здымак матыватараў",
     "improvementBoardOpen": "{{count}} паляпшэнне(яў) яшчэ адкрыта — прагледзьце перад рэтраспектывай.",
-    "improvementBoardLink": "Адкрыць дошку паляпшэнняў"
+    "improvementBoardLink": "Адкрыць дошку паляпшэнняў",
+    "changePlannerAlert": "Velocity або настрой каманды знізіліся 2+ спрынты запар — магчыма, ёсць сістэмная праблема.",
+    "changePlannerLink": "Прааналізаваць у Change Planner"
   },
   "burndown": {
     "title": "Burn-down спрынту (схематычна)",
