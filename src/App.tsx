@@ -17,6 +17,7 @@ const SPRINTS_KEY = 'sprint-metrics-sprints'
 const CONFIG_KEY = 'sprint-metrics-config'
 const MOTIVATOR_KEY = 'sprint-metrics:motivatorSnapshot'
 const MM_LAST_SESSION_KEY = 'moving-motivators:lastSession'
+const SM_LAST_SESSION_KEY = 'sprint-metrics:lastSession'
 
 function hasTwoConsecutiveDeclines(values: number[]): boolean {
   const n = values.length
@@ -50,6 +51,29 @@ function loadMotivatorSnapshot(): MotivatorSnapshot | null {
 function saveMotivatorSnapshot(s: MotivatorSnapshot | null) {
   if (s) localStorage.setItem(MOTIVATOR_KEY, JSON.stringify(s))
   else localStorage.removeItem(MOTIVATOR_KEY)
+}
+
+function writeLastSession(allSprints: SprintData[], config: ProjectConfig): void {
+  if (allSprints.length === 0) return
+  const last = allSprints[allSprints.length - 1]
+  const totalCompleted = allSprints.reduce((s, sp) => s + sp.completed, 0)
+  const avgVelocity = Math.round(totalCompleted / allSprints.length)
+  const sprintsRemaining = avgVelocity > 0
+    ? Math.max(0, Math.ceil((config.targetScope - totalCompleted) / avgVelocity))
+    : null
+  const payload = {
+    projectName: config.name,
+    lastSprintName: last.name,
+    lastSprintGoal: last.goal ?? '',
+    lastVelocity: last.completed,
+    avgVelocity,
+    lastMood: last.mood ?? null,
+    targetScope: config.targetScope,
+    totalCompleted,
+    sprintsRemaining,
+    updatedAt: new Date().toISOString(),
+  }
+  localStorage.setItem(SM_LAST_SESSION_KEY, JSON.stringify(payload))
 }
 
 function parseCSV(text: string): SprintData[] {
@@ -115,7 +139,9 @@ export default function App() {
 
   const handleAddSprint = (sprint: SprintData) => {
     setChangePlannerDismissed(false)
-    updateSprints([...sprints, sprint])
+    const next = [...sprints, sprint]
+    updateSprints(next)
+    writeLastSession(next, config)
     try {
       const raw = localStorage.getItem('improvement-board-items')
       if (raw) {
