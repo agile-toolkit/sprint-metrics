@@ -23,16 +23,29 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Change Planner decline alert — `hasTwoConsecutiveDeclines()` helper in `App.tsx`; red dismissible banner appears on dashboard when velocity or mood declines 2+ consecutive sprints; links to Change Planner; resets on new sprint add; `integration.changePlannerAlert`, `integration.changePlannerLink` i18n keys in EN/ES/BE/RU (issue #26)
 - [x] Velocity forecasting finish dates — ForecastView: editable "Backlog remaining" input (pre-filled from targetScope − totalCompleted, user-overridable); finish date displayed per scenario ("~DD MMM YYYY" = today + sprints × sprintLengthWeeks × 7 days); `forecast.sprints` and `forecast.finishBy` i18n keys added to EN/ES/BE/RU (issue #24)
 - [x] Sprint health composite score — `computeHealthScore()` in `src/utils/healthScore.ts`; velocity (0–4 pts) + mood (0–3 pts) + capacity (0–3 pts) computed on-the-fly per sprint; colored badge (red <4, amber 4–6.9, green ≥7) in sprint rows in SprintDataTable and SprintDataView; optional dotted gray health trend line on VelocityChart right Y-axis (0–10) when ≥3 sprints; `data.healthScore`, `data.healthScoreLow`, `data.healthScoreMid`, `data.healthScoreHigh` i18n keys in all 4 locales (issue #25)
+- [x] Scrum Facilitator integration — `writeLastSession()` helper in `App.tsx`; writes `sprint-metrics:lastSession` localStorage key after each sprint add; payload: projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt; Scrum Facilitator reads this key during retrospective/review ceremony setup (issue #27)
+
+## localStorage keys
+
+| Key | Written by | Read by | Contents |
+|-----|-----------|---------|----------|
+| `sprint-metrics-sprints` | App.tsx | App.tsx | SprintData[] array |
+| `sprint-metrics-config` | App.tsx | App.tsx | ProjectConfig (name, targetScope, sprintLengthWeeks) |
+| `sprint-metrics:motivatorSnapshot` | App.tsx | App.tsx | MotivatorSnapshot (topMotivators, shifts, date) |
+| `sprint-metrics:lastSession` | App.tsx (`writeLastSession`) | agile-toolkit/scrum-facilitator | { projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt } |
+| `sprintMetrics_planningPoker` | agile-toolkit/planning-poker | App.tsx (SprintDataTable, SprintDataView) | { stories: [{ finalEstimate }] } |
+| `moving-motivators:lastSession` | agile-toolkit/moving-motivators | App.tsx | { topMotivators[], shifts[], date } |
+| `improvement-board-items` | agile-toolkit/improvement-board | App.tsx | ImprovementItem[] with status field |
 
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
-- [ ] [#30] Integration: Work Profiles → Sprint Metrics team size auto-fill (read work-profiles:savedProfiles on mount; pre-fill teamSize input with profile count; hint "Based on N Work Profiles"; integration.teamSizeFromProfiles i18n key all 4 locales)
-- [ ] [#31] Feature: Sprint milestone/event annotations on velocity chart (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
-- [ ] [#32] UX: Guided empty state with onboarding steps (replace no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" + "Load sample data" CTAs; 6 new i18n keys in all 4 locales)
-- [ ] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep (write sprint-metrics:lastSession localStorage key after sprint add; Scrum Facilitator reads it during retrospective/review ceremonies)
-- [ ] [#28] Feature: Sprint retrospective notes field (retrospective?: string in SprintData; textarea in add-sprint forms; shown in table, CSV export, print view; data.retrospective i18n key in all 4 locales)
-- [ ] [#29] Technical: PWA offline support via vite-plugin-pwa (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
+- [ ] [#30] Integration: Work Profiles → Sprint Metrics team size auto-fill — auto-approved (read work-profiles:savedProfiles on mount; pre-fill teamSize input with profile count; hint "Based on N Work Profiles"; integration.teamSizeFromProfiles i18n key all 4 locales)
+- [ ] [#31] Feature: Sprint milestone/event annotations on velocity chart — auto-approved (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
+- [ ] [#32] UX: Guided empty state with onboarding steps — auto-approved (replace no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" + "Load sample data" CTAs; 6 new i18n keys in all 4 locales)
+- [ ] [#28] Feature: Sprint retrospective notes field — auto-approved (retrospective?: string in SprintData; textarea in add-sprint forms; shown in table, CSV export, print view; data.retrospective i18n key in all 4 locales)
+- [ ] [#29] Technical: PWA offline support via vite-plugin-pwa — auto-approved (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
+- [x] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep — implemented (writeLastSession() in App.tsx writes sprint-metrics:lastSession key after each sprint add)
 - [x] [#24] Feature: Velocity forecasting — "When will we finish?" projection — implemented
 - [x] [#25] Feature: Sprint health composite score — implemented
 - [x] [#26] Integration: Sprint Metrics → Change Planner velocity/mood decline alert (dismissible banner when velocity or mood declines 2+ sprints) — implemented
@@ -50,6 +63,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-08 — feat: Scrum Facilitator session key integration (issue #27)
+- Done: `SM_LAST_SESSION_KEY = 'sprint-metrics:lastSession'` constant added; `writeLastSession(allSprints, config)` helper writes JSON snapshot (projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt) after each `handleAddSprint`; localStorage keys table added to BRIEF.md; closed already-implemented issues #24, #25, #26; auto-approved stale issues #27–#32 with comments on each
+- Remaining: #28 (retrospective notes), #29 (PWA), #30 (Work Profiles team size), #31 (milestone annotations), #32 (guided empty state) — all auto-approved
+- Next task: implement #28 (Sprint retrospective notes field — add `retrospective?: string` to SprintData; textarea in SprintDataTable and SprintDataView add-sprint forms; italic secondary row in tables; CSV column; print view; `data.retrospective` i18n key in all 4 locales)
 
 ### 2026-06-06 — feat: Change Planner decline alert (issue #26)
 - Done: `hasTwoConsecutiveDeclines(values)` helper added to `App.tsx`; checks last 3 velocity or mood values for 2 consecutive declines; red dismissible banner on dashboard with link to `https://agile-toolkit.github.io/change-planner/`; resets on new sprint add; `integration.changePlannerAlert` + `integration.changePlannerLink` i18n keys in EN/ES/BE/RU
