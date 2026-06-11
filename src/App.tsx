@@ -375,9 +375,44 @@ export default function App() {
             </div>
 
             {sprints.length === 0 ? (
-              <div className="card text-center py-16 text-gray-400 dark:text-gray-600">
+              <div className="card text-center py-12 px-6">
                 <div className="text-5xl mb-4">📈</div>
-                <p>{t('dashboard.no_data')}</p>
+                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+                  {t('dashboard.empty_heading')}
+                </h2>
+                <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto text-sm">
+                  {t('dashboard.empty_subtitle')}
+                </p>
+                <ol className="flex flex-col sm:flex-row justify-center gap-4 mb-8 text-sm">
+                  {([
+                    { num: 1, label: t('dashboard.empty_step1') },
+                    { num: 2, label: t('dashboard.empty_step2') },
+                    { num: 3, label: t('dashboard.empty_step3') },
+                  ] as { num: number; label: string }[]).map(step => (
+                    <li key={step.num} className="flex items-center gap-2 justify-center sm:flex-col sm:gap-1">
+                      <span className="flex-shrink-0 w-7 h-7 rounded-full bg-brand-100 text-brand-700 dark:bg-brand-700/20 dark:text-brand-400 flex items-center justify-center font-bold text-xs">
+                        {step.num}
+                      </span>
+                      <span className="text-gray-600 dark:text-gray-300">{step.label}</span>
+                    </li>
+                  ))}
+                </ol>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button
+                    type="button"
+                    onClick={() => setScreen('data')}
+                    className="btn-primary"
+                  >
+                    {t('dashboard.add_first_sprint')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { updateSprints(SAMPLE_SPRINTS); updateConfig(SAMPLE_CONFIG) }}
+                    className="btn-secondary"
+                  >
+                    {t('dashboard.load_sample')}
+                  </button>
+                </div>
               </div>
             ) : (
               <>
