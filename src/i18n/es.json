@@ -59,7 +59,8 @@
     "healthScore": "Salud",
     "healthScoreLow": "Bajo (< 4)",
     "healthScoreMid": "Medio (4–6.9)",
-    "healthScoreHigh": "Alto (≥ 7)"
+    "healthScoreHigh": "Alto (≥ 7)",
+    "retrospective": "Notas de retrospectiva"
   },
   "results": {
     "copyImage": "Copiar imagen",
