@@ -23,6 +23,7 @@ export default function SprintDataTable({
   const [completed, setCompleted] = useState(0)
   const [carried, setCarried] = useState(0)
   const [goal, setGoal] = useState('')
+  const [retrospective, setRetrospective] = useState('')
   const [mood, setMood] = useState(0)
   const [teamSize, setTeamSize] = useState(0)
   const [absenceDays, setAbsenceDays] = useState(0)
@@ -57,6 +58,7 @@ export default function SprintDataTable({
       completed,
       carriedOver: carried,
       goal: goal.trim() || undefined,
+      retrospective: retrospective.trim() || undefined,
       mood: mood > 0 ? mood : undefined,
       teamSize: teamSize > 0 ? teamSize : undefined,
       absenceDays: teamSize > 0 && absenceDays > 0 ? absenceDays : undefined,
@@ -65,6 +67,7 @@ export default function SprintDataTable({
     setCompleted(0)
     setCarried(0)
     setGoal('')
+    setRetrospective('')
     setMood(0)
     setTeamSize(0)
     setAbsenceDays(0)
@@ -152,6 +155,10 @@ export default function SprintDataTable({
               <input className="input" value={goal} onChange={e => setGoal(e.target.value)} placeholder="" />
             </div>
             <div className="col-span-2 sm:col-span-4">
+              <label className="label">{t('data.retrospective')}</label>
+              <textarea className="input resize-none" rows={2} value={retrospective} onChange={e => setRetrospective(e.target.value)} placeholder="" />
+            </div>
+            <div className="col-span-2 sm:col-span-4">
               <label className="label">{t('data.mood')}</label>
               <div className="flex gap-1 mt-1">
                 {(['😫', '😟', '😐', '🙂', '😄'] as const).map((emoji, i) => (
@@ -210,6 +217,7 @@ export default function SprintDataTable({
                         <td className="px-4 py-2.5">
                           <span className="font-medium">{sp.name}</span>
                           {sp.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sp.goal}</span>}
+                          {sp.retrospective && <span className="block text-xs text-gray-400 italic dark:text-gray-500">↩ {sp.retrospective}</span>}
                         </td>
                         <td className="px-4 py-2.5 text-right text-gray-600 dark:text-gray-400">{sp.planned}</td>
                         <td className={`px-4 py-2.5 text-right font-semibold ${sp.completed >= sp.planned ? 'text-green-600' : 'text-orange-500'}`}>{sp.completed}</td>

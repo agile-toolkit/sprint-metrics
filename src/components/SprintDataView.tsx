@@ -26,7 +26,7 @@ export default function SprintDataView({
 }: Props) {
   const { t } = useTranslation()
   const [adding, setAdding] = useState(false)
-  const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '', goal: '' })
+  const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '', goal: '', retrospective: '' })
   const [formMood, setFormMood] = useState(0)
   const [formTeamSize, setFormTeamSize] = useState(0)
   const [formAbsenceDays, setFormAbsenceDays] = useState(0)
@@ -65,11 +65,12 @@ export default function SprintDataView({
       completed: Number(form.completed) || 0,
       carriedOver: Number(form.carriedOver) || 0,
       goal: form.goal.trim() || undefined,
+      retrospective: form.retrospective.trim() || undefined,
       mood: formMood > 0 ? formMood : undefined,
       teamSize: formTeamSize > 0 ? formTeamSize : undefined,
       absenceDays: formTeamSize > 0 && formAbsenceDays > 0 ? formAbsenceDays : undefined,
     })
-    setForm({ name: '', planned: '', completed: '', carriedOver: '', goal: '' })
+    setForm({ name: '', planned: '', completed: '', carriedOver: '', goal: '', retrospective: '' })
     setFormMood(0)
     setFormTeamSize(0)
     setFormAbsenceDays(0)
@@ -199,6 +200,15 @@ export default function SprintDataView({
               />
             </div>
             <div className="col-span-2 sm:col-span-4">
+              <label className="label">{t('data.retrospective')}</label>
+              <textarea
+                className="input resize-none"
+                rows={2}
+                value={form.retrospective}
+                onChange={e => setForm(f => ({ ...f, retrospective: e.target.value }))}
+              />
+            </div>
+            <div className="col-span-2 sm:col-span-4">
               <label className="label">{t('data.mood')}</label>
               <div className="flex gap-1 mt-1">
                 {(['😫', '😟', '😐', '🙂', '😄'] as const).map((emoji, i) => (
@@ -262,6 +272,7 @@ export default function SprintDataView({
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
                           <span className="font-medium">{sprint.name}</span>
                           {sprint.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sprint.goal}</span>}
+                          {sprint.retrospective && <span className="block text-xs text-gray-400 italic dark:text-gray-500">↩ {sprint.retrospective}</span>}
                         </td>
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">{sprint.planned}</td>
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">

@@ -24,6 +24,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Velocity forecasting finish dates — ForecastView: editable "Backlog remaining" input (pre-filled from targetScope − totalCompleted, user-overridable); finish date displayed per scenario ("~DD MMM YYYY" = today + sprints × sprintLengthWeeks × 7 days); `forecast.sprints` and `forecast.finishBy` i18n keys added to EN/ES/BE/RU (issue #24)
 - [x] Sprint health composite score — `computeHealthScore()` in `src/utils/healthScore.ts`; velocity (0–4 pts) + mood (0–3 pts) + capacity (0–3 pts) computed on-the-fly per sprint; colored badge (red <4, amber 4–6.9, green ≥7) in sprint rows in SprintDataTable and SprintDataView; optional dotted gray health trend line on VelocityChart right Y-axis (0–10) when ≥3 sprints; `data.healthScore`, `data.healthScoreLow`, `data.healthScoreMid`, `data.healthScoreHigh` i18n keys in all 4 locales (issue #25)
 - [x] Scrum Facilitator integration — `writeLastSession()` helper in `App.tsx`; writes `sprint-metrics:lastSession` localStorage key after each sprint add; payload: projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt; Scrum Facilitator reads this key during retrospective/review ceremony setup (issue #27)
+- [x] Sprint retrospective notes — `retrospective?: string` added to SprintData; textarea in both SprintDataTable and SprintDataView add-sprint forms; italic ↩ secondary row below goal in both tables; Retrospective column added to CSV export; `data.retrospective` i18n key in EN/ES/BE/RU (issue #28)
 
 ## localStorage keys
 
@@ -43,7 +44,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [ ] [#30] Integration: Work Profiles → Sprint Metrics team size auto-fill — auto-approved (read work-profiles:savedProfiles on mount; pre-fill teamSize input with profile count; hint "Based on N Work Profiles"; integration.teamSizeFromProfiles i18n key all 4 locales)
 - [ ] [#31] Feature: Sprint milestone/event annotations on velocity chart — auto-approved (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
 - [x] [#32] UX: Guided empty state with onboarding steps — implemented (replaced no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" primary CTA → data tab + "Load sample data" secondary; 6 i18n keys in all 4 locales)
-- [ ] [#28] Feature: Sprint retrospective notes field — auto-approved (retrospective?: string in SprintData; textarea in add-sprint forms; shown in table, CSV export, print view; data.retrospective i18n key in all 4 locales)
+- [x] [#28] Feature: Sprint retrospective notes field — implemented (retrospective?: string in SprintData; textarea in both add-sprint forms; italic ↩ secondary row in table; Retrospective column in CSV export; data.retrospective i18n key in EN/ES/BE/RU)
 - [ ] [#29] Technical: PWA offline support via vite-plugin-pwa — auto-approved (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
 - [x] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep — implemented (writeLastSession() in App.tsx writes sprint-metrics:lastSession key after each sprint add)
 - [x] [#24] Feature: Velocity forecasting — "When will we finish?" projection — implemented
@@ -63,6 +64,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-11 — feat: sprint retrospective notes field (issue #28)
+- Done: `retrospective?: string` added to `SprintData` in `types.ts`; `retrospective` state + textarea (2-row, resize-none) added to add-sprint forms in both `SprintDataTable.tsx` and `SprintDataView.tsx`; italic ↩ secondary row rendered below goal in both table bodies; CSV export updated with `Retrospective` column (double-quote escaped); `data.retrospective` i18n key added to EN/ES/BE/RU locales
+- Remaining: #29 (PWA), #30 (Work Profiles team size), #31 (milestone annotations)
+- Next task: implement #30 (Work Profiles team size auto-fill — read work-profiles:savedProfiles on mount; pre-fill teamSize input with profile count; hint "Based on N Work Profiles"; integration.teamSizeFromProfiles i18n key all 4 locales)
 
 ### 2026-06-11 — feat: guided empty state (issue #32)
 - Done: replaced blank `sprints.length === 0` card in `App.tsx` with full onboarding panel — emoji icon, heading, subtitle, numbered 3-step indicator (configure project / add first sprint / watch trends), "Add First Sprint" primary CTA navigating to data tab, "Load sample data" secondary CTA; 6 i18n keys (`dashboard.empty_heading`, `empty_subtitle`, `empty_step1`, `empty_step2`, `empty_step3`, `add_first_sprint`) added to EN/ES/BE/RU locales

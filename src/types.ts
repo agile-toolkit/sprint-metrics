@@ -10,6 +10,7 @@ export interface SprintData {
   mood?: number
   teamSize?: number
   absenceDays?: number
+  retrospective?: string
 }
 
 export interface ProjectConfig {

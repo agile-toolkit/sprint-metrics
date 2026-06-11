@@ -59,7 +59,8 @@
     "healthScore": "Здароўе",
     "healthScoreLow": "Нізкі (< 4)",
     "healthScoreMid": "Сярэдні (4–6.9)",
-    "healthScoreHigh": "Высокі (≥ 7)"
+    "healthScoreHigh": "Высокі (≥ 7)",
+    "retrospective": "Нататкі рэтраспектывы"
   },
   "results": {
     "copyImage": "Капіраваць выяву",
