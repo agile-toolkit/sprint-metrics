@@ -40,11 +40,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 ## Backlog
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
-- [ ] [#30] Integration: Work Profiles → Sprint Metrics team size auto-fill — auto-approved (read work-profiles:savedProfiles on mount; pre-fill teamSize input with profile count; hint "Based on N Work Profiles"; integration.teamSizeFromProfiles i18n key all 4 locales)
-- [ ] [#31] Feature: Sprint milestone/event annotations on velocity chart — auto-approved (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
-- [ ] [#32] UX: Guided empty state with onboarding steps — auto-approved (replace no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" + "Load sample data" CTAs; 6 new i18n keys in all 4 locales)
-- [ ] [#28] Feature: Sprint retrospective notes field — auto-approved (retrospective?: string in SprintData; textarea in add-sprint forms; shown in table, CSV export, print view; data.retrospective i18n key in all 4 locales)
-- [ ] [#29] Technical: PWA offline support via vite-plugin-pwa — auto-approved (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
+- [ ] [#32] UX: Guided empty state with onboarding steps — **approved** — implement: replace `sprints.length === 0` blank card in App.tsx with heading "Track your team's velocity", subtitle, 3-step indicator (configure project / add first sprint / watch trends), "Add First Sprint" (primary CTA) + "Load sample data" (secondary) buttons; 6 i18n keys: `dashboard.empty_heading`, `dashboard.empty_subtitle`, `dashboard.empty_step1`, `dashboard.empty_step2`, `dashboard.empty_step3`, `dashboard.add_first_sprint` in all 4 locales; no new deps
+- [ ] [#30] Integration: Work Profiles → Sprint Metrics team size auto-fill — **approved** (read work-profiles:savedProfiles on mount; pre-fill teamSize input with profile count; hint "Based on N Work Profiles"; integration.teamSizeFromProfiles i18n key all 4 locales)
+- [ ] [#29] Technical: PWA offline support via vite-plugin-pwa — **approved** (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
+- [ ] [#31] Feature: Sprint milestone/event annotations on velocity chart — needs-review (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
+- [ ] [#28] Feature: Sprint retrospective notes field — **research-more** — human feedback (2026-06-11): "We would better implement a new tool"; deferred — research whether to extend Scrum Facilitator retro ceremony or create standalone Retro Board app; localStorage contract TBD
 - [x] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep — implemented (writeLastSession() in App.tsx writes sprint-metrics:lastSession key after each sprint add)
 - [x] [#24] Feature: Velocity forecasting — "When will we finish?" projection — implemented
 - [x] [#25] Feature: Sprint health composite score — implemented
@@ -63,6 +63,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-11 — research: human feedback review + queue #32 for implementation
+- Done: checked all open issues — found #28 (research-more, human wants new tool instead), #29/#30/#32 (approved); commented on #28 noting the "new tool" direction and deferring inline notes; set #32 (Guided empty state) In Progress on project board; updated BRIEF backlog to reflect current labels
+- Remaining: #28 research (standalone retro tool direction); implement #32, #30, #29 (in order)
+- Next task: implement #32 (Guided empty state — replace `sprints.length === 0` card in App.tsx with heading "Track your team's velocity" + subtitle + 3-step indicator + "Add First Sprint" primary CTA + "Load sample data" secondary; add 6 i18n keys `dashboard.empty_heading`, `dashboard.empty_subtitle`, `dashboard.empty_step1`, `dashboard.empty_step2`, `dashboard.empty_step3`, `dashboard.add_first_sprint` to all 4 locales; touch App.tsx + i18n/{en,es,be,ru}.json only; no new deps)
 
 ### 2026-06-08 — feat: Scrum Facilitator session key integration (issue #27)
 - Done: `SM_LAST_SESSION_KEY = 'sprint-metrics:lastSession'` constant added; `writeLastSession(allSprints, config)` helper writes JSON snapshot (projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt) after each `handleAddSprint`; localStorage keys table added to BRIEF.md; closed already-implemented issues #24, #25, #26; auto-approved stale issues #27–#32 with comments on each
