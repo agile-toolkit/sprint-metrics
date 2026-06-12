@@ -47,7 +47,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#31] Feature: Sprint milestone/event annotations on velocity chart — implemented (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
 - [x] [#32] UX: Guided empty state with onboarding steps — implemented (replaced no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" primary CTA → data tab + "Load sample data" secondary; 6 i18n keys in all 4 locales)
 - [x] [#28] Feature: Sprint retrospective notes field — implemented (retrospective?: string in SprintData; textarea in both add-sprint forms; italic ↩ secondary row in table; Retrospective column in CSV export; data.retrospective i18n key in EN/ES/BE/RU)
-- [ ] [#29] Technical: PWA offline support via vite-plugin-pwa — auto-approved (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
+- [x] [#29] Technical: PWA offline support via vite-plugin-pwa — implemented (VitePWA plugin in vite.config.ts; generateSW mode; precaches all dist assets; manifest with green theme, standalone display; PNG icons generated; autoUpdate SW registration)
 - [x] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep — implemented (writeLastSession() in App.tsx writes sprint-metrics:lastSession key after each sprint add)
 - [x] [#24] Feature: Velocity forecasting — "When will we finish?" projection — implemented
 - [x] [#25] Feature: Sprint health composite score — implemented
@@ -66,6 +66,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-12 — feat: PWA offline support (issue #29)
+- Done: installed `vite-plugin-pwa@^1.3.0`; updated `vite.config.ts` with `VitePWA` plugin (generateSW, autoUpdate, full precache); generated `public/pwa-192x192.png` and `public/pwa-512x512.png` icons; web app manifest embedded via plugin with Sprint Metrics name, green theme color `#2563eb`, standalone display, `start_url=/sprint-metrics/`; service worker auto-generated at build (`dist/sw.js`) precaching 11 entries (~902 KiB)
+- Remaining: none
+- Next task: check issues for human feedback; implement #32 (guided empty state with onboarding steps) if still applicable
 
 ### 2026-06-12 — feat: sprint milestone/event annotations (issue #31)
 - Done: `milestone?: string` (max 30 chars) added to `SprintData` in `types.ts`; milestone text input added to add-sprint forms in both `SprintDataTable.tsx` and `SprintDataView.tsx`; amber pill badge 🏁 rendered in table rows below sprint name when milestone set; amber dashed `ReferenceLine` added to `VelocityChart.tsx` and `BurnUpChart.tsx` per sprint with milestone; Milestone column added to CSV export in `App.tsx`; `data.milestone` i18n key added to EN/ES/BE/RU locales
