@@ -3,6 +3,17 @@ import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
 
+function readWorkProfilesCount(): number {
+  try {
+    const raw = localStorage.getItem('work-profiles-data')
+    if (!raw) return 0
+    const arr = JSON.parse(raw)
+    return Array.isArray(arr) ? arr.length : 0
+  } catch {
+    return 0
+  }
+}
+
 interface Props {
   sprints: SprintData[]
   config: ProjectConfig
@@ -30,6 +41,7 @@ export default function SprintDataTable({
   const [showAdd, setShowAdd] = useState(false)
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
+  const [wpProfileCount] = useState(() => readWorkProfilesCount())
 
   const handleImportFromPoker = () => {
     try {
@@ -115,7 +127,7 @@ export default function SprintDataTable({
 
       {/* Actions bar */}
       <div className="flex gap-2 flex-wrap">
-        <button onClick={() => { setName(`Sprint ${sprints.length + 1}`); setShowAdd(v => !v) }} className="btn-primary">
+        <button onClick={() => { setName(`Sprint ${sprints.length + 1}`); if (!showAdd && wpProfileCount > 0) setTeamSize(s => s === 0 ? wpProfileCount : s); setShowAdd(v => !v) }} className="btn-primary">
           + {t('data.add')}
         </button>
         <label className="btn-secondary cursor-pointer">
@@ -177,6 +189,9 @@ export default function SprintDataTable({
             <div>
               <label className="label">{t('data.teamSize')}</label>
               <input type="number" min={0} className="input" value={teamSize || ''} placeholder="—" onChange={e => setTeamSize(Number(e.target.value))} />
+              {wpProfileCount > 0 && (
+                <p className="text-xs text-gray-400 mt-0.5 dark:text-gray-500">{t('integration.teamSizeFromProfiles', { count: wpProfileCount })}</p>
+              )}
             </div>
             <div>
               <label className="label">{t('data.absenceDays')}</label>
