@@ -60,7 +60,8 @@
     "healthScoreLow": "Низкий (< 4)",
     "healthScoreMid": "Средний (4–6.9)",
     "healthScoreHigh": "Высокий (≥ 7)",
-    "retrospective": "Заметки ретроспективы"
+    "retrospective": "Заметки ретроспективы",
+    "milestone": "Веха / Событие"
   },
   "results": {
     "copyImage": "Копировать изображение",

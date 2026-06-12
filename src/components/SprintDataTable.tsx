@@ -35,6 +35,7 @@ export default function SprintDataTable({
   const [carried, setCarried] = useState(0)
   const [goal, setGoal] = useState('')
   const [retrospective, setRetrospective] = useState('')
+  const [milestone, setMilestone] = useState('')
   const [mood, setMood] = useState(0)
   const [teamSize, setTeamSize] = useState(0)
   const [absenceDays, setAbsenceDays] = useState(0)
@@ -71,6 +72,7 @@ export default function SprintDataTable({
       carriedOver: carried,
       goal: goal.trim() || undefined,
       retrospective: retrospective.trim() || undefined,
+      milestone: milestone.trim() || undefined,
       mood: mood > 0 ? mood : undefined,
       teamSize: teamSize > 0 ? teamSize : undefined,
       absenceDays: teamSize > 0 && absenceDays > 0 ? absenceDays : undefined,
@@ -80,6 +82,7 @@ export default function SprintDataTable({
     setCarried(0)
     setGoal('')
     setRetrospective('')
+    setMilestone('')
     setMood(0)
     setTeamSize(0)
     setAbsenceDays(0)
@@ -170,6 +173,10 @@ export default function SprintDataTable({
               <label className="label">{t('data.retrospective')}</label>
               <textarea className="input resize-none" rows={2} value={retrospective} onChange={e => setRetrospective(e.target.value)} placeholder="" />
             </div>
+            <div className="col-span-2 sm:col-span-2">
+              <label className="label">{t('data.milestone')}</label>
+              <input className="input" maxLength={30} value={milestone} onChange={e => setMilestone(e.target.value)} placeholder="" />
+            </div>
             <div className="col-span-2 sm:col-span-4">
               <label className="label">{t('data.mood')}</label>
               <div className="flex gap-1 mt-1">
@@ -231,6 +238,11 @@ export default function SprintDataTable({
                       <tr key={sp.id} className="border-b border-gray-50 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50">
                         <td className="px-4 py-2.5">
                           <span className="font-medium">{sp.name}</span>
+                          {sp.milestone && (
+                            <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                              🏁 {sp.milestone}
+                            </span>
+                          )}
                           {sp.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sp.goal}</span>}
                           {sp.retrospective && <span className="block text-xs text-gray-400 italic dark:text-gray-500">↩ {sp.retrospective}</span>}
                         </td>

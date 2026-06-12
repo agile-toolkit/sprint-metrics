@@ -178,6 +178,17 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
               label={{ value: `★ ${motivatorSnapshot.topMotivators[0]}`, fontSize: 10, fill: '#f97316', position: 'insideTopRight' }}
             />
           )}
+          {sprints.filter(sp => sp.milestone).map(sp => (
+            <ReferenceLine
+              key={`ms-${sp.id}`}
+              yAxisId="sp"
+              x={sp.name}
+              stroke="#d97706"
+              strokeWidth={1.5}
+              strokeDasharray="3 3"
+              label={{ value: `🏁 ${sp.milestone}`, fontSize: 10, fill: '#d97706', position: 'insideTopLeft' }}
+            />
+          ))}
           {hasMood && (
             <Line
               yAxisId="mood"

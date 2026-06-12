@@ -56,6 +56,16 @@ export default function BurnUpChart({ sprints, config }: Props) {
             strokeDasharray="6 3"
             label={{ value: t('dashboard.target'), position: 'insideTopRight', fontSize: 11, fill: '#ef4444' }}
           />
+          {sprints.filter(sp => sp.milestone).map(sp => (
+            <ReferenceLine
+              key={`ms-${sp.id}`}
+              x={sp.name}
+              stroke="#d97706"
+              strokeWidth={1.5}
+              strokeDasharray="3 3"
+              label={{ value: `🏁 ${sp.milestone}`, fontSize: 10, fill: '#d97706', position: 'insideTopLeft' }}
+            />
+          ))}
           <Line
             type="monotone"
             dataKey={t('dashboard.cumulative')}

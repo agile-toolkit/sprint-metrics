@@ -11,6 +11,7 @@ export interface SprintData {
   teamSize?: number
   absenceDays?: number
   retrospective?: string
+  milestone?: string
 }
 
 export interface ProjectConfig {

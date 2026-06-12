@@ -60,7 +60,8 @@
     "healthScoreLow": "Low (< 4)",
     "healthScoreMid": "Medium (4–6.9)",
     "healthScoreHigh": "High (≥ 7)",
-    "retrospective": "Retrospective Notes"
+    "retrospective": "Retrospective Notes",
+    "milestone": "Milestone / Event"
   },
   "results": {
     "copyImage": "Copy Image",
