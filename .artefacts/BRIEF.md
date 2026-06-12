@@ -26,6 +26,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Scrum Facilitator integration — `writeLastSession()` helper in `App.tsx`; writes `sprint-metrics:lastSession` localStorage key after each sprint add; payload: projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt; Scrum Facilitator reads this key during retrospective/review ceremony setup (issue #27)
 - [x] Sprint retrospective notes — `retrospective?: string` added to SprintData; textarea in both SprintDataTable and SprintDataView add-sprint forms; italic ↩ secondary row below goal in both tables; Retrospective column added to CSV export; `data.retrospective` i18n key in EN/ES/BE/RU (issue #28)
 - [x] Work Profiles team size auto-fill — on "Add Sprint" form open, reads `work-profiles-data` localStorage key; pre-fills `teamSize` with profile count if unset; hint "Based on N Work Profiles" shown below teamSize input in both SprintDataTable and SprintDataView; `integration.teamSizeFromProfiles` i18n key in all 4 locales (issue #30)
+- [x] Sprint milestone/event annotations — `milestone?: string` (max 30 chars) added to SprintData; optional text input in both SprintDataTable and SprintDataView add-sprint forms; amber pill badge 🏁 shown in table rows next to sprint name; amber dashed `ReferenceLine` annotation on VelocityChart and BurnUpChart for each sprint with a milestone; Milestone column added to CSV export; `data.milestone` i18n key in EN/ES/BE/RU (issue #31)
 
 ## localStorage keys
 
@@ -43,7 +44,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 
 <!-- Issues awaiting human review; agent appends here during research runs -->
 - [x] [#30] Integration: Work Profiles → Sprint Metrics team size auto-fill — implemented (read work-profiles-data on add-sprint form open; pre-fill teamSize if unset; hint label; integration.teamSizeFromProfiles i18n key all 4 locales)
-- [ ] [#31] Feature: Sprint milestone/event annotations on velocity chart — auto-approved (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
+- [x] [#31] Feature: Sprint milestone/event annotations on velocity chart — implemented (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
 - [x] [#32] UX: Guided empty state with onboarding steps — implemented (replaced no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" primary CTA → data tab + "Load sample data" secondary; 6 i18n keys in all 4 locales)
 - [x] [#28] Feature: Sprint retrospective notes field — implemented (retrospective?: string in SprintData; textarea in both add-sprint forms; italic ↩ secondary row in table; Retrospective column in CSV export; data.retrospective i18n key in EN/ES/BE/RU)
 - [ ] [#29] Technical: PWA offline support via vite-plugin-pwa — auto-approved (service worker precaches app shell; works offline in ceremonies; web app manifest; ~2 kB runtime)
@@ -65,6 +66,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-12 — feat: sprint milestone/event annotations (issue #31)
+- Done: `milestone?: string` (max 30 chars) added to `SprintData` in `types.ts`; milestone text input added to add-sprint forms in both `SprintDataTable.tsx` and `SprintDataView.tsx`; amber pill badge 🏁 rendered in table rows below sprint name when milestone set; amber dashed `ReferenceLine` added to `VelocityChart.tsx` and `BurnUpChart.tsx` per sprint with milestone; Milestone column added to CSV export in `App.tsx`; `data.milestone` i18n key added to EN/ES/BE/RU locales
+- Remaining: #29 (PWA offline mode)
+- Next task: check issues for human feedback; if #29 (PWA via vite-plugin-pwa) approved, implement it; else run research cycle
 
 ### 2026-06-12 — feat: Work Profiles team size auto-fill (issue #30)
 - Done: `readWorkProfilesCount()` helper added to `SprintDataTable.tsx` and `SprintDataView.tsx`; reads `work-profiles-data` localStorage key and counts profiles; teamSize pre-filled with count when "Add Sprint" form opens (if unset); hint "Based on N Work Profiles" shown below teamSize input in both forms; `integration.teamSizeFromProfiles` i18n key added to EN/ES/BE/RU locales

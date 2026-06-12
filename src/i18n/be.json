@@ -60,7 +60,8 @@
     "healthScoreLow": "Нізкі (< 4)",
     "healthScoreMid": "Сярэдні (4–6.9)",
     "healthScoreHigh": "Высокі (≥ 7)",
-    "retrospective": "Нататкі рэтраспектывы"
+    "retrospective": "Нататкі рэтраспектывы",
+    "milestone": "Веха / Падзея"
   },
   "results": {
     "copyImage": "Капіраваць выяву",

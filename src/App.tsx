@@ -94,9 +94,9 @@ function parseCSV(text: string): SprintData[] {
 }
 
 function exportCSV(sprints: SprintData[], projectName: string): void {
-  const header = 'Sprint Name,Planned SP,Completed SP,Carried Over,Goal,Mood,Retrospective\n'
+  const header = 'Sprint Name,Planned SP,Completed SP,Carried Over,Goal,Mood,Retrospective,Milestone\n'
   const rows = sprints.map(s =>
-    [s.name, s.planned, s.completed, s.carriedOver, s.goal ?? '', s.mood ?? '', `"${(s.retrospective ?? '').replace(/"/g, '""')}"`].join(',')
+    [s.name, s.planned, s.completed, s.carriedOver, s.goal ?? '', s.mood ?? '', `"${(s.retrospective ?? '').replace(/"/g, '""')}"`, s.milestone ?? ''].join(',')
   ).join('\n')
   const blob = new Blob([header + rows], { type: 'text/csv' })
   const url = URL.createObjectURL(blob)

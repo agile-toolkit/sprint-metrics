@@ -37,7 +37,7 @@ export default function SprintDataView({
 }: Props) {
   const { t } = useTranslation()
   const [adding, setAdding] = useState(false)
-  const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '', goal: '', retrospective: '' })
+  const [form, setForm] = useState({ name: '', planned: '', completed: '', carriedOver: '', goal: '', retrospective: '', milestone: '' })
   const [formMood, setFormMood] = useState(0)
   const [formTeamSize, setFormTeamSize] = useState(0)
   const [formAbsenceDays, setFormAbsenceDays] = useState(0)
@@ -78,11 +78,12 @@ export default function SprintDataView({
       carriedOver: Number(form.carriedOver) || 0,
       goal: form.goal.trim() || undefined,
       retrospective: form.retrospective.trim() || undefined,
+      milestone: form.milestone.trim() || undefined,
       mood: formMood > 0 ? formMood : undefined,
       teamSize: formTeamSize > 0 ? formTeamSize : undefined,
       absenceDays: formTeamSize > 0 && formAbsenceDays > 0 ? formAbsenceDays : undefined,
     })
-    setForm({ name: '', planned: '', completed: '', carriedOver: '', goal: '', retrospective: '' })
+    setForm({ name: '', planned: '', completed: '', carriedOver: '', goal: '', retrospective: '', milestone: '' })
     setFormMood(0)
     setFormTeamSize(0)
     setFormAbsenceDays(0)
@@ -220,6 +221,15 @@ export default function SprintDataView({
                 onChange={e => setForm(f => ({ ...f, retrospective: e.target.value }))}
               />
             </div>
+            <div className="col-span-2 sm:col-span-2">
+              <label className="label">{t('data.milestone')}</label>
+              <input
+                className="input"
+                maxLength={30}
+                value={form.milestone}
+                onChange={e => setForm(f => ({ ...f, milestone: e.target.value }))}
+              />
+            </div>
             <div className="col-span-2 sm:col-span-4">
               <label className="label">{t('data.mood')}</label>
               <div className="flex gap-1 mt-1">
@@ -286,6 +296,11 @@ export default function SprintDataView({
                       <tr key={sprint.id} className={idx % 2 === 0 ? '' : 'bg-gray-50/80 dark:bg-gray-800/50'}>
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
                           <span className="font-medium">{sprint.name}</span>
+                          {sprint.milestone && (
+                            <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                              🏁 {sprint.milestone}
+                            </span>
+                          )}
                           {sprint.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sprint.goal}</span>}
                           {sprint.retrospective && <span className="block text-xs text-gray-400 italic dark:text-gray-500">↩ {sprint.retrospective}</span>}
                         </td>
