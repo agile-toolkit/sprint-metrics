@@ -3,6 +3,17 @@ import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
 
+function readWorkProfilesCount(): number {
+  try {
+    const raw = localStorage.getItem('work-profiles-data')
+    if (!raw) return 0
+    const arr = JSON.parse(raw)
+    return Array.isArray(arr) ? arr.length : 0
+  } catch {
+    return 0
+  }
+}
+
 interface Props {
   sprints: SprintData[]
   config: ProjectConfig
@@ -33,6 +44,7 @@ export default function SprintDataView({
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const [wpProfileCount] = useState(() => readWorkProfilesCount())
 
   useEffect(() => {
     setLocalConfig(config)
@@ -139,7 +151,7 @@ export default function SprintDataView({
       </div>
 
       <div className="flex gap-2 flex-wrap">
-        <button type="button" onClick={() => setAdding(true)} className="btn-primary">
+        <button type="button" onClick={() => { setAdding(true); if (wpProfileCount > 0 && formTeamSize === 0) setFormTeamSize(wpProfileCount) }} className="btn-primary">
           + {t('data.add')}
         </button>
         <button type="button" onClick={() => fileRef.current?.click()} className="btn-secondary">
@@ -227,6 +239,9 @@ export default function SprintDataView({
             <div>
               <label className="label">{t('data.teamSize')}</label>
               <input type="number" min={0} className="input" value={formTeamSize || ''} placeholder="—" onChange={e => setFormTeamSize(Number(e.target.value))} />
+              {wpProfileCount > 0 && (
+                <p className="text-xs text-gray-400 mt-0.5 dark:text-gray-500">{t('integration.teamSizeFromProfiles', { count: wpProfileCount })}</p>
+              )}
             </div>
             <div>
               <label className="label">{t('data.absenceDays')}</label>
