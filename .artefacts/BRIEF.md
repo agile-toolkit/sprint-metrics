@@ -46,7 +46,10 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#30] Integration: Work Profiles → Sprint Metrics team size auto-fill — implemented (read work-profiles-data on add-sprint form open; pre-fill teamSize if unset; hint label; integration.teamSizeFromProfiles i18n key all 4 locales)
 - [x] [#31] Feature: Sprint milestone/event annotations on velocity chart — implemented (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
 - [x] [#32] UX: Guided empty state with onboarding steps — implemented (replaced no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" primary CTA → data tab + "Load sample data" secondary; 6 i18n keys in all 4 locales)
-- [x] [#28] Feature: Sprint retrospective notes field — implemented (retrospective?: string in SprintData; textarea in both add-sprint forms; italic ↩ secondary row in table; Retrospective column in CSV export; data.retrospective i18n key in EN/ES/BE/RU)
+- [x] [#28] Feature: Sprint retrospective notes field — implemented (retrospective?: string in SprintData; textarea in both add-sprint forms; italic ↩ secondary row in table; Retrospective column in CSV export; data.retrospective i18n key in EN/ES/BE/RU); direction updated: user prefers dedicated retro tool; research-more on deeper integration options
+- [ ] [#43] Integration: 'Start Retrospective' button → Scrum Facilitator deep-link (secondary button on dashboard when sprints exist; updates sprint-metrics:lastSession; opens SF retro ceremony in new tab; integration.startRetro i18n key all 4 locales)
+- [ ] [#44] Feature: Cumulative Flow Diagram (CFD) for Kanban/flow teams (optional todo/inProgress/done counts per sprint; new CFDChart tab; Recharts AreaChart stacked; CSV columns; data.todo/inProgress/done i18n keys)
+- [ ] [#45] Feature: Multi-project portfolio velocity comparison (named project library in localStorage; project switcher in header; portfolio view with side-by-side velocity comparison)
 - [x] [#29] Technical: PWA offline support via vite-plugin-pwa — implemented (VitePWA plugin in vite.config.ts; generateSW mode; precaches all dist assets; manifest with green theme, standalone display; PNG icons generated; autoUpdate SW registration)
 - [x] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep — implemented (writeLastSession() in App.tsx writes sprint-metrics:lastSession key after each sprint add)
 - [x] [#24] Feature: Velocity forecasting — "When will we finish?" projection — implemented
@@ -66,6 +69,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-15 — research: retro tool direction + new issues #43–#45
+- Done: closed implemented issues #30 (Work Profiles team size auto-fill), #31 (milestone annotations), #32 (guided empty state) — all merged previously; set #30/#32 to In Review in project board; updated #28 (research-more) with Options A/B/C analysis for retro tool direction (recommend Option B: "Start Retrospective" deep-link to Scrum Facilitator rather than new app); created 3 new needs-review issues: #43 (Start Retrospective deep-link), #44 (Cumulative Flow Diagram), #45 (multi-project portfolio view); all added to project Backlog
+- Remaining: #28 awaiting human decision on retro tool path (research-more)
+- Next task: check issues for human feedback; if #43/44/45 approved, implement #43 first (Start Retrospective deep-link — touches App.tsx + 4 locale files only)
 
 ### 2026-06-12 — feat: PWA offline support (issue #29)
 - Done: installed `vite-plugin-pwa@^1.3.0`; updated `vite.config.ts` with `VitePWA` plugin (generateSW, autoUpdate, full precache); generated `public/pwa-192x192.png` and `public/pwa-512x512.png` icons; web app manifest embedded via plugin with Sprint Metrics name, green theme color `#2563eb`, standalone display, `start_url=/sprint-metrics/`; service worker auto-generated at build (`dist/sw.js`) precaching 11 entries (~902 KiB)
