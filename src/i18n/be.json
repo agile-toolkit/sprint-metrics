@@ -75,7 +75,8 @@
     "improvementBoardLink": "Адкрыць дошку паляпшэнняў",
     "changePlannerAlert": "Velocity або настрой каманды знізіліся 2+ спрынты запар — магчыма, ёсць сістэмная праблема.",
     "changePlannerLink": "Прааналізаваць у Change Planner",
-    "teamSizeFromProfiles": "На аснове {{count}} працоўных профіляў"
+    "teamSizeFromProfiles": "На аснове {{count}} працоўных профіляў",
+    "startRetro": "Пачаць рэтраспектыву"
   },
   "burndown": {
     "title": "Burn-down спрынту (схематычна)",

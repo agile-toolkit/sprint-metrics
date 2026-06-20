@@ -75,7 +75,8 @@
     "improvementBoardLink": "Открыть доску улучшений",
     "changePlannerAlert": "Velocity или настрой команды снижается 2+ спринта подряд — возможно, есть системная проблема.",
     "changePlannerLink": "Проанализировать в Change Planner",
-    "teamSizeFromProfiles": "На основе {{count}} рабочих профилей"
+    "teamSizeFromProfiles": "На основе {{count}} рабочих профилей",
+    "startRetro": "Начать ретроспективу"
   },
   "burndown": {
     "title": "Burn-down спринта (схематично)",

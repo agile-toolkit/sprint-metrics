@@ -75,7 +75,8 @@
     "improvementBoardLink": "Open Improvement Board",
     "changePlannerAlert": "Velocity or team mood has declined for 2+ consecutive sprints — this may signal a systemic issue.",
     "changePlannerLink": "Review with Change Planner",
-    "teamSizeFromProfiles": "Based on {{count}} Work Profiles"
+    "teamSizeFromProfiles": "Based on {{count}} Work Profiles",
+    "startRetro": "Start Retrospective"
   },
   "burndown": {
     "title": "Sprint burn-down (illustrative)",

@@ -27,6 +27,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Sprint retrospective notes — `retrospective?: string` added to SprintData; textarea in both SprintDataTable and SprintDataView add-sprint forms; italic ↩ secondary row below goal in both tables; Retrospective column added to CSV export; `data.retrospective` i18n key in EN/ES/BE/RU (issue #28)
 - [x] Work Profiles team size auto-fill — on "Add Sprint" form open, reads `work-profiles-data` localStorage key; pre-fills `teamSize` with profile count if unset; hint "Based on N Work Profiles" shown below teamSize input in both SprintDataTable and SprintDataView; `integration.teamSizeFromProfiles` i18n key in all 4 locales (issue #30)
 - [x] Sprint milestone/event annotations — `milestone?: string` (max 30 chars) added to SprintData; optional text input in both SprintDataTable and SprintDataView add-sprint forms; amber pill badge 🏁 shown in table rows next to sprint name; amber dashed `ReferenceLine` annotation on VelocityChart and BurnUpChart for each sprint with a milestone; Milestone column added to CSV export; `data.milestone` i18n key in EN/ES/BE/RU (issue #31)
+- [x] Start Retrospective deep-link — '🔁 Start Retrospective' secondary button added to dashboard action row (visible when sprints.length > 0); calls `writeLastSession()` to refresh `sprint-metrics:lastSession`; opens `https://agile-toolkit.github.io/scrum-facilitator/?ceremony=retro` in a new tab; `integration.startRetro` i18n key in EN/ES/BE/RU (issue #43)
 
 ## localStorage keys
 
@@ -47,7 +48,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#31] Feature: Sprint milestone/event annotations on velocity chart — implemented (milestone?: string in SprintData; optional input in both forms; ReferenceLines on VelocityChart and BurnUpChart; pill badge in table; milestone column in CSV; data.milestone i18n key all 4 locales)
 - [x] [#32] UX: Guided empty state with onboarding steps — implemented (replaced no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" primary CTA → data tab + "Load sample data" secondary; 6 i18n keys in all 4 locales)
 - [x] [#28] Feature: Sprint retrospective notes field — implemented (retrospective?: string in SprintData; textarea in both add-sprint forms; italic ↩ secondary row in table; Retrospective column in CSV export; data.retrospective i18n key in EN/ES/BE/RU); direction updated: user prefers dedicated retro tool; research-more on deeper integration options
-- [ ] [#43] Integration: 'Start Retrospective' button → Scrum Facilitator deep-link (secondary button on dashboard when sprints exist; updates sprint-metrics:lastSession; opens SF retro ceremony in new tab; integration.startRetro i18n key all 4 locales)
+- [x] [#43] Integration: 'Start Retrospective' button → Scrum Facilitator deep-link (secondary button on dashboard when sprints exist; updates sprint-metrics:lastSession; opens SF retro ceremony in new tab; integration.startRetro i18n key all 4 locales)
 - [ ] [#44] Feature: Cumulative Flow Diagram (CFD) for Kanban/flow teams (optional todo/inProgress/done counts per sprint; new CFDChart tab; Recharts AreaChart stacked; CSV columns; data.todo/inProgress/done i18n keys)
 - [ ] [#45] Feature: Multi-project portfolio velocity comparison (named project library in localStorage; project switcher in header; portfolio view with side-by-side velocity comparison)
 - [x] [#29] Technical: PWA offline support via vite-plugin-pwa — implemented (VitePWA plugin in vite.config.ts; generateSW mode; precaches all dist assets; manifest with green theme, standalone display; PNG icons generated; autoUpdate SW registration)
@@ -69,6 +70,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-20 — feat: Start Retrospective deep-link (issue #43)
+- Done: Added '🔁 Start Retrospective' secondary button to dashboard action row in `App.tsx` (visible when `sprints.length > 0`); button calls `writeLastSession(sprints, config)` to refresh `sprint-metrics:lastSession` then opens `https://agile-toolkit.github.io/scrum-facilitator/?ceremony=retro` in a new tab; `integration.startRetro` key added to EN/ES/BE/RU locale files
+- Remaining: #44 (CFD for Kanban teams) and #45 (multi-project portfolio view, approved) still open
+- Next task: check issues for human feedback; implement #45 (multi-project portfolio — named project library in localStorage; project switcher in header; portfolio velocity comparison view) — approved
 
 ### 2026-06-15 — research: retro tool direction + new issues #43–#45
 - Done: closed implemented issues #30 (Work Profiles team size auto-fill), #31 (milestone annotations), #32 (guided empty state) — all merged previously; set #30/#32 to In Review in project board; updated #28 (research-more) with Options A/B/C analysis for retro tool direction (recommend Option B: "Start Retrospective" deep-link to Scrum Facilitator rather than new app); created 3 new needs-review issues: #43 (Start Retrospective deep-link), #44 (Cumulative Flow Diagram), #45 (multi-project portfolio view); all added to project Backlog
