@@ -361,6 +361,15 @@ export default function App() {
                     >
                       🖨️ {t('results.printReport')}
                     </button>
+                    <button
+                      onClick={() => {
+                        writeLastSession(sprints, config);
+                        window.open('https://agile-toolkit.github.io/scrum-facilitator/?ceremony=retro', '_blank');
+                      }}
+                      className="btn-secondary text-sm"
+                    >
+                      🔁 {t('integration.startRetro')}
+                    </button>
                   </>
                 )}
                 {sprints.length === 0 && (

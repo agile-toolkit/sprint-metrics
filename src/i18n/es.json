@@ -75,7 +75,8 @@
     "improvementBoardLink": "Abrir Panel de Mejoras",
     "changePlannerAlert": "La velocidad o el ánimo del equipo ha caído 2+ sprints consecutivos — puede indicar un problema sistémico.",
     "changePlannerLink": "Revisar con Change Planner",
-    "teamSizeFromProfiles": "Basado en {{count}} perfiles de trabajo"
+    "teamSizeFromProfiles": "Basado en {{count}} perfiles de trabajo",
+    "startRetro": "Iniciar Retrospectiva"
   },
   "burndown": {
     "title": "Burn-down del Sprint (ilustrativo)",
