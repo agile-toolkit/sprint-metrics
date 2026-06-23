@@ -1,4 +1,4 @@
-export type Screen = 'dashboard' | 'data' | 'learn'
+export type Screen = 'dashboard' | 'data' | 'learn' | 'portfolio'
 
 export interface SprintData {
   id: string
@@ -18,6 +18,14 @@ export interface ProjectConfig {
   name: string
   targetScope: number
   sprintLengthWeeks: number
+}
+
+export interface ProjectRecord {
+  id: string
+  name: string
+  config: ProjectConfig
+  sprints: SprintData[]
+  createdAt: string
 }
 
 export interface MotivatorSnapshot {

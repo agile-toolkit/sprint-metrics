@@ -33,10 +33,12 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 
 | Key | Written by | Read by | Contents |
 |-----|-----------|---------|----------|
-| `sprint-metrics-sprints` | App.tsx | App.tsx | SprintData[] array |
-| `sprint-metrics-config` | App.tsx | App.tsx | ProjectConfig (name, targetScope, sprintLengthWeeks) |
+| `sprint-metrics-projects` | App.tsx | App.tsx | ProjectRecord[] array (id, name, config, sprints[], createdAt) |
+| `sprint-metrics-active-project` | App.tsx | App.tsx | Active project id string |
+| `sprint-metrics-sprints` | legacy (read-only on migration) | App.tsx | SprintData[] (migrated to sprint-metrics-projects on first load) |
+| `sprint-metrics-config` | legacy (read-only on migration) | App.tsx | ProjectConfig (migrated to sprint-metrics-projects on first load) |
 | `sprint-metrics:motivatorSnapshot` | App.tsx | App.tsx | MotivatorSnapshot (topMotivators, shifts, date) |
-| `sprint-metrics:lastSession` | App.tsx (`writeLastSession`) | agile-toolkit/scrum-facilitator | { projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt } |
+| `sprint-metrics:lastSession` | App.tsx (`writeLastSession`) | agile-toolkit/scrum-facilitator | { projectId, projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt } |
 | `sprintMetrics_planningPoker` | agile-toolkit/planning-poker | App.tsx (SprintDataTable, SprintDataView) | { stories: [{ finalEstimate }] } |
 | `moving-motivators:lastSession` | agile-toolkit/moving-motivators | App.tsx | { topMotivators[], shifts[], date } |
 | `improvement-board-items` | agile-toolkit/improvement-board | App.tsx | ImprovementItem[] with status field |
@@ -50,7 +52,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#28] Feature: Sprint retrospective notes field — implemented (retrospective?: string in SprintData; textarea in both add-sprint forms; italic ↩ secondary row in table; Retrospective column in CSV export; data.retrospective i18n key in EN/ES/BE/RU); direction updated: user prefers dedicated retro tool; research-more on deeper integration options
 - [x] [#43] Integration: 'Start Retrospective' button → Scrum Facilitator deep-link (secondary button on dashboard when sprints exist; updates sprint-metrics:lastSession; opens SF retro ceremony in new tab; integration.startRetro i18n key all 4 locales)
 - [ ] [#44] Feature: Cumulative Flow Diagram (CFD) for Kanban/flow teams (optional todo/inProgress/done counts per sprint; new CFDChart tab; Recharts AreaChart stacked; CSV columns; data.todo/inProgress/done i18n keys)
-- [ ] [#45] Feature: Multi-project portfolio velocity comparison (named project library in localStorage; project switcher in header; portfolio view with side-by-side velocity comparison)
+- [x] [#45] Feature: Multi-project portfolio velocity comparison (named project library in localStorage; project switcher in header; portfolio view with side-by-side velocity comparison)
 - [x] [#29] Technical: PWA offline support via vite-plugin-pwa — implemented (VitePWA plugin in vite.config.ts; generateSW mode; precaches all dist assets; manifest with green theme, standalone display; PNG icons generated; autoUpdate SW registration)
 - [x] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep — implemented (writeLastSession() in App.tsx writes sprint-metrics:lastSession key after each sprint add)
 - [x] [#24] Feature: Velocity forecasting — "When will we finish?" projection — implemented
@@ -70,6 +72,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-23 — feat: multi-project portfolio velocity comparison (issue #45)
+- Done: `ProjectRecord` type added to `types.ts` (id, name, config, sprints[], createdAt); `Screen` type extended with `'portfolio'`; `App.tsx` restructured to use `sprint-metrics-projects` (ProjectRecord[]) and `sprint-metrics-active-project` (active id); migration banner shown when legacy single-project data found; `ProjectSwitcher.tsx` — header dropdown showing current project + project list + Portfolio link + New Project button; `PortfolioView.tsx` — portfolio screen with per-project cards showing last-3-sprint velocity mini bars, health badge, Switch/Delete controls, and New Project CTA; `writeLastSession` now includes `projectId`; `nav.portfolio` and `project.*` i18n keys added to EN/ES/BE/RU locales; package.json bumped to 0.1.2
+- Remaining: #44 (CFD for Kanban teams, needs-review) still open
+- Next task: check issues for human feedback; if #44 (CFD chart) approved implement it; else research cycle
 
 ### 2026-06-20 — feat: Start Retrospective deep-link (issue #43)
 - Done: Added '🔁 Start Retrospective' secondary button to dashboard action row in `App.tsx` (visible when `sprints.length > 0`); button calls `writeLastSession(sprints, config)` to refresh `sprint-metrics:lastSession` then opens `https://agile-toolkit.github.io/scrum-facilitator/?ceremony=retro` in a new tab; `integration.startRetro` key added to EN/ES/BE/RU locale files

@@ -5,7 +5,27 @@
   "nav": {
     "dashboard": "Tablero",
     "data": "Datos del Sprint",
+    "portfolio": "Portafolio",
     "learn": "Aprender"
+  },
+  "project": {
+    "portfolio": "Portafolio de Proyectos",
+    "portfolio_subtitle": "Compara la velocidad de todos tus proyectos",
+    "portfolio_empty": "Añade un segundo proyecto para comparar la velocidad en paralelo.",
+    "new": "Nuevo Proyecto",
+    "new_name_prompt": "Nombre del proyecto",
+    "active": "Activo",
+    "health": "Salud",
+    "last3_velocity": "Últimos 3 sprints",
+    "avg_velocity": "media {{avg}} PS/sprint",
+    "no_sprints": "Sin datos de sprint todavía",
+    "switch": "Cambiar",
+    "delete": "Eliminar proyecto",
+    "delete_confirm": "¿Eliminar el proyecto \"{{name}}\"? Esta acción no se puede deshacer.",
+    "migrate_heading": "¿Guardar los datos de sprint existentes?",
+    "migrate_body": "Encontramos datos de sprint que se pueden guardar como proyecto.",
+    "migrate_save": "Guardar como Proyecto",
+    "migrate_dismiss": "Empezar de Nuevo"
   },
   "dashboard": {
     "title": "Tablero de Sprint",

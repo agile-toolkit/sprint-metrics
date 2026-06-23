@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import html2canvas from 'html2canvas'
-import type { Screen, SprintData, ProjectConfig, MotivatorSnapshot } from './types'
+import type { Screen, SprintData, ProjectConfig, ProjectRecord, MotivatorSnapshot } from './types'
 import { SAMPLE_SPRINTS, SAMPLE_CONFIG } from './data/sample'
 import AppHeader from './components/AppHeader'
 import ThemeToggle from './components/ThemeToggle'
+import ProjectSwitcher from './components/ProjectSwitcher'
+import PortfolioView from './components/PortfolioView'
 import VelocityChart from './components/VelocityChart'
 import BurnUpChart from './components/BurnUpChart'
 import BurnDownChart from './components/BurnDownChart'
@@ -13,11 +15,15 @@ import SprintDataTable from './components/SprintDataTable'
 import SprintDataView from './components/SprintDataView'
 import LearnView from './components/LearnView'
 
-const SPRINTS_KEY = 'sprint-metrics-sprints'
-const CONFIG_KEY = 'sprint-metrics-config'
+const PROJECTS_KEY = 'sprint-metrics-projects'
+const ACTIVE_PROJECT_KEY = 'sprint-metrics-active-project'
+const LEGACY_SPRINTS_KEY = 'sprint-metrics-sprints'
+const LEGACY_CONFIG_KEY = 'sprint-metrics-config'
 const MOTIVATOR_KEY = 'sprint-metrics:motivatorSnapshot'
 const MM_LAST_SESSION_KEY = 'moving-motivators:lastSession'
 const SM_LAST_SESSION_KEY = 'sprint-metrics:lastSession'
+
+const DEFAULT_CONFIG: ProjectConfig = { name: 'My Project', targetScope: 200, sprintLengthWeeks: 2 }
 
 function hasTwoConsecutiveDeclines(values: number[]): boolean {
   const n = values.length
@@ -25,19 +31,54 @@ function hasTwoConsecutiveDeclines(values: number[]): boolean {
   return values[n - 3] > values[n - 2] && values[n - 2] > values[n - 1]
 }
 
-function loadSprints(): SprintData[] {
-  try { return JSON.parse(localStorage.getItem(SPRINTS_KEY) ?? '[]') } catch { return [] }
+function tryParse<T>(raw: string | null, fallback: T): T {
+  if (!raw) return fallback
+  try { return JSON.parse(raw) as T } catch { return fallback }
 }
-function loadConfig(): ProjectConfig {
-  try { return JSON.parse(localStorage.getItem(CONFIG_KEY) ?? 'null') ?? { name: 'My Project', targetScope: 200, sprintLengthWeeks: 2 } } catch { return { name: 'My Project', targetScope: 200, sprintLengthWeeks: 2 } }
+
+function saveProjects(ps: ProjectRecord[]) {
+  localStorage.setItem(PROJECTS_KEY, JSON.stringify(ps))
 }
-function saveSprints(s: SprintData[]) { localStorage.setItem(SPRINTS_KEY, JSON.stringify(s)) }
-function saveConfig(c: ProjectConfig) { localStorage.setItem(CONFIG_KEY, JSON.stringify(c)) }
+
+function initAppState(): { projects: ProjectRecord[]; activeId: string; migrationPending: boolean } {
+  const stored = tryParse<ProjectRecord[] | null>(localStorage.getItem(PROJECTS_KEY), null)
+  if (stored && stored.length > 0) {
+    const savedId = localStorage.getItem(ACTIVE_PROJECT_KEY)
+    const activeId = stored.find(p => p.id === savedId) ? savedId! : stored[0].id
+    return { projects: stored, activeId, migrationPending: false }
+  }
+
+  // Check for legacy single-project data
+  const legacySprints = tryParse<SprintData[]>(localStorage.getItem(LEGACY_SPRINTS_KEY), [])
+  const legacyConfig = tryParse<ProjectConfig>(localStorage.getItem(LEGACY_CONFIG_KEY), DEFAULT_CONFIG)
+
+  if (legacySprints.length > 0) {
+    const migProject: ProjectRecord = {
+      id: crypto.randomUUID(),
+      name: legacyConfig.name || 'My Project',
+      config: legacyConfig,
+      sprints: legacySprints,
+      createdAt: new Date().toISOString(),
+    }
+    return { projects: [migProject], activeId: migProject.id, migrationPending: true }
+  }
+
+  const firstProject: ProjectRecord = {
+    id: crypto.randomUUID(),
+    name: 'My Project',
+    config: DEFAULT_CONFIG,
+    sprints: [],
+    createdAt: new Date().toISOString(),
+  }
+  saveProjects([firstProject])
+  localStorage.setItem(ACTIVE_PROJECT_KEY, firstProject.id)
+  return { projects: [firstProject], activeId: firstProject.id, migrationPending: false }
+}
+
 function loadMotivatorSnapshot(): MotivatorSnapshot | null {
   try {
     const saved = localStorage.getItem(MOTIVATOR_KEY)
     if (saved) return JSON.parse(saved) as MotivatorSnapshot
-    // Auto-detect from Moving Motivators lastSession key
     const mm = localStorage.getItem(MM_LAST_SESSION_KEY)
     if (mm) {
       const parsed = JSON.parse(mm)
@@ -48,12 +89,13 @@ function loadMotivatorSnapshot(): MotivatorSnapshot | null {
   } catch { /* ignore */ }
   return null
 }
+
 function saveMotivatorSnapshot(s: MotivatorSnapshot | null) {
   if (s) localStorage.setItem(MOTIVATOR_KEY, JSON.stringify(s))
   else localStorage.removeItem(MOTIVATOR_KEY)
 }
 
-function writeLastSession(allSprints: SprintData[], config: ProjectConfig): void {
+function writeLastSession(allSprints: SprintData[], config: ProjectConfig, projectId: string): void {
   if (allSprints.length === 0) return
   const last = allSprints[allSprints.length - 1]
   const totalCompleted = allSprints.reduce((s, sp) => s + sp.completed, 0)
@@ -61,7 +103,8 @@ function writeLastSession(allSprints: SprintData[], config: ProjectConfig): void
   const sprintsRemaining = avgVelocity > 0
     ? Math.max(0, Math.ceil((config.targetScope - totalCompleted) / avgVelocity))
     : null
-  const payload = {
+  localStorage.setItem(SM_LAST_SESSION_KEY, JSON.stringify({
+    projectId,
     projectName: config.name,
     lastSprintName: last.name,
     lastSprintGoal: last.goal ?? '',
@@ -72,8 +115,7 @@ function writeLastSession(allSprints: SprintData[], config: ProjectConfig): void
     totalCompleted,
     sprintsRemaining,
     updatedAt: new Date().toISOString(),
-  }
-  localStorage.setItem(SM_LAST_SESSION_KEY, JSON.stringify(payload))
+  }))
 }
 
 function parseCSV(text: string): SprintData[] {
@@ -111,15 +153,25 @@ function exportCSV(sprints: SprintData[], projectName: string): void {
 
 export default function App() {
   const { t } = useTranslation()
+
+  const [initData] = useState(initAppState)
+  const [projects, setProjects] = useState<ProjectRecord[]>(initData.projects)
+  const [activeProjectId, setActiveProjectId] = useState<string>(initData.activeId)
+  const [migrationPending, setMigrationPending] = useState<boolean>(initData.migrationPending)
+  const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
+  const [newProjectName, setNewProjectName] = useState('')
+
   const [screen, setScreen] = useState<Screen>('dashboard')
   const [dataMode, setDataMode] = useState<'quick' | 'detailed'>('quick')
-  const [sprints, setSprints] = useState<SprintData[]>(loadSprints)
-  const [config, setConfig] = useState<ProjectConfig>(loadConfig)
   const [copying, setCopying] = useState(false)
   const [motivatorSnapshot, setMotivatorSnapshot] = useState<MotivatorSnapshot | null>(loadMotivatorSnapshot)
   const [improvementToast, setImprovementToast] = useState<number | null>(null)
   const [changePlannerDismissed, setChangePlannerDismissed] = useState(false)
   const dashboardRef = useRef<HTMLDivElement>(null)
+
+  const activeProject = projects.find(p => p.id === activeProjectId) ?? projects[0]
+  const sprints = activeProject?.sprints ?? []
+  const config = activeProject?.config ?? DEFAULT_CONFIG
 
   useEffect(() => {
     if (!motivatorSnapshot) {
@@ -128,8 +180,76 @@ export default function App() {
     }
   }, [motivatorSnapshot])
 
-  const updateSprints = (next: SprintData[]) => { setSprints(next); saveSprints(next) }
-  const updateConfig = (next: ProjectConfig) => { setConfig(next); saveConfig(next) }
+  const persistProjects = (updated: ProjectRecord[]) => {
+    setProjects(updated)
+    saveProjects(updated)
+  }
+
+  const updateSprints = (next: SprintData[]) => {
+    persistProjects(projects.map(p => p.id === activeProjectId ? { ...p, sprints: next } : p))
+  }
+
+  const updateConfig = (next: ProjectConfig) => {
+    persistProjects(projects.map(p => p.id === activeProjectId ? { ...p, name: next.name, config: next } : p))
+  }
+
+  const switchProject = (id: string) => {
+    setActiveProjectId(id)
+    localStorage.setItem(ACTIVE_PROJECT_KEY, id)
+    setScreen('dashboard')
+    setDataMode('quick')
+    setChangePlannerDismissed(false)
+  }
+
+  const createProject = (name: string) => {
+    const n = name.trim() || 'New Project'
+    const newProject: ProjectRecord = {
+      id: crypto.randomUUID(),
+      name: n,
+      config: { name: n, targetScope: 200, sprintLengthWeeks: 2 },
+      sprints: [],
+      createdAt: new Date().toISOString(),
+    }
+    const updated = [...projects, newProject]
+    persistProjects(updated)
+    localStorage.setItem(ACTIVE_PROJECT_KEY, newProject.id)
+    setActiveProjectId(newProject.id)
+    setScreen('dashboard')
+    setDataMode('quick')
+  }
+
+  const deleteProject = (id: string) => {
+    if (projects.length <= 1) return
+    const updated = projects.filter(p => p.id !== id)
+    persistProjects(updated)
+    if (activeProjectId === id) {
+      const next = updated[0].id
+      setActiveProjectId(next)
+      localStorage.setItem(ACTIVE_PROJECT_KEY, next)
+      setScreen('portfolio')
+    }
+  }
+
+  const confirmMigration = () => {
+    saveProjects(projects)
+    localStorage.setItem(ACTIVE_PROJECT_KEY, activeProjectId)
+    setMigrationPending(false)
+  }
+
+  const dismissMigration = () => {
+    const freshProject: ProjectRecord = {
+      id: crypto.randomUUID(),
+      name: 'My Project',
+      config: DEFAULT_CONFIG,
+      sprints: [],
+      createdAt: new Date().toISOString(),
+    }
+    const updated = [freshProject]
+    persistProjects(updated)
+    setActiveProjectId(freshProject.id)
+    localStorage.setItem(ACTIVE_PROJECT_KEY, freshProject.id)
+    setMigrationPending(false)
+  }
 
   const velocityValues = sprints.map(s => s.completed)
   const moodValues = sprints.filter(s => s.mood != null).map(s => s.mood as number)
@@ -141,7 +261,7 @@ export default function App() {
     setChangePlannerDismissed(false)
     const next = [...sprints, sprint]
     updateSprints(next)
-    writeLastSession(next, config)
+    writeLastSession(next, config, activeProjectId)
     try {
       const raw = localStorage.getItem('improvement-board-items')
       if (raw) {
@@ -191,6 +311,7 @@ export default function App() {
   const navItems: { key: Screen; label: string }[] = [
     { key: 'dashboard', label: t('nav.dashboard') },
     { key: 'data', label: t('nav.data') },
+    { key: 'portfolio', label: t('nav.portfolio') },
     { key: 'learn', label: t('nav.learn') },
   ]
 
@@ -207,11 +328,37 @@ export default function App() {
             onClick: () => setScreen(item.key as Screen),
           }))}
         >
+          <ProjectSwitcher
+            projects={projects}
+            activeProjectId={activeProjectId}
+            onSwitch={switchProject}
+            onCreateProject={() => { setNewProjectName(''); setNewProjectModalOpen(true) }}
+            onPortfolio={() => setScreen('portfolio')}
+          />
           <ThemeToggle />
         </AppHeader>
       </div>
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+        {migrationPending && (
+          <div className="mb-4 card p-4 border-blue-200 bg-blue-50 dark:bg-blue-950/30 dark:border-blue-800">
+            <div className="flex items-start justify-between gap-3 flex-wrap">
+              <div>
+                <h3 className="font-semibold text-blue-900 dark:text-blue-100 text-sm">{t('project.migrate_heading')}</h3>
+                <p className="text-sm text-blue-700 dark:text-blue-300 mt-0.5">{t('project.migrate_body')}</p>
+              </div>
+              <div className="flex gap-2 flex-shrink-0">
+                <button type="button" onClick={dismissMigration} className="btn-secondary text-sm">
+                  {t('project.migrate_dismiss')}
+                </button>
+                <button type="button" onClick={confirmMigration} className="btn-primary text-sm">
+                  {t('project.migrate_save')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {improvementToast !== null && (
           <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
             <span>
@@ -235,6 +382,7 @@ export default function App() {
             </button>
           </div>
         )}
+
         {showChangePlannerAlert && (
           <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/30 dark:text-red-300">
             <span>
@@ -258,7 +406,19 @@ export default function App() {
             </button>
           </div>
         )}
+
         {screen === 'learn' && <LearnView />}
+
+        {screen === 'portfolio' && (
+          <PortfolioView
+            projects={projects}
+            activeProjectId={activeProjectId}
+            onSwitch={switchProject}
+            onDelete={deleteProject}
+            onCreateProject={() => { setNewProjectName(''); setNewProjectModalOpen(true) }}
+          />
+        )}
+
         {screen === 'data' && (
           <div className="space-y-6">
             <div className="flex gap-2 border-b border-gray-200 pb-2 dark:border-gray-700">
@@ -306,6 +466,7 @@ export default function App() {
             )}
           </div>
         )}
+
         {screen === 'dashboard' && (
           <div ref={dashboardRef}>
             <div className="flex items-center justify-between mb-6">
@@ -363,8 +524,8 @@ export default function App() {
                     </button>
                     <button
                       onClick={() => {
-                        writeLastSession(sprints, config);
-                        window.open('https://agile-toolkit.github.io/scrum-facilitator/?ceremony=retro', '_blank');
+                        writeLastSession(sprints, config, activeProjectId)
+                        window.open('https://agile-toolkit.github.io/scrum-facilitator/?ceremony=retro', '_blank')
                       }}
                       className="btn-secondary text-sm"
                     >
@@ -425,7 +586,6 @@ export default function App() {
               </div>
             ) : (
               <>
-                {/* Stats */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
                   {[
                     { label: t('dashboard.stats_velocity'), value: `${avgVelocity} SP` },
@@ -453,6 +613,41 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {newProjectModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          onClick={e => { if (e.target === e.currentTarget) setNewProjectModalOpen(false) }}
+        >
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 w-full max-w-sm mx-4">
+            <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100 mb-4">{t('project.new')}</h2>
+            <input
+              type="text"
+              autoFocus
+              className="input mb-4"
+              placeholder={t('project.new_name_prompt')}
+              value={newProjectName}
+              onChange={e => setNewProjectName(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') { createProject(newProjectName); setNewProjectModalOpen(false) }
+                if (e.key === 'Escape') setNewProjectModalOpen(false)
+              }}
+            />
+            <div className="flex gap-2 justify-end">
+              <button type="button" onClick={() => setNewProjectModalOpen(false)} className="btn-secondary">
+                {t('dataview.cancel')}
+              </button>
+              <button
+                type="button"
+                onClick={() => { createProject(newProjectName); setNewProjectModalOpen(false) }}
+                className="btn-primary"
+              >
+                {t('project.new')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
