@@ -5,7 +5,27 @@
   "nav": {
     "dashboard": "Dashboard",
     "data": "Sprint Data",
+    "portfolio": "Portfolio",
     "learn": "Learn"
+  },
+  "project": {
+    "portfolio": "Project Portfolio",
+    "portfolio_subtitle": "Compare velocity across all your projects",
+    "portfolio_empty": "Add a second project to compare velocity side by side.",
+    "new": "New Project",
+    "new_name_prompt": "Project name",
+    "active": "Active",
+    "health": "Health",
+    "last3_velocity": "Last 3 sprints",
+    "avg_velocity": "avg {{avg}} SP/sprint",
+    "no_sprints": "No sprint data yet",
+    "switch": "Switch",
+    "delete": "Delete project",
+    "delete_confirm": "Delete project \"{{name}}\"? This cannot be undone.",
+    "migrate_heading": "Save your existing sprint data?",
+    "migrate_body": "We found existing sprint data that can be saved as a project.",
+    "migrate_save": "Save as Project",
+    "migrate_dismiss": "Start Fresh"
   },
   "dashboard": {
     "title": "Sprint Dashboard",
