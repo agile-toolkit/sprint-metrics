@@ -41,6 +41,9 @@ export default function SprintDataView({
   const [formMood, setFormMood] = useState(0)
   const [formTeamSize, setFormTeamSize] = useState(0)
   const [formAbsenceDays, setFormAbsenceDays] = useState(0)
+  const [formTodo, setFormTodo] = useState<number | ''>('')
+  const [formInProgress, setFormInProgress] = useState<number | ''>('')
+  const [formDone, setFormDone] = useState<number | ''>('')
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -82,11 +85,17 @@ export default function SprintDataView({
       mood: formMood > 0 ? formMood : undefined,
       teamSize: formTeamSize > 0 ? formTeamSize : undefined,
       absenceDays: formTeamSize > 0 && formAbsenceDays > 0 ? formAbsenceDays : undefined,
+      todo: formTodo !== '' ? Number(formTodo) : undefined,
+      inProgress: formInProgress !== '' ? Number(formInProgress) : undefined,
+      done: formDone !== '' ? Number(formDone) : undefined,
     })
     setForm({ name: '', planned: '', completed: '', carriedOver: '', goal: '', retrospective: '', milestone: '' })
     setFormMood(0)
     setFormTeamSize(0)
     setFormAbsenceDays(0)
+    setFormTodo('')
+    setFormInProgress('')
+    setFormDone('')
     setAdding(false)
   }
 
@@ -256,6 +265,23 @@ export default function SprintDataView({
             <div>
               <label className="label">{t('data.absenceDays')}</label>
               <input type="number" min={0} className="input" value={formAbsenceDays || ''} placeholder="—" disabled={formTeamSize === 0} onChange={e => setFormAbsenceDays(Number(e.target.value))} />
+            </div>
+            <div className="col-span-2 border-t border-gray-200 dark:border-gray-700 pt-3 mt-1">
+              <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-wide">{t('nav.cfd')} — {t('dashboard.cfd_optional')}</p>
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="label">{t('data.todo')}</label>
+                  <input type="number" min={0} className="input" value={formTodo} placeholder="—" onChange={e => setFormTodo(e.target.value === '' ? '' : Number(e.target.value))} />
+                </div>
+                <div>
+                  <label className="label">{t('data.inProgress')}</label>
+                  <input type="number" min={0} className="input" value={formInProgress} placeholder="—" onChange={e => setFormInProgress(e.target.value === '' ? '' : Number(e.target.value))} />
+                </div>
+                <div>
+                  <label className="label">{t('data.done')}</label>
+                  <input type="number" min={0} className="input" value={formDone} placeholder="—" onChange={e => setFormDone(e.target.value === '' ? '' : Number(e.target.value))} />
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex gap-2">

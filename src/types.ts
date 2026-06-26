@@ -1,4 +1,4 @@
-export type Screen = 'dashboard' | 'data' | 'learn' | 'portfolio'
+export type Screen = 'dashboard' | 'data' | 'learn' | 'portfolio' | 'cfd'
 
 export interface SprintData {
   id: string
@@ -12,6 +12,9 @@ export interface SprintData {
   absenceDays?: number
   retrospective?: string
   milestone?: string
+  todo?: number
+  inProgress?: number
+  done?: number
 }
 
 export interface ProjectConfig {

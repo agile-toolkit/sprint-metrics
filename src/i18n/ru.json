@@ -6,6 +6,7 @@
     "dashboard": "Дашборд",
     "data": "Данные спринтов",
     "portfolio": "Портфолио",
+    "cfd": "Kanban Поток",
     "learn": "Обучение"
   },
   "project": {
@@ -47,7 +48,11 @@
     "completed": "Выполнено",
     "cumulative": "Накоп. выполнено",
     "target": "Целевой объём",
-    "avg_velocity": "Сред. velocity"
+    "avg_velocity": "Сред. velocity",
+    "cfd_title": "Диаграмма совокупного потока",
+    "cfd_nodata": "Добавляйте данные потока (К выполнению / В процессе / Готово) при записи спринтов.",
+    "cfd_items": "Элементы",
+    "cfd_optional": "необязательно"
   },
   "data": {
     "title": "Данные спринтов",
@@ -81,7 +86,10 @@
     "healthScoreMid": "Средний (4–6.9)",
     "healthScoreHigh": "Высокий (≥ 7)",
     "retrospective": "Заметки ретроспективы",
-    "milestone": "Веха / Событие"
+    "milestone": "Веха / Событие",
+    "todo": "К выполнению",
+    "inProgress": "В процессе",
+    "done": "Готово (CFD)"
   },
   "results": {
     "copyImage": "Копировать изображение",

@@ -6,6 +6,7 @@
     "dashboard": "Dashboard",
     "data": "Sprint Data",
     "portfolio": "Portfolio",
+    "cfd": "Kanban Flow",
     "learn": "Learn"
   },
   "project": {
@@ -47,7 +48,11 @@
     "completed": "Completed",
     "cumulative": "Cumulative Done",
     "target": "Target Scope",
-    "avg_velocity": "Avg Velocity"
+    "avg_velocity": "Avg Velocity",
+    "cfd_title": "Cumulative Flow Diagram",
+    "cfd_nodata": "Add flow data (To Do / In Progress / Done) when recording sprints to see the CFD.",
+    "cfd_items": "Items",
+    "cfd_optional": "optional"
   },
   "data": {
     "title": "Sprint Data",
@@ -81,7 +86,10 @@
     "healthScoreMid": "Medium (4–6.9)",
     "healthScoreHigh": "High (≥ 7)",
     "retrospective": "Retrospective Notes",
-    "milestone": "Milestone / Event"
+    "milestone": "Milestone / Event",
+    "todo": "To Do",
+    "inProgress": "In Progress",
+    "done": "Done (CFD)"
   },
   "results": {
     "copyImage": "Copy Image",

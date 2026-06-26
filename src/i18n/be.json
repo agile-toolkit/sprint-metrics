@@ -6,6 +6,7 @@
     "dashboard": "Дашборд",
     "data": "Дадзеныя спрынту",
     "portfolio": "Партфоліа",
+    "cfd": "Kanban Паток",
     "learn": "Навучанне"
   },
   "project": {
@@ -47,7 +48,11 @@
     "completed": "Выканана",
     "cumulative": "Назапаш. выканана",
     "target": "Мэтавы аб'ём",
-    "avg_velocity": "Сярэдн. velocity"
+    "avg_velocity": "Сярэдн. velocity",
+    "cfd_title": "Дыяграма сукупнага патоку",
+    "cfd_nodata": "Дадайце дадзеныя патоку (Трэба зрабіць / У працэсе / Зроблена) пры запісе спрынтаў.",
+    "cfd_items": "Элементы",
+    "cfd_optional": "неабавязкова"
   },
   "data": {
     "title": "Дадзеныя спрынту",
@@ -81,7 +86,10 @@
     "healthScoreMid": "Сярэдні (4–6.9)",
     "healthScoreHigh": "Высокі (≥ 7)",
     "retrospective": "Нататкі рэтраспектывы",
-    "milestone": "Веха / Падзея"
+    "milestone": "Веха / Падзея",
+    "todo": "Трэба зрабіць",
+    "inProgress": "У працэсе",
+    "done": "Зроблена (CFD)"
   },
   "results": {
     "copyImage": "Капіраваць выяву",
