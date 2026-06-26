@@ -51,7 +51,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#32] UX: Guided empty state with onboarding steps — implemented (replaced no-data blank card with heading+subtitle, 3-step indicator, "Add First Sprint" primary CTA → data tab + "Load sample data" secondary; 6 i18n keys in all 4 locales)
 - [x] [#28] Feature: Sprint retrospective notes field — implemented (retrospective?: string in SprintData; textarea in both add-sprint forms; italic ↩ secondary row in table; Retrospective column in CSV export; data.retrospective i18n key in EN/ES/BE/RU); direction updated: user prefers dedicated retro tool; research-more on deeper integration options
 - [x] [#43] Integration: 'Start Retrospective' button → Scrum Facilitator deep-link (secondary button on dashboard when sprints exist; updates sprint-metrics:lastSession; opens SF retro ceremony in new tab; integration.startRetro i18n key all 4 locales)
-- [ ] [#44] Feature: Cumulative Flow Diagram (CFD) for Kanban/flow teams (optional todo/inProgress/done counts per sprint; new CFDChart tab; Recharts AreaChart stacked; CSV columns; data.todo/inProgress/done i18n keys)
+- [x] [#44] Feature: Cumulative Flow Diagram (CFD) for Kanban/flow teams (optional todo/inProgress/done counts per sprint; new CFDChart tab; Recharts AreaChart stacked; CSV columns; data.todo/inProgress/done i18n keys)
 - [x] [#45] Feature: Multi-project portfolio velocity comparison (named project library in localStorage; project switcher in header; portfolio view with side-by-side velocity comparison)
 - [x] [#29] Technical: PWA offline support via vite-plugin-pwa — implemented (VitePWA plugin in vite.config.ts; generateSW mode; precaches all dist assets; manifest with green theme, standalone display; PNG icons generated; autoUpdate SW registration)
 - [x] [#27] Integration: Sprint Metrics → Scrum Facilitator ceremony prep — implemented (writeLastSession() in App.tsx writes sprint-metrics:lastSession key after each sprint add)
@@ -72,6 +72,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-26 — feat: Cumulative Flow Diagram for Kanban teams (issue #44)
+- Done: `todo?`, `inProgress?`, `done?` added to SprintData type; `'cfd'` added to Screen type; `CFDChart.tsx` created (Recharts AreaChart with stacked areas: done=green, inProgress=blue, todo=gray; no-data empty state); "Kanban Flow" tab added to navItems in App.tsx; CFD screen added to App.tsx render; 3 optional numeric inputs (To Do / In Progress / Done) added to add-sprint forms in SprintDataTable.tsx and SprintDataView.tsx (under CFD optional section divider); CSV export updated with 3 new columns; `nav.cfd`, `data.todo`, `data.inProgress`, `data.done`, `dashboard.cfd_title`, `dashboard.cfd_nodata`, `dashboard.cfd_items`, `dashboard.cfd_optional` i18n keys added to EN/ES/BE/RU locales; closed already-implemented issues #43 (Start Retro deep-link), #45 (portfolio view), #28 (retro notes); auto-approved #44 at 11 days
+- Remaining: none
+- Next task: check issues for human feedback; research cycle if no approved items pending
 
 ### 2026-06-23 — feat: multi-project portfolio velocity comparison (issue #45)
 - Done: `ProjectRecord` type added to `types.ts` (id, name, config, sprints[], createdAt); `Screen` type extended with `'portfolio'`; `App.tsx` restructured to use `sprint-metrics-projects` (ProjectRecord[]) and `sprint-metrics-active-project` (active id); migration banner shown when legacy single-project data found; `ProjectSwitcher.tsx` — header dropdown showing current project + project list + Portfolio link + New Project button; `PortfolioView.tsx` — portfolio screen with per-project cards showing last-3-sprint velocity mini bars, health badge, Switch/Delete controls, and New Project CTA; `writeLastSession` now includes `projectId`; `nav.portfolio` and `project.*` i18n keys added to EN/ES/BE/RU locales; package.json bumped to 0.1.2

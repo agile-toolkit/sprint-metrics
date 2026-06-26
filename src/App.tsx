@@ -14,6 +14,7 @@ import ForecastView from './components/ForecastView'
 import SprintDataTable from './components/SprintDataTable'
 import SprintDataView from './components/SprintDataView'
 import LearnView from './components/LearnView'
+import CFDChart from './components/CFDChart'
 
 const PROJECTS_KEY = 'sprint-metrics-projects'
 const ACTIVE_PROJECT_KEY = 'sprint-metrics-active-project'
@@ -136,9 +137,9 @@ function parseCSV(text: string): SprintData[] {
 }
 
 function exportCSV(sprints: SprintData[], projectName: string): void {
-  const header = 'Sprint Name,Planned SP,Completed SP,Carried Over,Goal,Mood,Retrospective,Milestone\n'
+  const header = 'Sprint Name,Planned SP,Completed SP,Carried Over,Goal,Mood,Retrospective,Milestone,To Do,In Progress,Done\n'
   const rows = sprints.map(s =>
-    [s.name, s.planned, s.completed, s.carriedOver, s.goal ?? '', s.mood ?? '', `"${(s.retrospective ?? '').replace(/"/g, '""')}"`, s.milestone ?? ''].join(',')
+    [s.name, s.planned, s.completed, s.carriedOver, s.goal ?? '', s.mood ?? '', `"${(s.retrospective ?? '').replace(/"/g, '""')}"`, s.milestone ?? '', s.todo ?? '', s.inProgress ?? '', s.done ?? ''].join(',')
   ).join('\n')
   const blob = new Blob([header + rows], { type: 'text/csv' })
   const url = URL.createObjectURL(blob)
@@ -311,6 +312,7 @@ export default function App() {
   const navItems: { key: Screen; label: string }[] = [
     { key: 'dashboard', label: t('nav.dashboard') },
     { key: 'data', label: t('nav.data') },
+    { key: 'cfd', label: t('nav.cfd') },
     { key: 'portfolio', label: t('nav.portfolio') },
     { key: 'learn', label: t('nav.learn') },
   ]
@@ -408,6 +410,13 @@ export default function App() {
         )}
 
         {screen === 'learn' && <LearnView />}
+
+        {screen === 'cfd' && (
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">{t('nav.cfd')}</h1>
+            <CFDChart sprints={sprints} />
+          </div>
+        )}
 
         {screen === 'portfolio' && (
           <PortfolioView

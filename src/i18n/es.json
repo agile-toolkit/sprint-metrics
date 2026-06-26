@@ -6,6 +6,7 @@
     "dashboard": "Tablero",
     "data": "Datos del Sprint",
     "portfolio": "Portafolio",
+    "cfd": "Flujo Kanban",
     "learn": "Aprender"
   },
   "project": {
@@ -47,7 +48,11 @@
     "completed": "Completado",
     "cumulative": "Acumulado",
     "target": "Alcance Objetivo",
-    "avg_velocity": "Vel. Media"
+    "avg_velocity": "Vel. Media",
+    "cfd_title": "Diagrama de Flujo Acumulado",
+    "cfd_nodata": "Añade datos de flujo (Por Hacer / En Progreso / Hecho) al registrar sprints para ver el CFD.",
+    "cfd_items": "Elementos",
+    "cfd_optional": "opcional"
   },
   "data": {
     "title": "Datos del Sprint",
@@ -81,7 +86,10 @@
     "healthScoreMid": "Medio (4–6.9)",
     "healthScoreHigh": "Alto (≥ 7)",
     "retrospective": "Notas de retrospectiva",
-    "milestone": "Hito / Evento"
+    "milestone": "Hito / Evento",
+    "todo": "Por Hacer",
+    "inProgress": "En Progreso",
+    "done": "Hecho (CFD)"
   },
   "results": {
     "copyImage": "Copiar imagen",

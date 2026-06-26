@@ -39,6 +39,9 @@ export default function SprintDataTable({
   const [mood, setMood] = useState(0)
   const [teamSize, setTeamSize] = useState(0)
   const [absenceDays, setAbsenceDays] = useState(0)
+  const [todo, setTodo] = useState<number | ''>('')
+  const [inProgress, setInProgress] = useState<number | ''>('')
+  const [done, setDone] = useState<number | ''>('')
   const [showAdd, setShowAdd] = useState(false)
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
@@ -76,6 +79,9 @@ export default function SprintDataTable({
       mood: mood > 0 ? mood : undefined,
       teamSize: teamSize > 0 ? teamSize : undefined,
       absenceDays: teamSize > 0 && absenceDays > 0 ? absenceDays : undefined,
+      todo: todo !== '' ? Number(todo) : undefined,
+      inProgress: inProgress !== '' ? Number(inProgress) : undefined,
+      done: done !== '' ? Number(done) : undefined,
     })
     setName(`Sprint ${sprints.length + 2}`)
     setCompleted(0)
@@ -86,6 +92,9 @@ export default function SprintDataTable({
     setMood(0)
     setTeamSize(0)
     setAbsenceDays(0)
+    setTodo('')
+    setInProgress('')
+    setDone('')
     setShowAdd(false)
   }
 
@@ -203,6 +212,23 @@ export default function SprintDataTable({
             <div>
               <label className="label">{t('data.absenceDays')}</label>
               <input type="number" min={0} className="input" value={absenceDays || ''} placeholder="—" disabled={teamSize === 0} onChange={e => setAbsenceDays(Number(e.target.value))} />
+            </div>
+            <div className="col-span-2 sm:col-span-4 border-t border-gray-200 dark:border-gray-700 pt-3 mt-1">
+              <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-wide">{t('nav.cfd')} — {t('dashboard.cfd_optional')}</p>
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="label">{t('data.todo')}</label>
+                  <input type="number" min={0} className="input" value={todo} placeholder="—" onChange={e => setTodo(e.target.value === '' ? '' : Number(e.target.value))} />
+                </div>
+                <div>
+                  <label className="label">{t('data.inProgress')}</label>
+                  <input type="number" min={0} className="input" value={inProgress} placeholder="—" onChange={e => setInProgress(e.target.value === '' ? '' : Number(e.target.value))} />
+                </div>
+                <div>
+                  <label className="label">{t('data.done')}</label>
+                  <input type="number" min={0} className="input" value={done} placeholder="—" onChange={e => setDone(e.target.value === '' ? '' : Number(e.target.value))} />
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex gap-2 mt-3">
