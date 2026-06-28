@@ -66,12 +66,20 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#15] Feature: CSV export of sprint data — implemented
 - [x] [#16] Feature: Team capacity normalization — implemented
 - [x] [#17] Integration: Improvement Board → Sprint Metrics retrospective link — implemented
+- [ ] [#49] Feature: Inline sprint editing — click existing row to edit all fields in place; `onUpdateSprint` prop; no new deps
+- [ ] [#50] Integration: Kanban Designer → CFD auto-fill card counts from `kanban-designer:currentBoard` localStorage key; hint label; positional column mapping; no new deps
+- [ ] [#51] Technical: Recharts tooltip dark mode — `useIsDarkMode()` hook + `contentStyle` on all 4 chart Tooltip components; `src/utils/theme.ts` (new); no new deps
 
 ## Tech notes
 
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-28 — research: inline sprint editing + CFD auto-fill + dark mode tooltip fix
+- Done: closed #44 (CFD — already implemented in ac85c13); created #49 (inline sprint editing), #50 (Kanban Designer → CFD auto-fill), #51 (Recharts tooltip dark mode fix); all labeled needs-review
+- Remaining: none — awaiting human review on #49–#51
+- Next task: check issues for human feedback; if any of #49 (inline edit), #50 (CFD Kanban auto-fill), #51 (tooltip dark mode) approved implement first approved; else research cycle
 
 ### 2026-06-26 — feat: Cumulative Flow Diagram for Kanban teams (issue #44)
 - Done: `todo?`, `inProgress?`, `done?` added to SprintData type; `'cfd'` added to Screen type; `CFDChart.tsx` created (Recharts AreaChart with stacked areas: done=green, inProgress=blue, todo=gray; no-data empty state); "Kanban Flow" tab added to navItems in App.tsx; CFD screen added to App.tsx render; 3 optional numeric inputs (To Do / In Progress / Done) added to add-sprint forms in SprintDataTable.tsx and SprintDataView.tsx (under CFD optional section divider); CSV export updated with 3 new columns; `nav.cfd`, `data.todo`, `data.inProgress`, `data.done`, `dashboard.cfd_title`, `dashboard.cfd_nodata`, `dashboard.cfd_items`, `dashboard.cfd_optional` i18n keys added to EN/ES/BE/RU locales; closed already-implemented issues #43 (Start Retro deep-link), #45 (portfolio view), #28 (retro notes); auto-approved #44 at 11 days
