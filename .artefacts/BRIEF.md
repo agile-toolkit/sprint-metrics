@@ -69,12 +69,24 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [ ] [#49] Feature: Inline sprint editing — click existing row to edit all fields in place; `onUpdateSprint` prop; no new deps
 - [ ] [#50] Integration: Kanban Designer → CFD auto-fill card counts from `kanban-designer:currentBoard` localStorage key; hint label; positional column mapping; no new deps
 - [ ] [#51] Technical: Recharts tooltip dark mode — `useIsDarkMode()` hook + `contentStyle` on all 4 chart Tooltip components; `src/utils/theme.ts` (new); no new deps
+- [ ] [#52] Integration: Scrum Facilitator → Sprint Metrics retro notes import — read `scrum-facilitator-history` localStorage; offer to pre-fill `retrospective` field from most recent retro session's sticky notes; integration.importRetroNotes i18n key; no new deps
+- [ ] [#53] Feature: Quarterly rollup view — group sprints by quarter (positional batching via sprintLengthWeeks); new QuarterlyView.tsx tab; per-quarter totals + averages + embedded sparkline; i18n keys; no new deps
+- [ ] [#54] Technical: Accessible data tables beneath Recharts charts — `sr-only` `<table>` sibling in each of 4 chart components; `role="img" aria-hidden="true"` on ResponsiveContainer; no new deps
 
 ## Tech notes
 
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-06-30 — research: Scrum Facilitator retro import + quarterly rollup + a11y charts
+- Done: checked open issues #49, #50, #51 — all needs-review, only 2 days old (auto-approve threshold 2026-07-05); no approved/incomplete/changes-requested labels; ran new research cycle
+- Created 3 new needs-review issues:
+  - #52 Integration: Scrum Facilitator retro notes import (read scrum-facilitator-history, pre-fill retrospective field from sticky notes, importRetroNotes i18n key)
+  - #53 Feature: Quarterly rollup view (QuarterlyView.tsx, group by sprintLengthWeeks batching, per-quarter KPIs + sparklines)
+  - #54 Technical: Accessible data tables under charts (sr-only table in each chart, role=img aria-hidden on SVG wrapper)
+- Remaining: #49/#50/#51 await human review
+- Next task: check issues for human feedback; auto-approve #49/#50/#51 on 2026-07-05 if still needs-review and implement first; else research cycle
 
 ### 2026-06-28 — research: inline sprint editing + CFD auto-fill + dark mode tooltip fix
 - Done: closed #44 (CFD — already implemented in ac85c13); created #49 (inline sprint editing), #50 (Kanban Designer → CFD auto-fill), #51 (Recharts tooltip dark mode fix); all labeled needs-review
