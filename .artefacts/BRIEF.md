@@ -72,12 +72,25 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [ ] [#52] Integration: Scrum Facilitator → Sprint Metrics retro notes import — read `scrum-facilitator-history` localStorage; offer to pre-fill `retrospective` field from most recent retro session's sticky notes; integration.importRetroNotes i18n key; no new deps
 - [ ] [#53] Feature: Quarterly rollup view — group sprints by quarter (positional batching via sprintLengthWeeks); new QuarterlyView.tsx tab; per-quarter totals + averages + embedded sparkline; i18n keys; no new deps
 - [ ] [#54] Technical: Accessible data tables beneath Recharts charts — `sr-only` `<table>` sibling in each of 4 chart components; `role="img" aria-hidden="true"` on ResponsiveContainer; no new deps
+- [ ] [#55] Technical: Code-split html2canvas — dynamic `import()` in Copy Image handler instead of static top-level import; no new deps
+- [ ] [#56] Integration: Team Identity → Sprint Metrics team signature on dashboard — read `team-identity:lastSession`; symbol+teamName badge in header linking to Team Identity; integration.teamIdentityBadge i18n key; no new deps
+- [ ] [#57] UX: Undo toast for sprint deletion — soft-delete with 5s "Undo" toast before permanent removal; companion to #49 inline editing; data.deleteUndo/deleteUndoAction i18n keys; no new deps
 
 ## Tech notes
 
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-07-02 — research: html2canvas code-split + Team Identity badge + delete undo toast
+- Done: checked open issues #49–#54 — all needs-review, none yet past their 7-day auto-approve threshold (#49/#50/#51 due 2026-07-05, #52/#53/#54 due 2026-07-07); no approved/incomplete/changes-requested/research-more labels present; CI green (Deploy to GitHub Pages, run 28454913640); ran new research cycle
+- Created 3 new needs-review issues:
+  - #55 Technical: Code-split html2canvas (dynamic import in Copy Image handler; currently a static top-level import inflating main bundle for a rarely-used feature)
+  - #56 Integration: Team Identity → Sprint Metrics team signature (read `team-identity:lastSession`; symbol+teamName badge in header)
+  - #57 UX: Undo toast for sprint deletion (soft-delete + 5s undo window; companion to #49 inline edit)
+- Note: GitHub Projects v2 board Status field could not be set for #55–#57 — no `gh` CLI access in this environment (blocked, "GitHub access is not enabled for this session") and no Projects v2 mutation tool exposed via the GitHub MCP server (`list_issue_fields`/`issue_write.issue_fields` only cover org-level custom fields — Priority/Effort/dates — not the per-repo Project "Status" single-select). Relying on `needs-review` label per prior salary-formula precedent.
+- Remaining: #49–#57 all await human review
+- Next task: check issues for human feedback; auto-approve #49/#50/#51 on 2026-07-05 if still needs-review and implement first approved; #52/#53/#54 due 2026-07-07; #55/#56/#57 created this run — await review; else research cycle
 
 ### 2026-06-30 — research: Scrum Facilitator retro import + quarterly rollup + a11y charts
 - Done: checked open issues #49, #50, #51 — all needs-review, only 2 days old (auto-approve threshold 2026-07-05); no approved/incomplete/changes-requested labels; ran new research cycle
