@@ -14,11 +14,46 @@ function readWorkProfilesCount(): number {
   }
 }
 
+interface EditFormState {
+  name: string
+  planned: number
+  completed: number
+  carriedOver: number
+  goal: string
+  retrospective: string
+  milestone: string
+  mood: number
+  teamSize: number
+  absenceDays: number
+  todo: number | ''
+  inProgress: number | ''
+  done: number | ''
+}
+
+function toEditForm(sp: SprintData): EditFormState {
+  return {
+    name: sp.name,
+    planned: sp.planned,
+    completed: sp.completed,
+    carriedOver: sp.carriedOver,
+    goal: sp.goal ?? '',
+    retrospective: sp.retrospective ?? '',
+    milestone: sp.milestone ?? '',
+    mood: sp.mood ?? 0,
+    teamSize: sp.teamSize ?? 0,
+    absenceDays: sp.absenceDays ?? 0,
+    todo: sp.todo ?? '',
+    inProgress: sp.inProgress ?? '',
+    done: sp.done ?? '',
+  }
+}
+
 interface Props {
   sprints: SprintData[]
   config: ProjectConfig
   onAddSprint: (sprint: SprintData) => void
   onDeleteSprint: (id: string) => void
+  onUpdateSprint: (sprint: SprintData) => void
   onUpdateConfig: (config: ProjectConfig) => void
   onClear: () => void
   onImportCSV: (text: string) => void
@@ -26,7 +61,7 @@ interface Props {
 }
 
 export default function SprintDataTable({
-  sprints, config, onAddSprint, onDeleteSprint, onUpdateConfig, onClear, onImportCSV, onExportCSV,
+  sprints, config, onAddSprint, onDeleteSprint, onUpdateSprint, onUpdateConfig, onClear, onImportCSV, onExportCSV,
 }: Props) {
   const { t } = useTranslation()
   const [name, setName] = useState('')
@@ -46,6 +81,40 @@ export default function SprintDataTable({
   const [localConfig, setLocalConfig] = useState(config)
   const [pokerMsg, setPokerMsg] = useState<string | null>(null)
   const [wpProfileCount] = useState(() => readWorkProfilesCount())
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [edit, setEdit] = useState<EditFormState | null>(null)
+
+  const startEdit = (sp: SprintData) => {
+    setShowAdd(false)
+    setEditingId(sp.id)
+    setEdit(toEditForm(sp))
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null)
+    setEdit(null)
+  }
+
+  const saveEdit = () => {
+    if (!edit || !editingId || !edit.name.trim()) return
+    onUpdateSprint({
+      id: editingId,
+      name: edit.name.trim(),
+      planned: edit.planned,
+      completed: edit.completed,
+      carriedOver: edit.carriedOver,
+      goal: edit.goal.trim() || undefined,
+      retrospective: edit.retrospective.trim() || undefined,
+      milestone: edit.milestone.trim() || undefined,
+      mood: edit.mood > 0 ? edit.mood : undefined,
+      teamSize: edit.teamSize > 0 ? edit.teamSize : undefined,
+      absenceDays: edit.teamSize > 0 && edit.absenceDays > 0 ? edit.absenceDays : undefined,
+      todo: edit.todo !== '' ? Number(edit.todo) : undefined,
+      inProgress: edit.inProgress !== '' ? Number(edit.inProgress) : undefined,
+      done: edit.done !== '' ? Number(edit.done) : undefined,
+    })
+    cancelEdit()
+  }
 
   const handleImportFromPoker = () => {
     try {
@@ -139,7 +208,7 @@ export default function SprintDataTable({
 
       {/* Actions bar */}
       <div className="flex gap-2 flex-wrap">
-        <button onClick={() => { setName(`Sprint ${sprints.length + 1}`); if (!showAdd && wpProfileCount > 0) setTeamSize(s => s === 0 ? wpProfileCount : s); setShowAdd(v => !v) }} className="btn-primary">
+        <button onClick={() => { cancelEdit(); setName(`Sprint ${sprints.length + 1}`); if (!showAdd && wpProfileCount > 0) setTeamSize(s => s === 0 ? wpProfileCount : s); setShowAdd(v => !v) }} className="btn-primary">
           + {t('data.add')}
         </button>
         <label className="btn-secondary cursor-pointer">
@@ -233,7 +302,7 @@ export default function SprintDataTable({
           </div>
           <div className="flex gap-2 mt-3">
             <button onClick={handleAdd} disabled={!name.trim()} className="btn-primary text-sm">{t('data.add')}</button>
-            <button onClick={() => setShowAdd(false)} className="btn-ghost">Cancel</button>
+            <button onClick={() => setShowAdd(false)} className="btn-ghost">{t('data.cancel')}</button>
           </div>
         </div>
       )}
@@ -260,6 +329,89 @@ export default function SprintDataTable({
                   {sprints.map(sp => {
                     const score = computeHealthScore(sp, maxNV, config)
                     const color = getHealthColor(score)
+                    if (sp.id === editingId && edit) {
+                      return (
+                        <tr key={sp.id} className="border-b border-gray-50 bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
+                          <td colSpan={7} className="px-4 py-3">
+                            <div onKeyDown={e => e.key === 'Escape' && cancelEdit()} className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                              <div>
+                                <label className="label">{t('data.sprint_name')}</label>
+                                <input autoFocus className="input" value={edit.name} onChange={e => setEdit(v => v && ({ ...v, name: e.target.value }))} onKeyDown={e => e.key === 'Enter' && saveEdit()} />
+                              </div>
+                              <div>
+                                <label className="label">{t('data.planned')}</label>
+                                <input type="number" min={0} className="input" value={edit.planned} onChange={e => setEdit(v => v && ({ ...v, planned: Number(e.target.value) }))} />
+                              </div>
+                              <div>
+                                <label className="label">{t('data.completed')}</label>
+                                <input type="number" min={0} className="input" value={edit.completed} onChange={e => setEdit(v => v && ({ ...v, completed: Number(e.target.value) }))} />
+                              </div>
+                              <div>
+                                <label className="label">{t('data.carried')}</label>
+                                <input type="number" min={0} className="input" value={edit.carriedOver} onChange={e => setEdit(v => v && ({ ...v, carriedOver: Number(e.target.value) }))} />
+                              </div>
+                              <div className="col-span-2 sm:col-span-4">
+                                <label className="label">{t('data.goal')}</label>
+                                <input className="input" value={edit.goal} onChange={e => setEdit(v => v && ({ ...v, goal: e.target.value }))} />
+                              </div>
+                              <div className="col-span-2 sm:col-span-4">
+                                <label className="label">{t('data.retrospective')}</label>
+                                <textarea className="input resize-none" rows={2} value={edit.retrospective} onChange={e => setEdit(v => v && ({ ...v, retrospective: e.target.value }))} />
+                              </div>
+                              <div className="col-span-2 sm:col-span-2">
+                                <label className="label">{t('data.milestone')}</label>
+                                <input className="input" maxLength={30} value={edit.milestone} onChange={e => setEdit(v => v && ({ ...v, milestone: e.target.value }))} />
+                              </div>
+                              <div className="col-span-2 sm:col-span-4">
+                                <label className="label">{t('data.mood')}</label>
+                                <div className="flex gap-1 mt-1">
+                                  {(['😫', '😟', '😐', '🙂', '😄'] as const).map((emoji, i) => (
+                                    <button
+                                      key={i}
+                                      type="button"
+                                      onClick={() => setEdit(v => v && ({ ...v, mood: v.mood === i + 1 ? 0 : i + 1 }))}
+                                      className={`text-xl px-2 py-1 rounded transition-colors ${edit.mood === i + 1 ? 'bg-brand-100 ring-2 ring-brand-400 dark:bg-brand-700/20 dark:ring-brand-500' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                                      title={`${i + 1}/5`}
+                                    >
+                                      {emoji}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                              <div>
+                                <label className="label">{t('data.teamSize')}</label>
+                                <input type="number" min={0} className="input" value={edit.teamSize || ''} placeholder="—" onChange={e => setEdit(v => v && ({ ...v, teamSize: Number(e.target.value) }))} />
+                              </div>
+                              <div>
+                                <label className="label">{t('data.absenceDays')}</label>
+                                <input type="number" min={0} className="input" value={edit.absenceDays || ''} placeholder="—" disabled={edit.teamSize === 0} onChange={e => setEdit(v => v && ({ ...v, absenceDays: Number(e.target.value) }))} />
+                              </div>
+                              <div className="col-span-2 sm:col-span-4 border-t border-gray-200 dark:border-gray-700 pt-3 mt-1">
+                                <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-wide">{t('nav.cfd')} — {t('dashboard.cfd_optional')}</p>
+                                <div className="grid grid-cols-3 gap-3">
+                                  <div>
+                                    <label className="label">{t('data.todo')}</label>
+                                    <input type="number" min={0} className="input" value={edit.todo} placeholder="—" onChange={e => setEdit(v => v && ({ ...v, todo: e.target.value === '' ? '' : Number(e.target.value) }))} />
+                                  </div>
+                                  <div>
+                                    <label className="label">{t('data.inProgress')}</label>
+                                    <input type="number" min={0} className="input" value={edit.inProgress} placeholder="—" onChange={e => setEdit(v => v && ({ ...v, inProgress: e.target.value === '' ? '' : Number(e.target.value) }))} />
+                                  </div>
+                                  <div>
+                                    <label className="label">{t('data.done')}</label>
+                                    <input type="number" min={0} className="input" value={edit.done} placeholder="—" onChange={e => setEdit(v => v && ({ ...v, done: e.target.value === '' ? '' : Number(e.target.value) }))} />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex gap-2 mt-3">
+                              <button onClick={saveEdit} disabled={!edit.name.trim()} className="btn-primary text-sm">{t('data.save')}</button>
+                              <button onClick={cancelEdit} className="btn-ghost">{t('data.cancel')}</button>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    }
                     return (
                       <tr key={sp.id} className="border-b border-gray-50 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50">
                         <td className="px-4 py-2.5">
@@ -286,7 +438,8 @@ export default function SprintDataTable({
                             {score.toFixed(1)}
                           </span>
                         </td>
-                        <td className="px-4 py-2.5 text-right">
+                        <td className="px-4 py-2.5 text-right whitespace-nowrap">
+                          <button onClick={() => startEdit(sp)} className="text-gray-300 hover:text-brand-500 text-xs mr-2 dark:text-gray-600 dark:hover:text-brand-400" title={t('data.edit')} aria-label={t('data.edit')}>✏️</button>
                           <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs dark:text-gray-700 dark:hover:text-red-400" title={t('data.delete')}>✕</button>
                         </td>
                       </tr>
