@@ -28,6 +28,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] Work Profiles team size auto-fill — on "Add Sprint" form open, reads `work-profiles-data` localStorage key; pre-fills `teamSize` with profile count if unset; hint "Based on N Work Profiles" shown below teamSize input in both SprintDataTable and SprintDataView; `integration.teamSizeFromProfiles` i18n key in all 4 locales (issue #30)
 - [x] Sprint milestone/event annotations — `milestone?: string` (max 30 chars) added to SprintData; optional text input in both SprintDataTable and SprintDataView add-sprint forms; amber pill badge 🏁 shown in table rows next to sprint name; amber dashed `ReferenceLine` annotation on VelocityChart and BurnUpChart for each sprint with a milestone; Milestone column added to CSV export; `data.milestone` i18n key in EN/ES/BE/RU (issue #31)
 - [x] Start Retrospective deep-link — '🔁 Start Retrospective' secondary button added to dashboard action row (visible when sprints.length > 0); calls `writeLastSession()` to refresh `sprint-metrics:lastSession`; opens `https://agile-toolkit.github.io/scrum-facilitator/?ceremony=retro` in a new tab; `integration.startRetro` i18n key in EN/ES/BE/RU (issue #43)
+- [x] Inline sprint editing — `onUpdateSprint` prop added to `App.tsx`/`SprintDataTable.tsx`/`SprintDataView.tsx`; clicking the new ✏️ button on a sprint row expands it into the same field set as the add-sprint form (pre-filled), with Save/Cancel actions; Escape key also cancels; only one row editable at a time (opening Add or editing another row closes the current edit); `data.edit`, `data.save`, `data.cancel` i18n keys added to all 4 locales (issue #49)
 
 ## localStorage keys
 
@@ -66,7 +67,7 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - [x] [#15] Feature: CSV export of sprint data — implemented
 - [x] [#16] Feature: Team capacity normalization — implemented
 - [x] [#17] Integration: Improvement Board → Sprint Metrics retrospective link — implemented
-- [ ] [#49] Feature: Inline sprint editing — click existing row to edit all fields in place; `onUpdateSprint` prop; no new deps
+- [x] [#49] Feature: Inline sprint editing — click existing row to edit all fields in place; `onUpdateSprint` prop; no new deps — implemented
 - [ ] [#50] Integration: Kanban Designer → CFD auto-fill card counts from `kanban-designer:currentBoard` localStorage key; hint label; positional column mapping; no new deps
 - [ ] [#51] Technical: Recharts tooltip dark mode — `useIsDarkMode()` hook + `contentStyle` on all 4 chart Tooltip components; `src/utils/theme.ts` (new); no new deps
 - [ ] [#52] Integration: Scrum Facilitator → Sprint Metrics retro notes import — read `scrum-facilitator-history` localStorage; offer to pre-fill `retrospective` field from most recent retro session's sticky notes; integration.importRetroNotes i18n key; no new deps
@@ -81,6 +82,11 @@ Sprint metrics dashboard: velocity, burn-down / burn-up, forecast, XLSX import (
 - Rollup may warn on large chunks; optional `manualChunks` later.
 
 ## Agent Log
+
+### 2026-07-05 — feat: inline sprint editing (issue #49)
+- Done: checked open issues #49–#57 — #49/#50/#51 reached the 7-day needs-review auto-approve threshold today (created 2026-06-28); auto-approved all three (Research/UX-improvement type, no breaking-change scope) and commented on each with reasoning; implemented #49 first. `EditFormState`/`toEditForm()` + `startEdit`/`cancelEdit`/`saveEdit` added to both `SprintDataTable.tsx` and `SprintDataView.tsx`; new `onUpdateSprint: (sprint: SprintData) => void` prop wired through `App.tsx` (`updateSprints(sprints.map(...))`); clicking the new ✏️ button expands that row into a full edit form (same field set as Add Sprint: name/planned/completed/carried/goal/retrospective/milestone/mood/teamSize/absenceDays/todo/inProgress/done) rendered via a `colSpan` row; Save commits via `onUpdateSprint`, Cancel or Escape reverts with no change; opening Add Sprint or starting a different row's edit closes any in-progress edit (single-editable-row invariant); `data.edit`/`data.save`/`data.cancel` i18n keys added to EN/ES/BE/RU (also wired the previously-hardcoded "Cancel" string in `SprintDataTable.tsx`'s add form to `data.cancel`). Verified interactively in both Quick entry and Detailed table modes via a Playwright smoke test (add → edit → save persists change; edit → Escape discards change) before committing. `npm run build` passes.
+- Remaining: #50 (Kanban CFD auto-fill) and #51 (Recharts dark tooltip) auto-approved this run but not yet implemented; #52/#53/#54 reach threshold 2026-07-07; #55/#56/#57 not yet stale
+- Next task: check issues for human feedback; implement #50 (Kanban Designer → CFD auto-fill card counts from `kanban-designer:currentBoard`) next since already approved; else #51; #52/#53/#54 due 2026-07-07; #55/#56/#57 await review
 
 ### 2026-07-02 — research: html2canvas code-split + Team Identity badge + delete undo toast
 - Done: checked open issues #49–#54 — all needs-review, none yet past their 7-day auto-approve threshold (#49/#50/#51 due 2026-07-05, #52/#53/#54 due 2026-07-07); no approved/incomplete/changes-requested/research-more labels present; CI green (Deploy to GitHub Pages, run 28454913640); ran new research cycle

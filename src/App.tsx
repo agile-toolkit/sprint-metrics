@@ -456,6 +456,7 @@ export default function App() {
                 config={config}
                 onAddSprint={handleAddSprint}
                 onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
+                onUpdateSprint={sprint => updateSprints(sprints.map(s => s.id === sprint.id ? sprint : s))}
                 onUpdateConfig={updateConfig}
                 onClear={() => updateSprints([])}
                 onImportCSV={text => updateSprints(parseCSV(text))}
@@ -467,6 +468,7 @@ export default function App() {
                 config={config}
                 onAddSprint={handleAddSprint}
                 onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
+                onUpdateSprint={sprint => updateSprints(sprints.map(s => s.id === sprint.id ? sprint : s))}
                 onUpdateConfig={updateConfig}
                 onClear={() => updateSprints([])}
                 onImportCSV={text => updateSprints(parseCSV(text))}
