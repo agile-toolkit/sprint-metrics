@@ -14,6 +14,35 @@ function readWorkProfilesCount(): number {
   }
 }
 
+interface KanbanCfdCounts {
+  boardName: string
+  todo: number
+  inProgress: number
+  done: number
+}
+
+function readKanbanCfdCounts(): KanbanCfdCounts | null {
+  try {
+    const raw = localStorage.getItem('kanban-designer:currentBoard')
+    if (!raw) return null
+    const board = JSON.parse(raw)
+    const columns = board?.columns
+    if (!Array.isArray(columns) || columns.length === 0) return null
+    const cardCount = (col: unknown) => {
+      const cards = (col as { cards?: unknown[] })?.cards
+      return Array.isArray(cards) ? cards.length : 0
+    }
+    const todo = cardCount(columns[0])
+    const done = columns.length > 1 ? cardCount(columns[columns.length - 1]) : 0
+    const inProgress = columns.length > 2
+      ? columns.slice(1, -1).reduce((sum: number, col: unknown) => sum + cardCount(col), 0)
+      : 0
+    return { boardName: typeof board.boardName === 'string' ? board.boardName : '', todo, inProgress, done }
+  } catch {
+    return null
+  }
+}
+
 interface EditFormState {
   name: string
   planned: number
@@ -86,6 +115,8 @@ export default function SprintDataView({
   const [wpProfileCount] = useState(() => readWorkProfilesCount())
   const [editingId, setEditingId] = useState<string | null>(null)
   const [edit, setEdit] = useState<EditFormState | null>(null)
+  const [kanbanCfd] = useState(() => readKanbanCfdCounts())
+  const [showKanbanHint, setShowKanbanHint] = useState(false)
 
   useEffect(() => {
     setLocalConfig(config)
@@ -231,7 +262,17 @@ export default function SprintDataView({
       </div>
 
       <div className="flex gap-2 flex-wrap">
-        <button type="button" onClick={() => { cancelEdit(); setAdding(true); if (wpProfileCount > 0 && formTeamSize === 0) setFormTeamSize(wpProfileCount) }} className="btn-primary">
+        <button type="button" onClick={() => {
+          cancelEdit()
+          setAdding(true)
+          if (wpProfileCount > 0 && formTeamSize === 0) setFormTeamSize(wpProfileCount)
+          if (kanbanCfd) {
+            if (formTodo === '') setFormTodo(kanbanCfd.todo)
+            if (formInProgress === '') setFormInProgress(kanbanCfd.inProgress)
+            if (formDone === '') setFormDone(kanbanCfd.done)
+            setShowKanbanHint(true)
+          }
+        }} className="btn-primary">
           + {t('data.add')}
         </button>
         <button type="button" onClick={() => fileRef.current?.click()} className="btn-secondary">
@@ -352,6 +393,12 @@ export default function SprintDataView({
                   <input type="number" min={0} className="input" value={formDone} placeholder="—" onChange={e => setFormDone(e.target.value === '' ? '' : Number(e.target.value))} />
                 </div>
               </div>
+              {showKanbanHint && kanbanCfd && (
+                <p className="text-xs text-brand-600 mt-1.5 flex items-center gap-1.5">
+                  {t('integration.kanbanCfdHint', { boardName: kanbanCfd.boardName })}
+                  <button type="button" onClick={() => setShowKanbanHint(false)} className="text-gray-300 hover:text-gray-500 dark:text-gray-600 dark:hover:text-gray-400" aria-label={t('dataview.cancel')}>×</button>
+                </p>
+              )}
             </div>
           </div>
           <div className="flex gap-2">

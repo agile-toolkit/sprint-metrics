@@ -107,6 +107,7 @@
     "changePlannerAlert": "Velocity или настрой команды снижается 2+ спринта подряд — возможно, есть системная проблема.",
     "changePlannerLink": "Проанализировать в Change Planner",
     "teamSizeFromProfiles": "На основе {{count}} рабочих профилей",
+    "kanbanCfdHint": "Автозаполнено из {{boardName}} — при необходимости скорректируйте",
     "startRetro": "Начать ретроспективу"
   },
   "burndown": {

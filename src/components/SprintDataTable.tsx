@@ -14,6 +14,35 @@ function readWorkProfilesCount(): number {
   }
 }
 
+interface KanbanCfdCounts {
+  boardName: string
+  todo: number
+  inProgress: number
+  done: number
+}
+
+function readKanbanCfdCounts(): KanbanCfdCounts | null {
+  try {
+    const raw = localStorage.getItem('kanban-designer:currentBoard')
+    if (!raw) return null
+    const board = JSON.parse(raw)
+    const columns = board?.columns
+    if (!Array.isArray(columns) || columns.length === 0) return null
+    const cardCount = (col: unknown) => {
+      const cards = (col as { cards?: unknown[] })?.cards
+      return Array.isArray(cards) ? cards.length : 0
+    }
+    const todo = cardCount(columns[0])
+    const done = columns.length > 1 ? cardCount(columns[columns.length - 1]) : 0
+    const inProgress = columns.length > 2
+      ? columns.slice(1, -1).reduce((sum: number, col: unknown) => sum + cardCount(col), 0)
+      : 0
+    return { boardName: typeof board.boardName === 'string' ? board.boardName : '', todo, inProgress, done }
+  } catch {
+    return null
+  }
+}
+
 interface EditFormState {
   name: string
   planned: number
@@ -83,6 +112,8 @@ export default function SprintDataTable({
   const [wpProfileCount] = useState(() => readWorkProfilesCount())
   const [editingId, setEditingId] = useState<string | null>(null)
   const [edit, setEdit] = useState<EditFormState | null>(null)
+  const [kanbanCfd] = useState(() => readKanbanCfdCounts())
+  const [showKanbanHint, setShowKanbanHint] = useState(false)
 
   const startEdit = (sp: SprintData) => {
     setShowAdd(false)
@@ -208,7 +239,18 @@ export default function SprintDataTable({
 
       {/* Actions bar */}
       <div className="flex gap-2 flex-wrap">
-        <button onClick={() => { cancelEdit(); setName(`Sprint ${sprints.length + 1}`); if (!showAdd && wpProfileCount > 0) setTeamSize(s => s === 0 ? wpProfileCount : s); setShowAdd(v => !v) }} className="btn-primary">
+        <button onClick={() => {
+          cancelEdit()
+          setName(`Sprint ${sprints.length + 1}`)
+          if (!showAdd && wpProfileCount > 0) setTeamSize(s => s === 0 ? wpProfileCount : s)
+          if (!showAdd && kanbanCfd) {
+            setTodo(v => v === '' ? kanbanCfd.todo : v)
+            setInProgress(v => v === '' ? kanbanCfd.inProgress : v)
+            setDone(v => v === '' ? kanbanCfd.done : v)
+            setShowKanbanHint(true)
+          }
+          setShowAdd(v => !v)
+        }} className="btn-primary">
           + {t('data.add')}
         </button>
         <label className="btn-secondary cursor-pointer">
@@ -298,6 +340,12 @@ export default function SprintDataTable({
                   <input type="number" min={0} className="input" value={done} placeholder="—" onChange={e => setDone(e.target.value === '' ? '' : Number(e.target.value))} />
                 </div>
               </div>
+              {showKanbanHint && kanbanCfd && (
+                <p className="text-xs text-brand-600 mt-1.5 flex items-center gap-1.5">
+                  {t('integration.kanbanCfdHint', { boardName: kanbanCfd.boardName })}
+                  <button type="button" onClick={() => setShowKanbanHint(false)} className="text-gray-300 hover:text-gray-500 dark:text-gray-600 dark:hover:text-gray-400" aria-label={t('data.cancel')}>×</button>
+                </p>
+              )}
             </div>
           </div>
           <div className="flex gap-2 mt-3">
