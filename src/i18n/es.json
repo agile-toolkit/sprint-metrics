@@ -107,6 +107,7 @@
     "changePlannerAlert": "La velocidad o el ánimo del equipo ha caído 2+ sprints consecutivos — puede indicar un problema sistémico.",
     "changePlannerLink": "Revisar con Change Planner",
     "teamSizeFromProfiles": "Basado en {{count}} perfiles de trabajo",
+    "kanbanCfdHint": "Autocompletado desde {{boardName}} — ajusta si es necesario",
     "startRetro": "Iniciar Retrospectiva"
   },
   "burndown": {
