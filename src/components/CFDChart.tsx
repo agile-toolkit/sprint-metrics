@@ -4,6 +4,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import type { SprintData } from '../types'
+import { useIsDarkMode } from '../utils/theme'
 
 interface Props {
   sprints: SprintData[]
@@ -11,6 +12,7 @@ interface Props {
 
 export default function CFDChart({ sprints }: Props) {
   const { t } = useTranslation()
+  const isDark = useIsDarkMode()
 
   const cfdSprints = sprints.filter(
     s => s.todo != null || s.inProgress != null || s.done != null,
@@ -55,8 +57,9 @@ export default function CFDChart({ sprints }: Props) {
             label={{ value: t('dashboard.cfd_items'), angle: -90, position: 'insideLeft', style: { fontSize: 11 } }}
           />
           <Tooltip
-            contentStyle={{ fontSize: 12, borderRadius: 8 }}
-            wrapperClassName="dark:!bg-gray-800 dark:!border-gray-700"
+            contentStyle={isDark
+              ? { fontSize: 12, borderRadius: 8, backgroundColor: '#1f2937', border: '1px solid #374151', color: '#f9fafb' }
+              : { fontSize: 12, borderRadius: 8 }}
           />
           <Legend wrapperStyle={{ fontSize: 12 }} />
           <Area
