@@ -6,6 +6,7 @@ import {
 } from 'recharts'
 import type { SprintData, MotivatorSnapshot, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel } from '../utils/healthScore'
+import { useIsDarkMode } from '../utils/theme'
 
 export function ChartWrapper({
   title,
@@ -55,6 +56,7 @@ interface Props {
 
 export default function VelocityChart({ sprints, motivatorSnapshot, config }: Props) {
   const { t } = useTranslation()
+  const isDark = useIsDarkMode()
 
   const avgVelocity = sprints.length > 0
     ? Math.round(sprints.reduce((s, sp) => s + sp.completed, 0) / sprints.length)
@@ -156,7 +158,10 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
           {hasEnoughHealth && hasMood && (
             <YAxis yAxisId="health" orientation="right" domain={[0, 10]} hide />
           )}
-          <Tooltip formatter={tooltipFormatter} />
+          <Tooltip
+            formatter={tooltipFormatter}
+            contentStyle={isDark ? { backgroundColor: '#1f2937', border: '1px solid #374151', color: '#f9fafb' } : undefined}
+          />
           <Legend
             wrapperStyle={{ fontSize: 12 }}
             formatter={(value) =>

@@ -4,6 +4,7 @@ import {
   ReferenceLine, ResponsiveContainer,
 } from 'recharts'
 import type { SprintData, ProjectConfig } from '../types'
+import { useIsDarkMode } from '../utils/theme'
 
 interface Props {
   sprints: SprintData[]
@@ -12,6 +13,7 @@ interface Props {
 
 export default function BurnUpChart({ sprints, config }: Props) {
   const { t } = useTranslation()
+  const isDark = useIsDarkMode()
 
   let cumulative = 0
   const data = sprints.map(sp => {
@@ -48,7 +50,7 @@ export default function BurnUpChart({ sprints, config }: Props) {
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis dataKey="name" tick={{ fontSize: 11 }} />
           <YAxis domain={[0, Math.max(config.targetScope * 1.05, cumulative * 1.1)]} tick={{ fontSize: 11 }} />
-          <Tooltip />
+          <Tooltip contentStyle={isDark ? { backgroundColor: '#1f2937', border: '1px solid #374151', color: '#f9fafb' } : undefined} />
           <Legend wrapperStyle={{ fontSize: 12 }} />
           <ReferenceLine
             y={config.targetScope}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import type { SprintData } from '../types'
 import { ChartWrapper, NoData } from './VelocityChart'
+import { useIsDarkMode } from '../utils/theme'
 
 interface Props {
   sprints: SprintData[]
@@ -10,6 +11,7 @@ interface Props {
 
 export default function BurnDownChart({ sprints }: Props) {
   const { t } = useTranslation()
+  const isDark = useIsDarkMode()
   const [selectedIdx, setSelectedIdx] = useState(0)
 
   if (sprints.length === 0) {
@@ -62,7 +64,7 @@ export default function BurnDownChart({ sprints }: Props) {
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
           <XAxis dataKey="day" tick={{ fontSize: 11 }} />
           <YAxis tick={{ fontSize: 12 }} />
-          <Tooltip />
+          <Tooltip contentStyle={isDark ? { backgroundColor: '#1f2937', border: '1px solid #374151', color: '#f9fafb' } : undefined} />
           <Legend />
           <Line
             type="monotone"
