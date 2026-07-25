@@ -1,0 +1,4 @@
+# Changelog
+
+## Unreleased
+- Docs-only: added `.artefacts/GOAL.md` and `.artefacts/ROADMAP.md`, filled in README with dev commands / localStorage keys / tech notes, added this CHANGELOG. No behavior change — documents existing functionality that previously only lived in `.artefacts/BRIEF.md`.
