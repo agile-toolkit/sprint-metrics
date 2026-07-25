@@ -4,7 +4,7 @@ A sprint metrics dashboard for Scrum and Kanban teams — velocity, burn-down/bu
 
 Part of the [Agile Tools](https://github.com/bthos) suite built on Management 3.0 and ICAgile source materials.
 
-See `.artefacts/GOAL.md` for why this app exists and `.artefacts/ROADMAP.md` for what's queued next.
+See `GOAL.md` for why this app exists and `ROADMAP.md` for what's queued next.
 
 ## Stack
 React 18 · TypeScript · Vite · Tailwind CSS · Recharts · react-i18next (EN/ES/BE/RU)
