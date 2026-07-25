@@ -26,3 +26,11 @@ sits downstream of every other app, so it gets richer as the suite gets used.
 - Never presents a metric without the context needed to read it honestly.
 
 *Repo: `agile-toolkit/sprint-metrics`*
+
+---
+
+## Latitude
+
+Every goal above names an outcome, not a mechanism. Any roadmap that moves a
+signal without crossing a boundary is fair game — including approaches nobody
+in this category has tried. Invention is expected, not merely permitted.
