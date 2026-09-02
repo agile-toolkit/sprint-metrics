@@ -2,7 +2,7 @@
 
 A sprint metrics dashboard for Scrum and Kanban teams — velocity, burn-down/burn-up, Cumulative Flow Diagrams, and finish-date forecasts, entirely client-side with no backend. It reads and writes localStorage keys shared with the rest of the Agile Toolkit suite (Planning Poker, Scrum Facilitator, Moving Motivators, and more) so ceremony data doesn't need to be re-typed between tools.
 
-Part of the [Agile Tools](https://github.com/bthos) suite built on Management 3.0 and ICAgile source materials.
+Part of the [Agile Tools](https://github.com/bthos) suite built on ICAgile source materials.
 
 See `GOAL.md` for why this app exists and `ROADMAP.md` for what's queued next.
 
@@ -15,6 +15,7 @@ npm install
 npm run dev       # start Vite dev server
 npm run build     # tsc typecheck + production build
 npm run preview   # preview the production build locally
+npm test          # run the vitest suite
 ```
 
 ## Deploy
@@ -41,6 +42,7 @@ Note: the `theme` localStorage key (light/dark preference, written by `ThemeTogg
 - **Charts:** Recharts (`VelocityChart`, `BurnDownChart`, `BurnUpChart`, `CFDChart`) — `VelocityChart` is a `ComposedChart` with up to three optional right-axis overlays (mood, normalized velocity, health score) layered onto the base bar chart.
 - **Cross-app integrations:** all one-way localStorage reads/writes, no network calls — see the table above and `.artefacts/BRIEF.md` for the full contract list (Planning Poker, Moving Motivators, Improvement Board, Change Planner, Scrum Facilitator, Work Profiles, Kanban Designer).
 - **PWA:** `vite-plugin-pwa` (`generateSW`, autoUpdate) precaches the app shell for offline use during ceremonies.
+- **Tests:** `vitest` + `jsdom`. `App.tsx`'s pure logic (project init/migration, motivator-snapshot read/write, last-session summary, CSV import/export, the two-consecutive-declines alert check) is extracted into `src/sprintData.ts` so it's testable without mounting the component tree — see `src/sprintData.test.ts`.
 - **Sprint deletion:** soft-delete with a 5s undo toast (`App.tsx`'s `handleDeleteSprint`/`undoDeleteSprint`) — the sprint is removed from `sprint-metrics-projects` immediately (no visual lag) but held in `lastDeleted` state for a 5-second grace window, re-insertable at its original index via the toast's Undo button. In-memory only, no new localStorage key. Only one undo is tracked at a time — deleting a second sprint while a toast is showing commits the first delete immediately.
 
 ## Source materials

@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 0.2.1 — Remove Management 3.0 ref; fix invisible brand colors; first tests (2026-09-02)
+
+- **content**: removed a stray "Management 3.0" mention from `README.md`'s
+  suite tagline.
+- **fix**: `brand-200`/`brand-300`/`brand-800`/`brand-900` were referenced
+  in application code but never defined in `tailwind.config.js` — the same
+  invisible-color bug found across the rest of the suite. Completed the
+  `brand` scale with Tailwind's own `emerald` values.
+- **test**: extracted `App.tsx`'s pure logic (project init/migration,
+  motivator-snapshot handling, last-session summary write, CSV
+  import/export, the two-consecutive-declines alert check) into
+  `src/sprintData.ts`. Added `vitest` + `jsdom` (this repo's first
+  automated test coverage) and 21 tests. `npm test` now passes cleanly.
+
 ## 0.2.0 — E4: Sprint deletion safety (2026-09-02)
 
 - **feat**: soft-delete with a 5-second "Undo" toast for sprint deletion.

@@ -11,6 +11,8 @@ None — idle. See `## Next epics` below.
 3. **E3: Chart accessibility and bundle size** — serves #2. Screen-reader-accessible data tables beneath all four Recharts charts ([#54](https://github.com/agile-toolkit/sprint-metrics/issues/54)), and code-splitting `html2canvas` behind the Copy Image click so it isn't in the main bundle for sessions that never use it ([#55](https://github.com/agile-toolkit/sprint-metrics/issues/55)).
 
 ## Recently shipped
+**Remove Management 3.0 reference; fix invisible brand colors; first test coverage** (2026-09-02) — see `## Shipped`. Dropped a stray "Management 3.0" mention from `README.md`; completed the `brand` Tailwind scale (`200`/`300`/`800`/`900` were undefined but referenced in code); extracted `App.tsx`'s pure logic into `src/sprintData.ts` and added this repo's first automated tests.
+
 **E4: Sprint deletion safety** (2026-09-02) — see `## Shipped`. [#57](https://github.com/agile-toolkit/sprint-metrics/issues/57) shipped.
 
 ## Polish backlog
@@ -32,3 +34,10 @@ None — idle. See `## Next epics` below.
 
 **v0.2.0 — [E4: Sprint deletion safety](https://github.com/agile-toolkit/sprint-metrics/issues/57)** (2026-09-02):
 - ~~Soft-delete with a 5s "Undo" toast so an accidental row delete doesn't force re-entry of every field~~
+
+**v0.2.1 — Remove Management 3.0 ref; fix invisible brand colors; first tests** (2026-09-02):
+- ~~Removed a stray "Management 3.0" mention from README.md~~
+- ~~Completed the `brand` Tailwind color scale (200/300/800/900 were
+  missing but used in code)~~
+- ~~Extracted `App.tsx`'s pure logic into `src/sprintData.ts`; added
+  `vitest` + `jsdom` and 21 tests~~
