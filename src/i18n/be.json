@@ -92,7 +92,9 @@
     "milestone": "Веха / Падзея",
     "todo": "Трэба зрабіць",
     "inProgress": "У працэсе",
-    "done": "Зроблена (CFD)"
+    "done": "Зроблена (CFD)",
+    "deleteUndo": "{{name}} выдалены",
+    "deleteUndoAction": "Адрабіць"
   },
   "results": {
     "copyImage": "Капіраваць выяву",

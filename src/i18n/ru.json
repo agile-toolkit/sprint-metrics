@@ -92,7 +92,9 @@
     "milestone": "Веха / Событие",
     "todo": "К выполнению",
     "inProgress": "В процессе",
-    "done": "Готово (CFD)"
+    "done": "Готово (CFD)",
+    "deleteUndo": "{{name}} удалён",
+    "deleteUndoAction": "Отменить"
   },
   "results": {
     "copyImage": "Копировать изображение",

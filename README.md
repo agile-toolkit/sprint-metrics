@@ -41,6 +41,7 @@ Note: the `theme` localStorage key (light/dark preference, written by `ThemeTogg
 - **Charts:** Recharts (`VelocityChart`, `BurnDownChart`, `BurnUpChart`, `CFDChart`) — `VelocityChart` is a `ComposedChart` with up to three optional right-axis overlays (mood, normalized velocity, health score) layered onto the base bar chart.
 - **Cross-app integrations:** all one-way localStorage reads/writes, no network calls — see the table above and `.artefacts/BRIEF.md` for the full contract list (Planning Poker, Moving Motivators, Improvement Board, Change Planner, Scrum Facilitator, Work Profiles, Kanban Designer).
 - **PWA:** `vite-plugin-pwa` (`generateSW`, autoUpdate) precaches the app shell for offline use during ceremonies.
+- **Sprint deletion:** soft-delete with a 5s undo toast (`App.tsx`'s `handleDeleteSprint`/`undoDeleteSprint`) — the sprint is removed from `sprint-metrics-projects` immediately (no visual lag) but held in `lastDeleted` state for a 5-second grace window, re-insertable at its original index via the toast's Undo button. In-memory only, no new localStorage key. Only one undo is tracked at a time — deleting a second sprint while a toast is showing commits the first delete immediately.
 
 ## Source materials
 See `.artefacts/BRIEF.md` for the full feature checklist and run-by-run agent log.

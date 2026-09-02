@@ -168,6 +168,8 @@ export default function App() {
   const [motivatorSnapshot, setMotivatorSnapshot] = useState<MotivatorSnapshot | null>(loadMotivatorSnapshot)
   const [improvementToast, setImprovementToast] = useState<number | null>(null)
   const [changePlannerDismissed, setChangePlannerDismissed] = useState(false)
+  const [lastDeleted, setLastDeleted] = useState<{ sprint: SprintData; index: number } | null>(null)
+  const deleteUndoTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const dashboardRef = useRef<HTMLDivElement>(null)
 
   const activeProject = projects.find(p => p.id === activeProjectId) ?? projects[0]
@@ -180,6 +182,10 @@ export default function App() {
       if (detected) { setMotivatorSnapshot(detected); saveMotivatorSnapshot(detected) }
     }
   }, [motivatorSnapshot])
+
+  useEffect(() => () => {
+    if (deleteUndoTimer.current) clearTimeout(deleteUndoTimer.current)
+  }, [])
 
   const persistProjects = (updated: ProjectRecord[]) => {
     setProjects(updated)
@@ -194,12 +200,39 @@ export default function App() {
     persistProjects(projects.map(p => p.id === activeProjectId ? { ...p, name: next.name, config: next } : p))
   }
 
+  // Soft delete: the sprint is removed from storage immediately (no visual lag), but held
+  // in `lastDeleted` for a 5s undo window. Deleting a second sprint while a toast is
+  // showing commits the first delete right away — only one undo is tracked at a time.
+  const handleDeleteSprint = (id: string) => {
+    const index = sprints.findIndex(s => s.id === id)
+    if (index === -1) return
+    if (deleteUndoTimer.current) clearTimeout(deleteUndoTimer.current)
+    setLastDeleted({ sprint: sprints[index], index })
+    updateSprints(sprints.filter(s => s.id !== id))
+    deleteUndoTimer.current = setTimeout(() => setLastDeleted(null), 5000)
+  }
+
+  const undoDeleteSprint = () => {
+    if (!lastDeleted) return
+    if (deleteUndoTimer.current) clearTimeout(deleteUndoTimer.current)
+    const restored = [...sprints]
+    restored.splice(Math.min(lastDeleted.index, restored.length), 0, lastDeleted.sprint)
+    updateSprints(restored)
+    setLastDeleted(null)
+  }
+
+  const dismissDeleteUndo = () => {
+    if (deleteUndoTimer.current) clearTimeout(deleteUndoTimer.current)
+    setLastDeleted(null)
+  }
+
   const switchProject = (id: string) => {
     setActiveProjectId(id)
     localStorage.setItem(ACTIVE_PROJECT_KEY, id)
     setScreen('dashboard')
     setDataMode('quick')
     setChangePlannerDismissed(false)
+    dismissDeleteUndo()
   }
 
   const createProject = (name: string) => {
@@ -455,7 +488,7 @@ export default function App() {
                 sprints={sprints}
                 config={config}
                 onAddSprint={handleAddSprint}
-                onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
+                onDeleteSprint={handleDeleteSprint}
                 onUpdateSprint={sprint => updateSprints(sprints.map(s => s.id === sprint.id ? sprint : s))}
                 onUpdateConfig={updateConfig}
                 onClear={() => updateSprints([])}
@@ -467,7 +500,7 @@ export default function App() {
                 sprints={sprints}
                 config={config}
                 onAddSprint={handleAddSprint}
-                onDeleteSprint={id => updateSprints(sprints.filter(s => s.id !== id))}
+                onDeleteSprint={handleDeleteSprint}
                 onUpdateSprint={sprint => updateSprints(sprints.map(s => s.id === sprint.id ? sprint : s))}
                 onUpdateConfig={updateConfig}
                 onClear={() => updateSprints([])}
@@ -657,6 +690,25 @@ export default function App() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {lastDeleted && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-lg dark:border-gray-700 dark:bg-gray-800">
+          <span className="text-gray-700 dark:text-gray-200">
+            {t('data.deleteUndo', { name: lastDeleted.sprint.name })}
+          </span>
+          <button type="button" onClick={undoDeleteSprint} className="font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
+            {t('data.deleteUndoAction')}
+          </button>
+          <button
+            type="button"
+            onClick={dismissDeleteUndo}
+            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+            aria-label="Dismiss"
+          >
+            ✕
+          </button>
         </div>
       )}
     </div>

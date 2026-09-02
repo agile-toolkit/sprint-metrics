@@ -92,7 +92,9 @@
     "milestone": "Milestone / Event",
     "todo": "To Do",
     "inProgress": "In Progress",
-    "done": "Done (CFD)"
+    "done": "Done (CFD)",
+    "deleteUndo": "{{name}} deleted",
+    "deleteUndoAction": "Undo"
   },
   "results": {
     "copyImage": "Copy Image",

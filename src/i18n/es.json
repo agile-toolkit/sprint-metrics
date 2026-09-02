@@ -92,7 +92,9 @@
     "milestone": "Hito / Evento",
     "todo": "Por Hacer",
     "inProgress": "En Progreso",
-    "done": "Hecho (CFD)"
+    "done": "Hecho (CFD)",
+    "deleteUndo": "{{name}} eliminado",
+    "deleteUndoAction": "Deshacer"
   },
   "results": {
     "copyImage": "Copiar imagen",
