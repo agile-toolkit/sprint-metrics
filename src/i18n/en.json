@@ -2,6 +2,9 @@
   "app": {
     "title": "Sprint Metrics"
   },
+  "common": {
+    "dismiss": "Dismiss"
+  },
   "nav": {
     "dashboard": "Dashboard",
     "data": "Sprint Data",

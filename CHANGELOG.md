@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## 0.2.2 — Fix low-contrast delete icons; i18n the "Dismiss" buttons (2026-09-02)
+
+- **fix**: delete/edit icon buttons in `SprintDataTable.tsx` and
+  `SprintDataView.tsx` used `text-gray-200`/`gray-300`, below WCAG AA
+  contrast and nearly invisible until hover (one delete button was also
+  missing its `aria-label`). Bumped to `gray-400`/`gray-500` and added
+  the missing label.
+- **fix**: three toast dismiss buttons in `App.tsx` hardcoded
+  `aria-label="Dismiss"` in English despite the app supporting
+  ES/BE/RU. Moved to a new `common.dismiss` i18n key across all 4
+  locales.
+- Found via a suite-wide UX/scope audit.
+
 ## 0.2.1 — Remove Management 3.0 ref; fix invisible brand colors; first tests (2026-09-02)
 
 - **content**: removed a stray "Management 3.0" mention from `README.md`'s

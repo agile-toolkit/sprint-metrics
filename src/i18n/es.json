@@ -2,6 +2,9 @@
   "app": {
     "title": "Métricas de Sprint"
   },
+  "common": {
+    "dismiss": "Descartar"
+  },
   "nav": {
     "dashboard": "Tablero",
     "data": "Datos del Sprint",

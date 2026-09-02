@@ -487,8 +487,8 @@ export default function SprintDataTable({
                           </span>
                         </td>
                         <td className="px-4 py-2.5 text-right whitespace-nowrap">
-                          <button onClick={() => startEdit(sp)} className="text-gray-300 hover:text-brand-500 text-xs mr-2 dark:text-gray-600 dark:hover:text-brand-400" title={t('data.edit')} aria-label={t('data.edit')}>✏️</button>
-                          <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-200 hover:text-red-400 text-xs dark:text-gray-700 dark:hover:text-red-400" title={t('data.delete')}>✕</button>
+                          <button onClick={() => startEdit(sp)} className="text-gray-400 hover:text-brand-500 text-xs mr-2 dark:text-gray-500 dark:hover:text-brand-400" title={t('data.edit')} aria-label={t('data.edit')}>✏️</button>
+                          <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-400 hover:text-red-400 text-xs dark:text-gray-500 dark:hover:text-red-400" title={t('data.delete')} aria-label={t('data.delete')}>✕</button>
                         </td>
                       </tr>
                     )

@@ -281,7 +281,7 @@ export default function App() {
               type="button"
               onClick={() => setImprovementToast(null)}
               className="text-amber-500 hover:text-amber-700 flex-shrink-0"
-              aria-label="Dismiss"
+              aria-label={t('common.dismiss')}
             >
               ✕
             </button>
@@ -305,7 +305,7 @@ export default function App() {
               type="button"
               onClick={() => setChangePlannerDismissed(true)}
               className="text-red-500 hover:text-red-700 flex-shrink-0"
-              aria-label="Dismiss"
+              aria-label={t('common.dismiss')}
             >
               ✕
             </button>
@@ -575,7 +575,7 @@ export default function App() {
             type="button"
             onClick={dismissDeleteUndo}
             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
-            aria-label="Dismiss"
+            aria-label={t('common.dismiss')}
           >
             ✕
           </button>

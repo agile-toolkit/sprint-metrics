@@ -558,7 +558,7 @@ export default function SprintDataView({
                           <button
                             type="button"
                             onClick={() => startEdit(sprint)}
-                            className="text-gray-300 hover:text-brand-500 mr-2 dark:text-gray-600 dark:hover:text-brand-400"
+                            className="text-gray-400 hover:text-brand-500 mr-2 dark:text-gray-500 dark:hover:text-brand-400"
                             title={t('data.edit')}
                             aria-label={t('data.edit')}
                           >
@@ -567,7 +567,7 @@ export default function SprintDataView({
                           <button
                             type="button"
                             onClick={() => onDeleteSprint(sprint.id)}
-                            className="text-gray-300 hover:text-red-400 dark:text-gray-700 dark:hover:text-red-400"
+                            className="text-gray-400 hover:text-red-400 dark:text-gray-500 dark:hover:text-red-400"
                             title={t('data.delete')}
                             aria-label={t('data.delete')}
                           >
