@@ -111,6 +111,7 @@
     "improvementBoardLink": "Open Improvement Board",
     "changePlannerAlert": "Velocity or team mood has declined for 2+ consecutive sprints — this may signal a systemic issue.",
     "changePlannerLink": "Review with Change Planner",
+    "improvementBoardLogLink": "Log as improvement item",
     "teamSizeFromProfiles": "Based on {{count}} Work Profiles",
     "kanbanCfdHint": "Auto-filled from {{boardName}} — adjust if needed",
     "startRetro": "Start Retrospective"

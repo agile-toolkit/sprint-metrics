@@ -19,7 +19,7 @@ import {
   ACTIVE_PROJECT_KEY, DEFAULT_CONFIG,
   hasTwoConsecutiveDeclines, saveProjects, initAppState,
   loadMotivatorSnapshot, saveMotivatorSnapshot, writeLastSession,
-  parseCSV, exportCSV,
+  parseCSV, exportCSV, buildImprovementBoardUrl,
 } from './sprintData'
 
 export default function App() {
@@ -300,6 +300,19 @@ export default function App() {
               >
                 {t('integration.changePlannerLink')}
               </a>
+              {sprints.length > 0 && (
+                <>
+                  {' · '}
+                  <a
+                    href={buildImprovementBoardUrl(sprints[sprints.length - 1].name)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline font-medium hover:text-red-900 dark:hover:text-red-200"
+                  >
+                    {t('integration.improvementBoardLogLink')}
+                  </a>
+                </>
+              )}
             </span>
             <button
               type="button"

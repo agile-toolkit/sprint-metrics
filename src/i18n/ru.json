@@ -111,6 +111,7 @@
     "improvementBoardLink": "Открыть доску улучшений",
     "changePlannerAlert": "Velocity или настрой команды снижается 2+ спринта подряд — возможно, есть системная проблема.",
     "changePlannerLink": "Проанализировать в Change Planner",
+    "improvementBoardLogLink": "Записать как улучшение",
     "teamSizeFromProfiles": "На основе {{count}} рабочих профилей",
     "kanbanCfdHint": "Автозаполнено из {{boardName}} — при необходимости скорректируйте",
     "startRetro": "Начать ретроспективу"

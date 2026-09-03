@@ -11,6 +11,8 @@ None — idle. See `## Next epics` below.
 3. **E3: Chart accessibility and bundle size** — serves #2. Screen-reader-accessible data tables beneath all four Recharts charts ([#54](https://github.com/agile-toolkit/sprint-metrics/issues/54)), and code-splitting `html2canvas` behind the Copy Image click so it isn't in the main bundle for sessions that never use it ([#55](https://github.com/agile-toolkit/sprint-metrics/issues/55)).
 
 ## Recently shipped
+**Ship the missing half of the Improvement Board deep-link** (2026-09-03) — see `## Shipped`. [improvement-board#4](https://github.com/agile-toolkit/improvement-board/issues/4) was closed as completed in that repo months ago, but only the receiver half ever shipped — the "Open Improvement Board" sender link this repo was supposed to add never existed. Found by a suite-wide cross-app link audit, not by re-checking that specific issue.
+
 **Normalize LanguagePicker dark shades** (2026-09-02) — see `## Shipped`. `LanguagePicker.tsx` had dark-mode classes on slightly different shades than the design-system's canonical copy. Normalized to match exactly.
 
 **Fix low-contrast delete icons; i18n the "Dismiss" buttons** (2026-09-02) — see `## Shipped`. A suite-wide UX audit flagged near-invisible `text-gray-200`/`gray-300` delete icons and 3 hardcoded-English "Dismiss" aria-labels despite the app supporting ES/BE/RU. Fixed both.
@@ -23,6 +25,7 @@ None — idle. See `## Next epics` below.
 - Rollup/Vite may warn on large chunks at build time; no issue filed — consider `manualChunks` if it becomes disruptive.
 
 ## Shipped
+- ~~Send the velocity/mood decline alert to Improvement Board (`?prefill=`/`utm_source=`), completing issue #4~~
 - ~~Core dashboard: velocity/burn-down/burn-up charts, sprint data table, guided empty state~~
 - ~~4-language i18n (EN/ES/BE/RU)~~
 - ~~Dark mode with design system v2 tokens (header, charts, tooltips)~~

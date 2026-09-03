@@ -111,6 +111,7 @@
     "improvementBoardLink": "Адкрыць дошку паляпшэнняў",
     "changePlannerAlert": "Velocity або настрой каманды знізіліся 2+ спрынты запар — магчыма, ёсць сістэмная праблема.",
     "changePlannerLink": "Прааналізаваць у Change Planner",
+    "improvementBoardLogLink": "Запісаць як паляпшэнне",
     "teamSizeFromProfiles": "На аснове {{count}} працоўных профіляў",
     "kanbanCfdHint": "Аўтазапоўнена з {{boardName}} — карэктуйце пры неабходнасці",
     "startRetro": "Пачаць рэтраспектыву"

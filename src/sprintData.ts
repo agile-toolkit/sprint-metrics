@@ -103,6 +103,23 @@ export function writeLastSession(allSprints: SprintData[], config: ProjectConfig
   }))
 }
 
+const IMPROVEMENT_BOARD_URL = 'https://agile-toolkit.github.io/improvement-board/'
+
+/**
+ * Issue #4 (agile-toolkit/improvement-board): a two-sided deep-link so a
+ * poor sprint outcome (velocity/mood decline) can become an improvement
+ * item with one click instead of manually re-typing the context. The
+ * Improvement Board side (?prefill=&utm_source=sprint-metrics) shipped in
+ * that repo; this sender half did not, so the receiver code was dead.
+ */
+export function buildImprovementBoardUrl(lastSprintName: string): string {
+  const params = new URLSearchParams({
+    prefill: `Velocity drop in ${lastSprintName}`,
+    utm_source: 'sprint-metrics',
+  })
+  return `${IMPROVEMENT_BOARD_URL}?${params.toString()}`
+}
+
 export function parseCSV(text: string): SprintData[] {
   return text.split('\n')
     .map(line => line.trim())

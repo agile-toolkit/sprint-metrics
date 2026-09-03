@@ -5,7 +5,7 @@ import {
   MOTIVATOR_KEY, MM_LAST_SESSION_KEY, SM_LAST_SESSION_KEY,
   hasTwoConsecutiveDeclines, tryParse, saveProjects, initAppState,
   loadMotivatorSnapshot, saveMotivatorSnapshot, writeLastSession,
-  parseCSV, exportCSV,
+  parseCSV, exportCSV, buildImprovementBoardUrl,
 } from './sprintData'
 
 beforeEach(() => {
@@ -131,6 +131,15 @@ describe('writeLastSession', () => {
     writeLastSession(sprints, { name: 'P', targetScope: 100, sprintLengthWeeks: 2 }, 'p1')
     const saved = JSON.parse(localStorage.getItem(SM_LAST_SESSION_KEY)!)
     expect(saved.sprintsRemaining).toBeNull()
+  })
+})
+
+describe('buildImprovementBoardUrl', () => {
+  it('points at the Improvement Board endpoint with a prefilled title and utm_source tag', () => {
+    const url = new URL(buildImprovementBoardUrl('Sprint 12'))
+    expect(url.origin + url.pathname).toBe('https://agile-toolkit.github.io/improvement-board/')
+    expect(url.searchParams.get('prefill')).toBe('Velocity drop in Sprint 12')
+    expect(url.searchParams.get('utm_source')).toBe('sprint-metrics')
   })
 })
 

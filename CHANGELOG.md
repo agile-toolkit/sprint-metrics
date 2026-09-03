@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.2.4 — Ship the missing half of the Improvement Board deep-link (2026-09-03)
+
+- **fix (broken integration)**: [improvement-board#4](https://github.com/agile-toolkit/improvement-board/issues/4)
+  was closed as completed in that repo, but only the receiver half
+  shipped — Improvement Board has read `?prefill=`/`utm_source=` since
+  April, and nothing here ever sent it. The velocity/mood decline alert
+  now includes a "Log as improvement item" link alongside the existing
+  Change Planner one, prefilled with the sprint name. Found by a
+  suite-wide cross-app link audit. See `buildImprovementBoardUrl` in
+  `src/sprintData.ts` (tested).
+
 ## 0.2.3 — Normalize LanguagePicker dark shades (2026-09-02)
 
 - **fix (consistency)**: `LanguagePicker.tsx` already had dark-mode
