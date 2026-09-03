@@ -11,6 +11,8 @@ None — idle. See `## Next epics` below.
 3. **E3: Chart accessibility and bundle size** — serves #2. Screen-reader-accessible data tables beneath all four Recharts charts ([#54](https://github.com/agile-toolkit/sprint-metrics/issues/54)), and code-splitting `html2canvas` behind the Copy Image click so it isn't in the main bundle for sessions that never use it ([#55](https://github.com/agile-toolkit/sprint-metrics/issues/55)).
 
 ## Recently shipped
+**Fix close buttons using the × variant** (2026-09-03) — see `## Shipped`. Follow-up to the emoji→SVG sweep — found 4 more close buttons using `×` (multiplication sign) instead of `✕`, missed by the original grep.
+
 **Replace decorative ✕ emoji with SVG icons** (2026-09-03) — see `## Shipped`. Part of a suite-wide emoji→SVG sweep the user asked for.
 
 **Facilitator Mode** (2026-09-03) — see `## Shipped`. A user asked for the presentation/projector mode already built for Team Identity to be adopted suite-wide; this is repo 9 of an 11-repo rollout, adopting the pattern now shared in `design-system/`.
@@ -29,6 +31,7 @@ None — idle. See `## Next epics` below.
 - Rollup/Vite may warn on large chunks at build time; no issue filed — consider `manualChunks` if it becomes disruptive.
 
 ## Shipped
+- ~~Fix 4 more close buttons using the × variant instead of ✕~~
 - ~~Replace decorative ✕ text-glyph buttons with shared SVG icons~~
 - ~~Facilitator Mode — bigger UI + hidden nav/language picker for in-room presentation, adopted from the shared design-system pattern~~
 - ~~Send the velocity/mood decline alert to Improvement Board (`?prefill=`/`utm_source=`), completing issue #4~~

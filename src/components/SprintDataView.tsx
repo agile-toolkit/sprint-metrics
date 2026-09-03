@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
+import { CloseIcon } from './icons'
 
 function readWorkProfilesCount(): number {
   try {
@@ -396,7 +397,7 @@ export default function SprintDataView({
               {showKanbanHint && kanbanCfd && (
                 <p className="text-xs text-brand-600 mt-1.5 flex items-center gap-1.5">
                   {t('integration.kanbanCfdHint', { boardName: kanbanCfd.boardName })}
-                  <button type="button" onClick={() => setShowKanbanHint(false)} className="text-gray-300 hover:text-gray-500 dark:text-gray-600 dark:hover:text-gray-400" aria-label={t('dataview.cancel')}>×</button>
+                  <button type="button" onClick={() => setShowKanbanHint(false)} className="text-gray-300 hover:text-gray-500 dark:text-gray-600 dark:hover:text-gray-400" aria-label={t('dataview.cancel')}><CloseIcon className="w-3 h-3" /></button>
                 </p>
               )}
             </div>
@@ -571,7 +572,7 @@ export default function SprintDataView({
                             title={t('data.delete')}
                             aria-label={t('data.delete')}
                           >
-                            ×
+                            <CloseIcon className="w-3 h-3" />
                           </button>
                         </td>
                       </tr>

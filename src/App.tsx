@@ -426,7 +426,7 @@ export default function App() {
                       onClick={clearMotivatorSnapshot}
                       className="ml-1 text-orange-400 hover:text-orange-600"
                       title={t('integration.motivatorsClear')}
-                    >×</button>
+                    ><CloseIcon className="w-3 h-3" /></button>
                   </span>
                 ) : (
                   <label className="btn-secondary text-sm cursor-pointer">

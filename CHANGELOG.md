@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.2.7 — Fix close buttons using the × variant (2026-09-03)
+
+- **fix (follow-up)**: 4 more close/cancel/delete buttons (two Kanban
+  hint dismissals, a sprint-row delete, the motivator-snapshot clear)
+  used `×` (multiplication sign, U+00D7) rather than `✕`, a variant the
+  original emoji→SVG sweep's grep missed. Replaced with `CloseIcon`.
+
 ## 0.2.6 — Replace decorative ✕ emoji with SVG icons (2026-09-03)
 
 - **feat**: replaced 4 decorative `✕` text-glyph dismiss/delete buttons
