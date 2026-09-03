@@ -7,6 +7,7 @@ import AppHeader from './components/AppHeader'
 import ThemeToggle from './components/ThemeToggle'
 import FacilitatorToggle from './components/FacilitatorToggle'
 import { useFacilitatorMode } from './components/useFacilitatorMode'
+import { CloseIcon } from './components/icons'
 import ProjectSwitcher from './components/ProjectSwitcher'
 import PortfolioView from './components/PortfolioView'
 import VelocityChart from './components/VelocityChart'
@@ -293,7 +294,7 @@ export default function App() {
               className="text-amber-500 hover:text-amber-700 flex-shrink-0"
               aria-label={t('common.dismiss')}
             >
-              ✕
+              <CloseIcon className="w-4 h-4" />
             </button>
           </div>
         )}
@@ -330,7 +331,7 @@ export default function App() {
               className="text-red-500 hover:text-red-700 flex-shrink-0"
               aria-label={t('common.dismiss')}
             >
-              ✕
+              <CloseIcon className="w-4 h-4" />
             </button>
           </div>
         )}
@@ -600,7 +601,7 @@ export default function App() {
             className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
             aria-label={t('common.dismiss')}
           >
-            ✕
+            <CloseIcon className="w-4 h-4" />
           </button>
         </div>
       )}

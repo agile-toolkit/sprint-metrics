@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
+import { CloseIcon } from './icons'
 
 function readWorkProfilesCount(): number {
   try {
@@ -488,7 +489,7 @@ export default function SprintDataTable({
                         </td>
                         <td className="px-4 py-2.5 text-right whitespace-nowrap">
                           <button onClick={() => startEdit(sp)} className="text-gray-400 hover:text-brand-500 text-xs mr-2 dark:text-gray-500 dark:hover:text-brand-400" title={t('data.edit')} aria-label={t('data.edit')}>✏️</button>
-                          <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-400 hover:text-red-400 text-xs dark:text-gray-500 dark:hover:text-red-400" title={t('data.delete')} aria-label={t('data.delete')}>✕</button>
+                          <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-400 hover:text-red-400 text-xs dark:text-gray-500 dark:hover:text-red-400" title={t('data.delete')} aria-label={t('data.delete')}><CloseIcon className="w-3 h-3" /></button>
                         </td>
                       </tr>
                     )

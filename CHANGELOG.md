@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.2.6 — Replace decorative ✕ emoji with SVG icons (2026-09-03)
+
+- **feat**: replaced 4 decorative `✕` text-glyph dismiss/delete buttons
+  (sprint-row delete, Improvement Board toast dismiss, Change Planner
+  banner dismiss, delete-undo dismiss) with `CloseIcon` from the new
+  shared `icons.tsx`, using `currentColor` so every button keeps the
+  color it already had. Left the `sprintsToTarget === 0 ? '✓' : ...`
+  forecast-stat value as-is — it's a computed data value in a stat-chip
+  array, not a standalone decorative icon. Part of a suite-wide
+  emoji→SVG sweep the user asked for.
+
 ## 0.2.5 — Facilitator Mode (2026-09-03)
 
 - **feat**: added Facilitator (projector) Mode — a presentation toggle for
