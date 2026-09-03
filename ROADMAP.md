@@ -11,6 +11,8 @@ None — idle. See `## Next epics` below.
 3. **E3: Chart accessibility and bundle size** — serves #2. Screen-reader-accessible data tables beneath all four Recharts charts ([#54](https://github.com/agile-toolkit/sprint-metrics/issues/54)), and code-splitting `html2canvas` behind the Copy Image click so it isn't in the main bundle for sessions that never use it ([#55](https://github.com/agile-toolkit/sprint-metrics/issues/55)).
 
 ## Recently shipped
+**Normalize LanguagePicker dark shades** (2026-09-02) — see `## Shipped`. `LanguagePicker.tsx` had dark-mode classes on slightly different shades than the design-system's canonical copy. Normalized to match exactly.
+
 **Fix low-contrast delete icons; i18n the "Dismiss" buttons** (2026-09-02) — see `## Shipped`. A suite-wide UX audit flagged near-invisible `text-gray-200`/`gray-300` delete icons and 3 hardcoded-English "Dismiss" aria-labels despite the app supporting ES/BE/RU. Fixed both.
 
 **Remove Management 3.0 reference; fix invisible brand colors; first test coverage** (2026-09-02) — see `## Shipped`. Dropped a stray "Management 3.0" mention from `README.md`; completed the `brand` Tailwind scale (`200`/`300`/`800`/`900` were undefined but referenced in code); extracted `App.tsx`'s pure logic into `src/sprintData.ts` and added this repo's first automated tests.
@@ -49,3 +51,7 @@ None — idle. See `## Next epics` below.
   `gray-400`/`gray-500`; added a missing `aria-label`~~
 - ~~Moved 3 hardcoded-English "Dismiss" aria-labels into a new
   `common.dismiss` i18n key~~
+
+**v0.2.3 — Normalize LanguagePicker dark shades** (2026-09-02):
+- ~~Synced `LanguagePicker.tsx`'s dark-mode shades exactly with the
+  design-system's canonical copy~~
