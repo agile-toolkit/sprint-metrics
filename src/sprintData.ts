@@ -16,9 +16,45 @@ export function hasTwoConsecutiveDeclines(values: number[]): boolean {
   return values[n - 3] > values[n - 2] && values[n - 2] > values[n - 1]
 }
 
-export function tryParse<T>(raw: string | null, fallback: T): T {
+/**
+ * Parses `raw`, falling back when it is absent, unparseable, or — with a
+ * `guard` — the wrong shape.
+ *
+ * The guard is the point. Without one this only ever validated JSON *syntax*,
+ * so a key holding valid JSON of the wrong shape sailed through the cast and
+ * blew up at the first property access instead. That is not hypothetical here:
+ * these keys are written by other apps in the suite, survive schema changes,
+ * and can arrive half-restored from a workspace snapshot.
+ */
+export function tryParse<T>(
+  raw: string | null,
+  fallback: T,
+  guard?: (value: unknown) => value is T,
+): T {
   if (!raw) return fallback
-  try { return JSON.parse(raw) as T } catch { return fallback }
+  try {
+    const parsed: unknown = JSON.parse(raw)
+    if (guard) return guard(parsed) ? parsed : fallback
+    return parsed as T
+  } catch {
+    return fallback
+  }
+}
+
+/** A record with an `id`, which is all `initAppState` needs to trust the list. */
+function isProjectRecordArray(value: unknown): value is ProjectRecord[] {
+  return (
+    Array.isArray(value) &&
+    value.every(p => p !== null && typeof p === 'object' && typeof (p as ProjectRecord).id === 'string')
+  )
+}
+
+function isSprintDataArray(value: unknown): value is SprintData[] {
+  return Array.isArray(value) && value.every(s => s !== null && typeof s === 'object')
+}
+
+function isProjectConfig(value: unknown): value is ProjectConfig {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
 export function saveProjects(ps: ProjectRecord[]) {
@@ -26,16 +62,24 @@ export function saveProjects(ps: ProjectRecord[]) {
 }
 
 export function initAppState(): { projects: ProjectRecord[]; activeId: string; migrationPending: boolean } {
-  const stored = tryParse<ProjectRecord[] | null>(localStorage.getItem(PROJECTS_KEY), null)
-  if (stored && stored.length > 0) {
+  // Guarded: this runs before first paint, so an unexpected shape here used to
+  // throw on `stored[0].id` and leave a blank page with no way back.
+  const stored = tryParse<ProjectRecord[]>(
+    localStorage.getItem(PROJECTS_KEY), [], isProjectRecordArray,
+  )
+  if (stored.length > 0) {
     const savedId = localStorage.getItem(ACTIVE_PROJECT_KEY)
     const activeId = stored.find(p => p.id === savedId) ? savedId! : stored[0].id
     return { projects: stored, activeId, migrationPending: false }
   }
 
   // Check for legacy single-project data
-  const legacySprints = tryParse<SprintData[]>(localStorage.getItem(LEGACY_SPRINTS_KEY), [])
-  const legacyConfig = tryParse<ProjectConfig>(localStorage.getItem(LEGACY_CONFIG_KEY), DEFAULT_CONFIG)
+  const legacySprints = tryParse<SprintData[]>(
+    localStorage.getItem(LEGACY_SPRINTS_KEY), [], isSprintDataArray,
+  )
+  const legacyConfig = tryParse<ProjectConfig>(
+    localStorage.getItem(LEGACY_CONFIG_KEY), DEFAULT_CONFIG, isProjectConfig,
+  )
 
   if (legacySprints.length > 0) {
     const migProject: ProjectRecord = {
@@ -63,7 +107,13 @@ export function initAppState(): { projects: ProjectRecord[]; activeId: string; m
 export function loadMotivatorSnapshot(): MotivatorSnapshot | null {
   try {
     const saved = localStorage.getItem(MOTIVATOR_KEY)
-    if (saved) return JSON.parse(saved) as MotivatorSnapshot
+    if (saved) {
+      // Checked rather than cast: consumers render `topMotivators` directly.
+      const parsed: unknown = JSON.parse(saved)
+      if (Array.isArray((parsed as MotivatorSnapshot)?.topMotivators)) {
+        return parsed as MotivatorSnapshot
+      }
+    }
     const mm = localStorage.getItem(MM_LAST_SESSION_KEY)
     if (mm) {
       const parsed = JSON.parse(mm)

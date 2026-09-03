@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## 0.3.0 — Guard cross-app payloads, error boundary (2026-09-03)
+
+- **fix**: `tryParse` validated JSON *syntax* and nothing else, then cast. A key
+  holding valid JSON of the wrong shape sailed through and threw at the first
+  property access — `initAppState` indexed `stored[0].id` before first paint, so
+  a malformed `sprint-metrics-projects` produced a blank page. It now takes an
+  optional type guard, and the three startup reads use one.
+- **fix**: `loadMotivatorSnapshot` cast a stored snapshot whose `topMotivators`
+  consumers render directly; now checked.
+- **feat**: `ErrorBoundary` at the root, with a scoped "clear this app's saved
+  data" recovery path.
+- **ci**: `npm test` now runs before `npm run build` in `deploy.yml`.
+
 ## 0.2.7 — Fix close buttons using the × variant (2026-09-03)
 
 - **fix (follow-up)**: 4 more close/cancel/delete buttons (two Kanban
