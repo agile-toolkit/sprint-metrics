@@ -11,6 +11,8 @@ None — idle. See `## Next epics` below.
 3. **E3: Chart accessibility and bundle size** — serves #2. Screen-reader-accessible data tables beneath all four Recharts charts ([#54](https://github.com/agile-toolkit/sprint-metrics/issues/54)), and code-splitting `html2canvas` behind the Copy Image click so it isn't in the main bundle for sessions that never use it ([#55](https://github.com/agile-toolkit/sprint-metrics/issues/55)).
 
 ## Recently shipped
+**Facilitator Mode persists across suite apps** (2026-09-03) — see `## Shipped`. `useFacilitatorMode`'s storage key changed to the shared `agile-toolkit:facilitatorMode` so the mode survives switching to another suite app in the same tab, per direct user request.
+
 **Fix close buttons using the × variant** (2026-09-03) — see `## Shipped`. Follow-up to the emoji→SVG sweep — found 4 more close buttons using `×` (multiplication sign) instead of `✕`, missed by the original grep.
 
 **Replace decorative ✕ emoji with SVG icons** (2026-09-03) — see `## Shipped`. Part of a suite-wide emoji→SVG sweep the user asked for.
@@ -31,6 +33,7 @@ None — idle. See `## Next epics` below.
 - Rollup/Vite may warn on large chunks at build time; no issue filed — consider `manualChunks` if it becomes disruptive.
 
 ## Shipped
+- ~~Unify Facilitator Mode's storage key to the shared `agile-toolkit:facilitatorMode` so it persists across suite apps~~
 - ~~Fix 4 more close buttons using the × variant instead of ✕~~
 - ~~Replace decorative ✕ text-glyph buttons with shared SVG icons~~
 - ~~Facilitator Mode — bigger UI + hidden nav/language picker for in-room presentation, adopted from the shared design-system pattern~~

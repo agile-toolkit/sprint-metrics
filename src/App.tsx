@@ -27,7 +27,7 @@ import {
 
 export default function App() {
   const { t } = useTranslation()
-  const [facilitatorMode, toggleFacilitatorMode] = useFacilitatorMode('sprint-metrics:facilitatorMode')
+  const [facilitatorMode, toggleFacilitatorMode] = useFacilitatorMode('agile-toolkit:facilitatorMode')
 
   const [initData] = useState(initAppState)
   const [projects, setProjects] = useState<ProjectRecord[]>(initData.projects)
