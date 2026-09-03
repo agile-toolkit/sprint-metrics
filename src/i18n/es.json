@@ -160,5 +160,9 @@
     "p2": "Inflar las estimaciones de puntos de historia para alcanzar objetivos de velocidad es contraproducente.",
     "p3": "Los datos de un solo sprint no tienen sentido — usa promedios móviles de 3 a 5 sprints.",
     "p4": "El trabajo traspasado es una señal, no solo un número — investiga las causas raíz."
+  },
+  "facilitator": {
+    "toggle_on": "Modo Facilitador",
+    "toggle_off": "Salir del Modo Facilitador"
   }
 }

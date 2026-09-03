@@ -5,6 +5,8 @@ import type { Screen, SprintData, ProjectConfig, ProjectRecord, MotivatorSnapsho
 import { SAMPLE_SPRINTS, SAMPLE_CONFIG } from './data/sample'
 import AppHeader from './components/AppHeader'
 import ThemeToggle from './components/ThemeToggle'
+import FacilitatorToggle from './components/FacilitatorToggle'
+import { useFacilitatorMode } from './components/useFacilitatorMode'
 import ProjectSwitcher from './components/ProjectSwitcher'
 import PortfolioView from './components/PortfolioView'
 import VelocityChart from './components/VelocityChart'
@@ -24,6 +26,7 @@ import {
 
 export default function App() {
   const { t } = useTranslation()
+  const [facilitatorMode, toggleFacilitatorMode] = useFacilitatorMode('sprint-metrics:facilitatorMode')
 
   const [initData] = useState(initAppState)
   const [projects, setProjects] = useState<ProjectRecord[]>(initData.projects)
@@ -226,7 +229,8 @@ export default function App() {
         <AppHeader
           title={t('app.title')}
           onTitleClick={() => setScreen('dashboard')}
-          navItems={navItems.map(item => ({
+          hideLanguagePicker={facilitatorMode}
+          navItems={facilitatorMode ? [] : navItems.map(item => ({
             key: item.key,
             label: item.label,
             active: screen === item.key,
@@ -241,6 +245,12 @@ export default function App() {
             onPortfolio={() => setScreen('portfolio')}
           />
           <ThemeToggle />
+          <FacilitatorToggle
+            active={facilitatorMode}
+            onToggle={toggleFacilitatorMode}
+            labelOn={t('facilitator.toggle_on')}
+            labelOff={t('facilitator.toggle_off')}
+          />
         </AppHeader>
       </div>
 

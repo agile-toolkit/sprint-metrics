@@ -160,5 +160,9 @@
     "p2": "Inflating story point estimates to hit velocity targets defeats the purpose.",
     "p3": "A single sprint's data is meaningless — use 3–5 sprint rolling averages.",
     "p4": "Carried-over work is a signal, not just a number — investigate root causes."
+  },
+  "facilitator": {
+    "toggle_on": "Facilitator Mode",
+    "toggle_off": "Exit Facilitator Mode"
   }
 }

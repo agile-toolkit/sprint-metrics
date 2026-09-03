@@ -32,6 +32,7 @@ Keys this app writes (its own data). Sprint Metrics also *reads* several keys ow
 | `sprint-metrics:motivatorSnapshot` | `{ topMotivators[], shifts[], date }` | Last imported Moving Motivators snapshot, persisted after import |
 | `sprint-metrics:lastSession` | `{ projectId, projectName, lastSprintName, lastSprintGoal, lastVelocity, avgVelocity, lastMood, targetScope, totalCompleted, sprintsRemaining, updatedAt }` | Snapshot written after every sprint add; read by Scrum Facilitator during ceremony prep |
 | `sprint-metrics-sprints`, `sprint-metrics-config` | `SprintData[]`, `ProjectConfig` | Legacy single-project keys — read once for migration into `sprint-metrics-projects` on first load, not written going forward |
+| `sprint-metrics:facilitatorMode` (`sessionStorage`) | `'1' \| '0'` | Facilitator (projector) mode toggle — per-tab, not persisted across sessions. See `src/components/useFacilitatorMode.ts`. |
 
 Note: the `theme` localStorage key (light/dark preference, written by `ThemeToggle.tsx`) is a shared design-system key used the same way across suite apps served from the same origin — not Sprint-Metrics-specific.
 
