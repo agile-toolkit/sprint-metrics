@@ -10,7 +10,8 @@
     "data": "Datos del Sprint",
     "portfolio": "Portafolio",
     "cfd": "Flujo Kanban",
-    "learn": "Aprender"
+    "learn": "Aprender",
+    "evm": "EVM"
   },
   "project": {
     "portfolio": "Portafolio de Proyectos",
@@ -146,6 +147,27 @@
     "empty": "Aún no hay sprints.",
     "add_row": "Añadir sprint",
     "cancel": "Cancelar"
+  },
+  "evm": {
+    "title": "AgileEVM",
+    "explainer": "Valor ganado en puntos de historia frente a tu línea base planificada — la respuesta gratuita a lo que las herramientas de pago esconden en un nivel empresarial.",
+    "noBaseline": "Define abajo una línea base de sprints planificados para ver AgileEVM.",
+    "noData": "Añade al menos un sprint de datos para ver AgileEVM.",
+    "setBaseline": "Definir la línea base del release",
+    "editBaseline": "Editar línea base",
+    "plannedSprints": "Sprints planificados (duración del release)",
+    "plannedSprintsPlaceholder": "p. ej. 10",
+    "saveBaseline": "Guardar línea base",
+    "pv": "Valor Planificado",
+    "ev": "Valor Ganado",
+    "indicesTitle": "Índices de desempeño",
+    "spi": "SPI (cronograma)",
+    "spiAhead": "adelantado al cronograma",
+    "spiBehind": "atrasado respecto al cronograma",
+    "forecastFinish": "Fin previsto",
+    "forecastSprintsOfPlanned": "~{{total}} sprints (planificados {{planned}})",
+    "evOfBac": "Ganado / alcance planificado",
+    "pvLabel": "debería estar en {{pv}} SP a estas alturas"
   },
   "learn": {
     "title": "Acerca de Sprint Metrics",

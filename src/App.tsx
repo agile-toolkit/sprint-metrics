@@ -14,6 +14,7 @@ import VelocityChart from './components/VelocityChart'
 import BurnUpChart from './components/BurnUpChart'
 import BurnDownChart from './components/BurnDownChart'
 import ForecastView from './components/ForecastView'
+import AgileEvmView from './components/AgileEvmView'
 import SprintDataTable from './components/SprintDataTable'
 import SprintDataView from './components/SprintDataView'
 import LearnView from './components/LearnView'
@@ -72,6 +73,15 @@ export default function App() {
 
   const updateConfig = (next: ProjectConfig) => {
     persistProjects(projects.map(p => p.id === activeProjectId ? { ...p, name: next.name, config: next } : p))
+  }
+
+  // Single persistProjects call, not updateSprints()+updateConfig() back to back: both would
+  // read the same pre-update `projects` closure in one synchronous handler, so the second
+  // call's map() would overwrite the first's effect instead of composing with it.
+  const loadSampleData = () => {
+    persistProjects(projects.map(p =>
+      p.id === activeProjectId ? { ...p, name: SAMPLE_CONFIG.name, config: SAMPLE_CONFIG, sprints: SAMPLE_SPRINTS } : p
+    ))
   }
 
   // Soft delete: the sprint is removed from storage immediately (no visual lag), but held
@@ -220,6 +230,7 @@ export default function App() {
     { key: 'dashboard', label: t('nav.dashboard') },
     { key: 'data', label: t('nav.data') },
     { key: 'cfd', label: t('nav.cfd') },
+    { key: 'evm', label: t('nav.evm') },
     { key: 'portfolio', label: t('nav.portfolio') },
     { key: 'learn', label: t('nav.learn') },
   ]
@@ -344,6 +355,13 @@ export default function App() {
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">{t('nav.cfd')}</h1>
             <CFDChart sprints={sprints} />
+          </div>
+        )}
+
+        {screen === 'evm' && (
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">{t('nav.evm')}</h1>
+            <AgileEvmView sprints={sprints} config={config} onUpdateConfig={updateConfig} />
           </div>
         )}
 
@@ -485,7 +503,7 @@ export default function App() {
                 )}
                 {sprints.length === 0 && (
                   <button
-                    onClick={() => { updateSprints(SAMPLE_SPRINTS); updateConfig(SAMPLE_CONFIG) }}
+                    onClick={loadSampleData}
                     className="btn-secondary text-sm"
                   >
                     {t('dashboard.load_sample')}
@@ -527,7 +545,7 @@ export default function App() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => { updateSprints(SAMPLE_SPRINTS); updateConfig(SAMPLE_CONFIG) }}
+                    onClick={loadSampleData}
                     className="btn-secondary"
                   >
                     {t('dashboard.load_sample')}

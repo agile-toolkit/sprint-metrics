@@ -1,4 +1,4 @@
-export type Screen = 'dashboard' | 'data' | 'learn' | 'portfolio' | 'cfd'
+export type Screen = 'dashboard' | 'data' | 'learn' | 'portfolio' | 'cfd' | 'evm'
 
 export interface SprintData {
   id: string
@@ -21,6 +21,12 @@ export interface ProjectConfig {
   name: string
   targetScope: number
   sprintLengthWeeks: number
+  /**
+   * Total sprints planned for the release — the schedule baseline AgileEVM
+   * needs to compute Planned Value. Optional: the EVM view stays hidden
+   * until this is set, since it has no honest answer without a baseline.
+   */
+  plannedSprints?: number
 }
 
 export interface ProjectRecord {

@@ -10,7 +10,8 @@
     "data": "Sprint Data",
     "portfolio": "Portfolio",
     "cfd": "Kanban Flow",
-    "learn": "Learn"
+    "learn": "Learn",
+    "evm": "EVM"
   },
   "project": {
     "portfolio": "Project Portfolio",
@@ -146,6 +147,27 @@
     "empty": "No sprints yet.",
     "add_row": "Add sprint",
     "cancel": "Cancel"
+  },
+  "evm": {
+    "title": "AgileEVM",
+    "explainer": "Story-point earned value against your planned release baseline — the free answer to what paid PM tools gate behind an enterprise tier.",
+    "noBaseline": "Set a planned-sprints baseline below to see AgileEVM.",
+    "noData": "Add at least one sprint of data to see AgileEVM.",
+    "setBaseline": "Set the release baseline",
+    "editBaseline": "Edit baseline",
+    "plannedSprints": "Planned sprints (release length)",
+    "plannedSprintsPlaceholder": "e.g. 10",
+    "saveBaseline": "Save baseline",
+    "pv": "Planned Value",
+    "ev": "Earned Value",
+    "indicesTitle": "Performance indices",
+    "spi": "SPI (schedule)",
+    "spiAhead": "ahead of schedule",
+    "spiBehind": "behind schedule",
+    "forecastFinish": "Forecast finish",
+    "forecastSprintsOfPlanned": "~{{total}} sprints (planned {{planned}})",
+    "evOfBac": "Earned / planned scope",
+    "pvLabel": "should be at {{pv}} SP by now"
   },
   "learn": {
     "title": "About Sprint Metrics",
