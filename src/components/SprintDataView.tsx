@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
-import { CloseIcon } from './icons'
+import { CloseIcon, CardsIcon, FlagIcon, UndoIcon, EditIcon } from './icons'
 
 function readWorkProfilesCount(): number {
   try {
@@ -255,8 +255,9 @@ export default function SprintDataView({
           >
             {t('data.save_config')}
           </button>
-          <button type="button" onClick={importFromPoker} className="btn-secondary text-sm">
-            🃏 {t('data.import_from_poker')}
+          <button type="button" onClick={importFromPoker} className="btn-secondary text-sm inline-flex items-center gap-1">
+            <CardsIcon className="w-3.5 h-3.5" />
+            {t('data.import_from_poker')}
           </button>
           {pokerMsg && <span className="text-xs text-brand-600">{pokerMsg}</span>}
         </div>
@@ -524,12 +525,18 @@ export default function SprintDataView({
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
                           <span className="font-medium">{sprint.name}</span>
                           {sprint.milestone && (
-                            <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
-                              🏁 {sprint.milestone}
+                            <span className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                              <FlagIcon className="w-3 h-3" />
+                              {sprint.milestone}
                             </span>
                           )}
                           {sprint.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sprint.goal}</span>}
-                          {sprint.retrospective && <span className="block text-xs text-gray-400 italic dark:text-gray-500">↩ {sprint.retrospective}</span>}
+                          {sprint.retrospective && (
+                            <span className="flex items-center gap-1 text-xs text-gray-400 italic dark:text-gray-500">
+                              <UndoIcon className="w-3 h-3" />
+                              {sprint.retrospective}
+                            </span>
+                          )}
                         </td>
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">{sprint.planned}</td>
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
@@ -563,7 +570,7 @@ export default function SprintDataView({
                             title={t('data.edit')}
                             aria-label={t('data.edit')}
                           >
-                            ✏️
+                            <EditIcon className="w-3.5 h-3.5" />
                           </button>
                           <button
                             type="button"

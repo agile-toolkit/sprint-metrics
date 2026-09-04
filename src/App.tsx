@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import html2canvas from 'html2canvas'
 import type { Screen, SprintData, ProjectConfig, ProjectRecord, MotivatorSnapshot } from './types'
@@ -7,7 +7,7 @@ import AppHeader from './components/AppHeader'
 import ThemeToggle from './components/ThemeToggle'
 import FacilitatorToggle from './components/FacilitatorToggle'
 import { useFacilitatorMode } from './components/useFacilitatorMode'
-import { CloseIcon } from './components/icons'
+import { CloseIcon, BellIcon, TrendDownIcon, StarFilledIcon, TargetIcon, DownloadIcon, ClipboardIcon, PrintIcon, RefreshIcon, TrendUpIcon, CheckIcon } from './components/icons'
 import ProjectSwitcher from './components/ProjectSwitcher'
 import PortfolioView from './components/PortfolioView'
 import VelocityChart from './components/VelocityChart'
@@ -277,8 +277,9 @@ export default function App() {
 
         {improvementToast !== null && (
           <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
-            <span>
-              🔔 {t('integration.improvementBoardOpen', { count: improvementToast })}{' '}
+            <span className="inline-flex items-center gap-1.5 flex-wrap">
+              <BellIcon className="w-3.5 h-3.5 flex-shrink-0" />
+              {t('integration.improvementBoardOpen', { count: improvementToast })}{' '}
               <a
                 href="https://agile-toolkit.github.io/improvement-board/"
                 target="_blank"
@@ -301,8 +302,9 @@ export default function App() {
 
         {showChangePlannerAlert && (
           <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/30 dark:text-red-300">
-            <span>
-              📉 {t('integration.changePlannerAlert')}{' '}
+            <span className="inline-flex items-center gap-1.5 flex-wrap">
+              <TrendDownIcon className="w-3.5 h-3.5 flex-shrink-0" />
+              {t('integration.changePlannerAlert')}{' '}
               <a
                 href="https://agile-toolkit.github.io/change-planner/"
                 target="_blank"
@@ -421,7 +423,8 @@ export default function App() {
               <div className="flex items-center gap-2 print:hidden">
                 {motivatorSnapshot ? (
                   <span className="flex items-center gap-1 text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded-lg px-2 py-1 dark:text-orange-400 dark:bg-orange-950/30 dark:border-orange-800">
-                    ★ {motivatorSnapshot.topMotivators.slice(0, 2).join(', ')}
+                    <StarFilledIcon className="w-3 h-3 flex-shrink-0" />
+                    {motivatorSnapshot.topMotivators.slice(0, 2).join(', ')}
                     <button
                       onClick={clearMotivatorSnapshot}
                       className="ml-1 text-orange-400 hover:text-orange-600"
@@ -429,8 +432,9 @@ export default function App() {
                     ><CloseIcon className="w-3 h-3" /></button>
                   </span>
                 ) : (
-                  <label className="btn-secondary text-sm cursor-pointer">
-                    🎯 {t('integration.importMotivators')}
+                  <label className="btn-secondary text-sm cursor-pointer inline-flex items-center gap-1">
+                    <TargetIcon className="w-3.5 h-3.5" />
+                    {t('integration.importMotivators')}
                     <input
                       type="file"
                       accept=".json,application/json"
@@ -443,31 +447,39 @@ export default function App() {
                   <>
                     <button
                       onClick={() => exportCSV(sprints, config.name)}
-                      className="btn-secondary text-sm"
+                      className="btn-secondary text-sm inline-flex items-center gap-1"
                     >
-                      ⬇ {t('results.exportCsv')}
+                      <DownloadIcon className="w-3.5 h-3.5" />
+                      {t('results.exportCsv')}
                     </button>
                     <button
                       onClick={copyDashboardImage}
                       disabled={copying}
-                      className="btn-secondary text-sm"
+                      className="btn-secondary text-sm inline-flex items-center gap-1"
                     >
-                      {copying ? '…' : `📋 ${t('results.copyImage')}`}
+                      {copying ? '…' : (
+                        <>
+                          <ClipboardIcon className="w-3.5 h-3.5" />
+                          {t('results.copyImage')}
+                        </>
+                      )}
                     </button>
                     <button
                       onClick={() => window.print()}
-                      className="btn-secondary text-sm"
+                      className="btn-secondary text-sm inline-flex items-center gap-1"
                     >
-                      🖨️ {t('results.printReport')}
+                      <PrintIcon className="w-3.5 h-3.5" />
+                      {t('results.printReport')}
                     </button>
                     <button
                       onClick={() => {
                         writeLastSession(sprints, config, activeProjectId)
                         window.open('https://agile-toolkit.github.io/scrum-facilitator/?ceremony=retro', '_blank')
                       }}
-                      className="btn-secondary text-sm"
+                      className="btn-secondary text-sm inline-flex items-center gap-1"
                     >
-                      🔁 {t('integration.startRetro')}
+                      <RefreshIcon className="w-3.5 h-3.5" />
+                      {t('integration.startRetro')}
                     </button>
                   </>
                 )}
@@ -484,7 +496,7 @@ export default function App() {
 
             {sprints.length === 0 ? (
               <div className="card text-center py-12 px-6">
-                <div className="text-5xl mb-4">📈</div>
+                <TrendUpIcon className="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
                 <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
                   {t('dashboard.empty_heading')}
                 </h2>
@@ -525,14 +537,14 @@ export default function App() {
             ) : (
               <>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                  {[
+                  {([
                     { label: t('dashboard.stats_velocity'), value: `${avgVelocity} SP` },
                     { label: t('dashboard.stats_sprints'), value: String(sprints.length) },
                     { label: t('dashboard.stats_completed'), value: `${totalCompleted} SP` },
-                    { label: t('dashboard.stats_forecast'), value: sprintsToTarget !== null ? (sprintsToTarget === 0 ? '✓' : `${sprintsToTarget}`) : '—' },
-                  ].map(stat => (
+                    { label: t('dashboard.stats_forecast'), value: sprintsToTarget !== null ? (sprintsToTarget === 0 ? <CheckIcon className="w-5 h-5" /> : `${sprintsToTarget}`) : '—' },
+                  ] as { label: string; value: ReactNode }[]).map(stat => (
                     <div key={stat.label} className="card text-center py-4">
-                      <div className="text-2xl font-bold text-brand-600 tabular-nums">{stat.value}</div>
+                      <div className="text-2xl font-bold text-brand-600 tabular-nums flex items-center justify-center">{stat.value}</div>
                       <div className="text-xs text-gray-400 mt-1 dark:text-gray-500">{stat.label}</div>
                     </div>
                   ))}

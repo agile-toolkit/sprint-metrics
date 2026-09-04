@@ -5,6 +5,21 @@
   Node `^22.22.2 || ^24.15.0 || >=26`, so the test step could never have passed
   on the pinned Node 20 — invisible until this release started running the
   tests in CI at all. Builds were unaffected (vite and tsc do not load jsdom).
+- **feat**: synced the shared `icons.tsx` (now 64 icons) and replaced the
+  remaining decorative emoji across the app: the Improvement Board toast
+  bell, the Change Planner alert's downward-trend glyph, the top-motivator
+  star chip, the motivator-import target, CSV export/copy-image/print/retro
+  action buttons, the empty dashboard's chart hero, the forecast stat's
+  checkmark (now sized to line up with its numeric neighbors), LearnView's
+  three topic icons and its pitfalls warning glyph, the poker-import card
+  icon, milestone flag and retrospective undo glyphs (both sprint table and
+  list-row views), the row edit pencil (both views), the empty-portfolio
+  folder, and the project-switcher's portfolio chart glyph. Left the 1–5
+  mood-scale emoji alone everywhere it appears (selectable value, not
+  chrome), and left the `★`/`🏁` recharts `ReferenceLine` labels in
+  `VelocityChart` and `BurnUpChart` as text glyphs — swapping recharts'
+  SVG-text labels for a custom icon-drawing label renderer was
+  disproportionate to two 10px chart annotations.
 
 
 ## 0.3.0 — Guard cross-app payloads, error boundary (2026-09-03)

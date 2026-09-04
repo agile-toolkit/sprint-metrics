@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
-import { CloseIcon } from './icons'
+import { CloseIcon, CardsIcon, FlagIcon, UndoIcon, EditIcon } from './icons'
 
 function readWorkProfilesCount(): number {
   try {
@@ -231,8 +231,9 @@ export default function SprintDataTable({
         </div>
         <div className="flex items-center gap-2 mt-3 flex-wrap">
           <button onClick={() => onUpdateConfig(localConfig)} className="btn-primary text-sm">{t('data.save_config')}</button>
-          <button type="button" onClick={handleImportFromPoker} className="btn-secondary text-sm">
-            🃏 {t('data.import_from_poker')}
+          <button type="button" onClick={handleImportFromPoker} className="btn-secondary text-sm inline-flex items-center gap-1">
+            <CardsIcon className="w-3.5 h-3.5" />
+            {t('data.import_from_poker')}
           </button>
           {pokerMsg && <span className="text-xs text-brand-600">{pokerMsg}</span>}
         </div>
@@ -466,12 +467,18 @@ export default function SprintDataTable({
                         <td className="px-4 py-2.5">
                           <span className="font-medium">{sp.name}</span>
                           {sp.milestone && (
-                            <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
-                              🏁 {sp.milestone}
+                            <span className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                              <FlagIcon className="w-3 h-3" />
+                              {sp.milestone}
                             </span>
                           )}
                           {sp.goal && <span className="block text-xs text-gray-400 italic dark:text-gray-500">{sp.goal}</span>}
-                          {sp.retrospective && <span className="block text-xs text-gray-400 italic dark:text-gray-500">↩ {sp.retrospective}</span>}
+                          {sp.retrospective && (
+                            <span className="flex items-center gap-1 text-xs text-gray-400 italic dark:text-gray-500">
+                              <UndoIcon className="w-3 h-3" />
+                              {sp.retrospective}
+                            </span>
+                          )}
                         </td>
                         <td className="px-4 py-2.5 text-right text-gray-600 dark:text-gray-400">{sp.planned}</td>
                         <td className={`px-4 py-2.5 text-right font-semibold ${sp.completed >= sp.planned ? 'text-green-600' : 'text-orange-500'}`}>{sp.completed}</td>
@@ -488,7 +495,7 @@ export default function SprintDataTable({
                           </span>
                         </td>
                         <td className="px-4 py-2.5 text-right whitespace-nowrap">
-                          <button onClick={() => startEdit(sp)} className="text-gray-400 hover:text-brand-500 text-xs mr-2 dark:text-gray-500 dark:hover:text-brand-400" title={t('data.edit')} aria-label={t('data.edit')}>✏️</button>
+                          <button onClick={() => startEdit(sp)} className="text-gray-400 hover:text-brand-500 mr-2 dark:text-gray-500 dark:hover:text-brand-400" title={t('data.edit')} aria-label={t('data.edit')}><EditIcon className="w-3.5 h-3.5" /></button>
                           <button onClick={() => onDeleteSprint(sp.id)} className="text-gray-400 hover:text-red-400 text-xs dark:text-gray-500 dark:hover:text-red-400" title={t('data.delete')} aria-label={t('data.delete')}><CloseIcon className="w-3 h-3" /></button>
                         </td>
                       </tr>

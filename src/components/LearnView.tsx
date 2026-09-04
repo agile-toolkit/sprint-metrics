@@ -1,13 +1,14 @@
 import { useTranslation } from 'react-i18next'
+import { ChartIcon, TrendUpIcon, TargetIcon, WarningIcon } from './icons'
 
 const PITFALLS = ['p1', 'p2', 'p3', 'p4'] as const
 
 export default function LearnView() {
   const { t } = useTranslation()
   const sections = [
-    { key: 'velocity', icon: '📊' },
-    { key: 'burnup', icon: '📈' },
-    { key: 'forecast', icon: '🎯' },
+    { key: 'velocity', Icon: ChartIcon },
+    { key: 'burnup', Icon: TrendUpIcon },
+    { key: 'forecast', Icon: TargetIcon },
   ] as const
 
   return (
@@ -16,7 +17,7 @@ export default function LearnView() {
       {sections.map(s => (
         <div key={s.key} className="card">
           <div className="flex gap-3">
-            <span className="text-2xl">{s.icon}</span>
+            <s.Icon className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-500 dark:text-gray-400" />
             <div>
               <h2 className="font-semibold text-gray-900 mb-2 dark:text-gray-50">{t(`learn.${s.key}_title`)}</h2>
               <p className="text-sm text-gray-600 leading-relaxed dark:text-gray-400">{t(`learn.${s.key}_body`)}</p>
@@ -29,7 +30,7 @@ export default function LearnView() {
         <ul className="space-y-2">
           {PITFALLS.map(p => (
             <li key={p} className="flex gap-2 text-sm text-orange-800 dark:text-orange-300">
-              <span>⚠️</span>
+              <WarningIcon className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
               {t(`learn.${p}`)}
             </li>
           ))}

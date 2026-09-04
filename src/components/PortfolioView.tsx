@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import type { ProjectRecord } from '../types'
 import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
+import { FolderIcon } from './icons'
 
 interface PortfolioViewProps {
   projects: ProjectRecord[]
@@ -40,7 +41,7 @@ export default function PortfolioView({ projects, activeProjectId, onSwitch, onD
 
       {projects.length === 1 && (
         <div className="card py-10 text-center text-gray-500 dark:text-gray-400">
-          <div className="text-4xl mb-3">📁</div>
+          <FolderIcon className="w-10 h-10 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
           <p className="text-sm max-w-xs mx-auto">{t('project.portfolio_empty')}</p>
           <button type="button" onClick={onCreateProject} className="mt-5 btn-secondary text-sm">
             + {t('project.new')}
