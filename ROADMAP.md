@@ -11,6 +11,10 @@ None — idle. See `## Next epics` below.
 3. **E3: Chart accessibility and bundle size** — serves #2. Screen-reader-accessible data tables beneath all four Recharts charts ([#54](https://github.com/agile-toolkit/sprint-metrics/issues/54)), and code-splitting `html2canvas` behind the Copy Image click so it isn't in the main bundle for sessions that never use it ([#55](https://github.com/agile-toolkit/sprint-metrics/issues/55)).
 
 ## Recently shipped
+**Add glass effect to the header** (2026-09-04) — see `## Shipped`. `AppHeader.tsx`'s background changed to a translucent blur, matching the Dashboard's own nav — user-reported inconsistency.
+
+**Sync icons; CI Node bump** (2026-09-04) — see `## Shipped`. Synced the shared `icons.tsx` (64 icons) and replaced the remaining decorative emoji suite-wide (toast bell, alert trend glyph, motivator chip/target, export/print/retro action icons, empty-state heroes, chart annotation flags/stars, and more). CI Node bumped 20 → 22 for `jsdom@30`.
+
 **Facilitator Mode persists across suite apps** (2026-09-03) — see `## Shipped`. `useFacilitatorMode`'s storage key changed to the shared `agile-toolkit:facilitatorMode` so the mode survives switching to another suite app in the same tab, per direct user request.
 
 **Fix close buttons using the × variant** (2026-09-03) — see `## Shipped`. Follow-up to the emoji→SVG sweep — found 4 more close buttons using `×` (multiplication sign) instead of `✕`, missed by the original grep.
@@ -33,6 +37,8 @@ None — idle. See `## Next epics` below.
 - Rollup/Vite may warn on large chunks at build time; no issue filed — consider `manualChunks` if it becomes disruptive.
 
 ## Shipped
+- ~~Add glass/backdrop-blur effect to the header, matching the Dashboard's own nav~~
+- ~~Sync the shared `icons.tsx` and replace remaining decorative emoji suite-wide, including chart-annotation flag/star icons~~
 - ~~Unify Facilitator Mode's storage key to the shared `agile-toolkit:facilitatorMode` so it persists across suite apps~~
 - ~~Fix 4 more close buttons using the × variant instead of ✕~~
 - ~~Replace decorative ✕ text-glyph buttons with shared SVG icons~~

@@ -47,7 +47,7 @@ const GridIcon = () => (
 
 export default function AppHeader({ title, onTitleClick, navItems, hideLanguagePicker, children }: AppHeaderProps) {
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-gray-900 dark:border-gray-800">
+    <header className="bg-[var(--glass)] backdrop-blur-sm border-b border-gray-200 sticky top-0 z-10 dark:border-gray-800">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
 
         {/* Left: dashboard link + app title */}
