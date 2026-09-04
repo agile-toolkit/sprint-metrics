@@ -16,10 +16,20 @@
   list-row views), the row edit pencil (both views), the empty-portfolio
   folder, and the project-switcher's portfolio chart glyph. Left the 1–5
   mood-scale emoji alone everywhere it appears (selectable value, not
-  chrome), and left the `★`/`🏁` recharts `ReferenceLine` labels in
-  `VelocityChart` and `BurnUpChart` as text glyphs — swapping recharts'
-  SVG-text labels for a custom icon-drawing label renderer was
-  disproportionate to two 10px chart annotations.
+  chrome).
+- **feat**: the `★`/`🏁` `VelocityChart`/`BurnUpChart` `ReferenceLine`
+  annotations (top motivator, sprint milestones) now draw a small SVG flag
+  or star next to the label text instead of an emoji glyph, via a new
+  `ChartAnnotationLabel` used as a recharts custom `label` render function.
+  The icon sits at a fixed offset from the reference line and the text
+  grows away from it, so the icon's position never depends on the text's
+  length and the label can't grow toward or across the line. Verified by
+  screenshotting the running app (light and dark) with sample milestone
+  and motivator data, and by diffing against the pre-change emoji version
+  with the same data: label crowding when two annotations land close
+  together, and text clipping when a milestone sits on the chart's last
+  sprint, both reproduce identically before and after — pre-existing
+  chart-layout limits, not a regression from this change.
 
 
 ## 0.3.0 — Guard cross-app payloads, error boundary (2026-09-03)

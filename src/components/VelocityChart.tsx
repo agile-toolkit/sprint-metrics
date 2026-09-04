@@ -7,6 +7,7 @@ import {
 import type { SprintData, MotivatorSnapshot, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel } from '../utils/healthScore'
 import { useIsDarkMode } from '../utils/theme'
+import { ChartAnnotationLabel } from './ChartAnnotationLabel'
 
 export function ChartWrapper({
   title,
@@ -180,7 +181,9 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
               stroke="#f97316"
               strokeWidth={2}
               strokeDasharray="4 2"
-              label={{ value: `★ ${motivatorSnapshot.topMotivators[0]}`, fontSize: 10, fill: '#f97316', position: 'insideTopRight' }}
+              label={(props: object) => (
+                <ChartAnnotationLabel {...props} value={motivatorSnapshot.topMotivators[0]} fill="#f97316" icon="star" position="insideTopRight" />
+              )}
             />
           )}
           {sprints.filter(sp => sp.milestone).map(sp => (
@@ -191,7 +194,9 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
               stroke="#d97706"
               strokeWidth={1.5}
               strokeDasharray="3 3"
-              label={{ value: `🏁 ${sp.milestone}`, fontSize: 10, fill: '#d97706', position: 'insideTopLeft' }}
+              label={(props: object) => (
+                <ChartAnnotationLabel {...props} value={sp.milestone ?? ''} fill="#d97706" icon="flag" position="insideTopLeft" />
+              )}
             />
           ))}
           {hasMood && (

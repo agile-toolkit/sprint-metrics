@@ -5,6 +5,7 @@ import {
 } from 'recharts'
 import type { SprintData, ProjectConfig } from '../types'
 import { useIsDarkMode } from '../utils/theme'
+import { ChartAnnotationLabel } from './ChartAnnotationLabel'
 
 interface Props {
   sprints: SprintData[]
@@ -65,7 +66,9 @@ export default function BurnUpChart({ sprints, config }: Props) {
               stroke="#d97706"
               strokeWidth={1.5}
               strokeDasharray="3 3"
-              label={{ value: `🏁 ${sp.milestone}`, fontSize: 10, fill: '#d97706', position: 'insideTopLeft' }}
+              label={(props: object) => (
+                <ChartAnnotationLabel {...props} value={sp.milestone ?? ''} fill="#d97706" icon="flag" position="insideTopLeft" />
+              )}
             />
           ))}
           <Line
