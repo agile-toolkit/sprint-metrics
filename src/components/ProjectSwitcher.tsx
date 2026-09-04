@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ProjectRecord } from '../types'
+import { ChartIcon } from './icons'
 
 interface ProjectSwitcherProps {
   projects: ProjectRecord[]
@@ -63,7 +64,8 @@ export default function ProjectSwitcher({ projects, activeProjectId, onSwitch, o
               onClick={() => { onPortfolio(); setOpen(false) }}
               className="w-full text-left px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-2"
             >
-              📊 {t('nav.portfolio')}
+              <ChartIcon className="w-3.5 h-3.5" />
+              {t('nav.portfolio')}
             </button>
             <button
               type="button"
