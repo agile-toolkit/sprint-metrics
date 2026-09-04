@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+## 0.4.0 — AgileEVM (2026-09-04)
+
+- **feat**: new "EVM" tab implementing AgileEVM — earned value management
+  adapted to Scrum (Sulaiman & Baham), with story points standing in for
+  the traditional dollar budget. Set a release-length baseline (`plannedSprints`)
+  and see Planned Value, Earned Value, SPI (schedule performance index), and
+  a schedule-derived finish forecast, on top of a PV/EV line chart. Schedule
+  side only for this release — see `src/agileEvm.ts`'s doc comment for why a
+  cost-side CPI needs genuine per-sprint actual-cost data to be an honest
+  second signal rather than a relabeled SPI.
+- **fix**: "Load Sample Data" silently didn't load anything — `updateSprints()`
+  followed by `updateConfig()` in the same click handler both read the same
+  stale `projects` state, so the second call discarded the first's effect.
+  Found while manually verifying the EVM feature in a browser. Fixed as a
+  single `persistProjects` call (`loadSampleData` in `App.tsx`).
+
 ## 0.3.2 — Add glass effect to the header (2026-09-04)
 
 - **fix**: `AppHeader.tsx`'s background changed from opaque

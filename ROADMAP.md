@@ -11,6 +11,8 @@ None — idle. See `## Next epics` below.
 3. **E3: Chart accessibility and bundle size** — serves #2. Screen-reader-accessible data tables beneath all four Recharts charts ([#54](https://github.com/agile-toolkit/sprint-metrics/issues/54)), and code-splitting `html2canvas` behind the Copy Image click so it isn't in the main bundle for sessions that never use it ([#55](https://github.com/agile-toolkit/sprint-metrics/issues/55)).
 
 ## Recently shipped
+**AgileEVM** (2026-09-04) — see `## Shipped`. New "EVM" tab: Planned Value, Earned Value, SPI and a schedule-derived finish forecast against a user-set release baseline (`plannedSprints`), per Sulaiman & Baham's Scrum adaptation of earned value management. Serves signals #2 (reports for stakeholders) and #4 (credible free answer to what paid PM tools gate behind an enterprise tier — full EVM suites like Deltek Cobra/Primavera are squarely enterprise-priced). Deliberately schedule-only for this first slice: a cost-side CPI/EAC/ETC would need genuine per-sprint actual-cost data to avoid being mathematically identical to SPI (see README `## Tech notes`) — a caught-in-QA design correction, not the original plan; tracked as a follow-up feature, not shipped as a fake metric. Also fixed a pre-existing bug found while manually verifying this feature: the "Load Sample Data" button called `updateSprints()` then `updateConfig()` back to back from the same stale `projects` closure, so the second call silently discarded the first — sample data never actually loaded. Fixed as a single `persistProjects` call (`loadSampleData` in `App.tsx`).
+
 **Add glass effect to the header** (2026-09-04) — see `## Shipped`. `AppHeader.tsx`'s background changed to a translucent blur, matching the Dashboard's own nav — user-reported inconsistency.
 
 **Sync icons; CI Node bump** (2026-09-04) — see `## Shipped`. Synced the shared `icons.tsx` (64 icons) and replaced the remaining decorative emoji suite-wide (toast bell, alert trend glyph, motivator chip/target, export/print/retro action icons, empty-state heroes, chart annotation flags/stars, and more). CI Node bumped 20 → 22 for `jsdom@30`.
@@ -35,8 +37,10 @@ None — idle. See `## Next epics` below.
 
 ## Polish backlog
 - Rollup/Vite may warn on large chunks at build time; no issue filed — consider `manualChunks` if it becomes disruptive.
+- AgileEVM cost side (CPI/EAC/ETC): needs a genuine per-sprint actual-cost field (optional, alongside `teamSize`/`mood`) so Actual Cost can vary independently of the plan — see `src/agileEvm.ts`'s doc comment for why a flat per-sprint rate can't produce an honest CPI. Not yet spec'd as its own epic.
 
 ## Shipped
+- ~~AgileEVM — PV/EV/SPI and a schedule-derived finish forecast against a user-set release baseline, new "EVM" tab~~
 - ~~Add glass/backdrop-blur effect to the header, matching the Dashboard's own nav~~
 - ~~Sync the shared `icons.tsx` and replace remaining decorative emoji suite-wide, including chart-annotation flag/star icons~~
 - ~~Unify Facilitator Mode's storage key to the shared `agile-toolkit:facilitatorMode` so it persists across suite apps~~
