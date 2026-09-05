@@ -42,6 +42,7 @@ export default function CFDChart({ sprints }: Props) {
       <h2 className="font-semibold text-gray-900 dark:text-gray-50 mb-4">
         {t('dashboard.cfd_title')}
       </h2>
+      <div role="img" aria-hidden="true">
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart data={data} stackOffset="none">
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" strokeOpacity={0.1} />
@@ -88,6 +89,29 @@ export default function CFDChart({ sprints }: Props) {
           />
         </AreaChart>
       </ResponsiveContainer>
+      </div>
+      <div className="sr-only">
+        <table aria-label={t('a11y.cfd_table')}>
+          <thead>
+            <tr>
+              <th>{t('data.sprint_name')}</th>
+              <th>{t('data.todo')}</th>
+              <th>{t('data.inProgress')}</th>
+              <th>{t('data.done')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cfdSprints.map(s => (
+              <tr key={s.id}>
+                <td>{s.name}</td>
+                <td>{s.todo ?? 0}</td>
+                <td>{s.inProgress ?? 0}</td>
+                <td>{s.done ?? 0}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

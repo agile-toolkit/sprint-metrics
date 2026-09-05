@@ -119,6 +119,7 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
           </span>
         )}
       </div>
+      <div role="img" aria-hidden="true">
       <ResponsiveContainer width="100%" height={220}>
         <ComposedChart data={data} margin={{ top: 5, right: rightMargin, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -247,6 +248,33 @@ export default function VelocityChart({ sprints, motivatorSnapshot, config }: Pr
           )}
         </ComposedChart>
       </ResponsiveContainer>
+      </div>
+      <div className="sr-only">
+        <table aria-label={t('a11y.velocity_table')}>
+          <thead>
+            <tr>
+              <th>{t('data.sprint_name')}</th>
+              <th>{t('dashboard.planned')}</th>
+              <th>{t('dashboard.completed')}</th>
+              <th>{t('data.carried')}</th>
+              {hasMood && <th>{t('data.moodLabel')}</th>}
+              {hasNormData && <th>{t('data.normalizedVelocity')}</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {sprints.map((sp, i) => (
+              <tr key={sp.id}>
+                <td>{sp.name}</td>
+                <td>{sp.planned}</td>
+                <td>{sp.completed}</td>
+                <td>{sp.carriedOver}</td>
+                {hasMood && <td>{sp.mood !== undefined ? MOOD_EMOJIS[sp.mood - 1] ?? sp.mood : '—'}</td>}
+                {hasNormData && <td>{data[i][NORM_KEY] ?? '—'}</td>}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
