@@ -117,7 +117,8 @@
     "kanbanCfdHint": "Autocompletado desde {{boardName}} — ajusta si es necesario",
     "startRetro": "Iniciar Retrospectiva",
     "teamIdentityBadge": "{{teamName}} — panel de sprint",
-    "teamIdentityBadgeTitle": "Ver o actualizar el estatuto de este equipo en Team Identity"
+    "teamIdentityBadgeTitle": "Ver o actualizar el estatuto de este equipo en Team Identity",
+    "importRetroNotes": "Importar desde Scrum Facilitator (retro del {{date}})"
   },
   "burndown": {
     "title": "Burn-down del Sprint (ilustrativo)",

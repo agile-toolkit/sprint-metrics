@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+## 0.4.4 — Import retro notes from Scrum Facilitator (2026-09-05)
+
+- **feat** (issue #52): when the add-sprint form is open in either
+  `SprintDataTable.tsx` (quick entry) or `SprintDataView.tsx` (detailed
+  table), a "📋 Import from Scrum Facilitator (retro on {{date}})" link
+  appears under the Retrospective Notes field if Scrum Facilitator's
+  `scrum-facilitator-history` has a recent retro session with sticky
+  notes. Clicking it fills the field with all non-empty notes flattened
+  as `• <text>` bullets, prefixed by column name when the retro used
+  more than one column (e.g. `Well:\n• Item 1\nImprove:\n• Item 2`);
+  the user can edit before saving. New `src/utils/scrumFacilitatorImport.ts`
+  (`readLatestRetroNotes`) with 9 unit tests.
+  - Answers to the issue's open questions: (1) one-click **replace**, not
+    append — matches the "click to pre-fill" pattern already used by the
+    Moving Motivators interests import elsewhere in the suite; (2) no
+    staleness cutoff — the history is already capped at 5 entries, and
+    the button's own date label lets the user judge freshness themselves
+    rather than silently hiding an older-but-still-useful retro.
+
 ## 0.4.3 — Team Identity badge on the dashboard (2026-09-05)
 
 - **feat** (issue #56): reads Team Identity's `team-identity:lastSession`
