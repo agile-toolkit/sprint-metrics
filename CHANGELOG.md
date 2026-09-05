@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.4.1 — Lazy-load html2canvas (2026-09-05)
+
+- **perf** (issue #55): `html2canvas` (~200 KB gzipped ~50 KB) was
+  imported statically at the top of `App.tsx` even though it's only
+  used by the "Copy Image" button. Replaced with a dynamic
+  `import('html2canvas')` inside the click handler, so it's now its
+  own chunk (`html2canvas.esm-*.js`) that only loads on first use — every
+  visitor who never clicks Copy Image no longer downloads it. The
+  existing `copying` disabled/loading state on the button already
+  covers the one-time chunk-fetch delay, so no new UI state was needed.
+
 ## 0.4.0 — AgileEVM (2026-09-04)
 
 - **feat**: new "EVM" tab implementing AgileEVM — earned value management
