@@ -117,7 +117,8 @@
     "kanbanCfdHint": "Автозаполнено из {{boardName}} — при необходимости скорректируйте",
     "startRetro": "Начать ретроспективу",
     "teamIdentityBadge": "{{teamName}} — панель спринта",
-    "teamIdentityBadgeTitle": "Просмотреть или обновить устав этой команды в Team Identity"
+    "teamIdentityBadgeTitle": "Просмотреть или обновить устав этой команды в Team Identity",
+    "importRetroNotes": "Импорт из Scrum Facilitator (ретро от {{date}})"
   },
   "burndown": {
     "title": "Burn-down спринта (схематично)",

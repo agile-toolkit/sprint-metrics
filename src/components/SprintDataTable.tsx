@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SprintData, ProjectConfig } from '../types'
 import { computeHealthScore, buildMaxNormVel, getHealthColor, HEALTH_BADGE_CLASSES } from '../utils/healthScore'
+import { readLatestRetroNotes } from '../utils/scrumFacilitatorImport'
 import { CloseIcon, CardsIcon, FlagIcon, UndoIcon, EditIcon } from './icons'
 
 function readWorkProfilesCount(): number {
@@ -115,6 +116,11 @@ export default function SprintDataTable({
   const [edit, setEdit] = useState<EditFormState | null>(null)
   const [kanbanCfd] = useState(() => readKanbanCfdCounts())
   const [showKanbanHint, setShowKanbanHint] = useState(false)
+  const [retroImport] = useState(() => readLatestRetroNotes())
+
+  const applyRetroImport = () => {
+    if (retroImport) setRetrospective(retroImport.text)
+  }
 
   const startEdit = (sp: SprintData) => {
     setShowAdd(false)
@@ -294,6 +300,15 @@ export default function SprintDataTable({
             <div className="col-span-2 sm:col-span-4">
               <label className="label">{t('data.retrospective')}</label>
               <textarea className="input resize-none" rows={2} value={retrospective} onChange={e => setRetrospective(e.target.value)} placeholder="" />
+              {retroImport && (
+                <button
+                  type="button"
+                  onClick={applyRetroImport}
+                  className="text-xs text-brand-600 hover:text-brand-700 dark:text-brand-400 mt-1"
+                >
+                  {t('integration.importRetroNotes', { date: retroImport.date })}
+                </button>
+              )}
             </div>
             <div className="col-span-2 sm:col-span-2">
               <label className="label">{t('data.milestone')}</label>

@@ -117,7 +117,8 @@
     "kanbanCfdHint": "Auto-filled from {{boardName}} — adjust if needed",
     "startRetro": "Start Retrospective",
     "teamIdentityBadge": "{{teamName}} — sprint dashboard",
-    "teamIdentityBadgeTitle": "View or update this team's charter in Team Identity"
+    "teamIdentityBadgeTitle": "View or update this team's charter in Team Identity",
+    "importRetroNotes": "Import from Scrum Facilitator (retro on {{date}})"
   },
   "burndown": {
     "title": "Sprint burn-down (illustrative)",
