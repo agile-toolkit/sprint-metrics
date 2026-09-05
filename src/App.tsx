@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import html2canvas from 'html2canvas'
 import type { Screen, SprintData, ProjectConfig, ProjectRecord, MotivatorSnapshot } from './types'
 import { SAMPLE_SPRINTS, SAMPLE_CONFIG } from './data/sample'
 import AppHeader from './components/AppHeader'
@@ -194,6 +193,7 @@ export default function App() {
     if (!dashboardRef.current || copying) return
     setCopying(true)
     try {
+      const { default: html2canvas } = await import('html2canvas')
       const canvas = await html2canvas(dashboardRef.current, { backgroundColor: '#f9fafb', scale: 2 })
       canvas.toBlob(blob => {
         if (blob) navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
