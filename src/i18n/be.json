@@ -115,7 +115,9 @@
     "improvementBoardLogLink": "Запісаць як паляпшэнне",
     "teamSizeFromProfiles": "На аснове {{count}} працоўных профіляў",
     "kanbanCfdHint": "Аўтазапоўнена з {{boardName}} — карэктуйце пры неабходнасці",
-    "startRetro": "Пачаць рэтраспектыву"
+    "startRetro": "Пачаць рэтраспектыву",
+    "teamIdentityBadge": "{{teamName}} — панэль спрынту",
+    "teamIdentityBadgeTitle": "Прагледзець або абнавіць статут гэтай каманды ў Team Identity"
   },
   "burndown": {
     "title": "Burn-down спрынту (схематычна)",

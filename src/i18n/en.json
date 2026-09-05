@@ -115,7 +115,9 @@
     "improvementBoardLogLink": "Log as improvement item",
     "teamSizeFromProfiles": "Based on {{count}} Work Profiles",
     "kanbanCfdHint": "Auto-filled from {{boardName}} — adjust if needed",
-    "startRetro": "Start Retrospective"
+    "startRetro": "Start Retrospective",
+    "teamIdentityBadge": "{{teamName}} — sprint dashboard",
+    "teamIdentityBadgeTitle": "View or update this team's charter in Team Identity"
   },
   "burndown": {
     "title": "Sprint burn-down (illustrative)",

@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## 0.4.3 — Team Identity badge on the dashboard (2026-09-05)
+
+- **feat** (issue #56): reads Team Identity's `team-identity:lastSession`
+  key (written on every charter save) and, when present, shows a small
+  badge under the project name on the Dashboard tab — the team's symbol
+  plus name (e.g. "🦉 Nightwatch — sprint dashboard"), linking to
+  Team Identity in a new tab. Graceful fallback: renders exactly as
+  before when the key is missing or malformed. New
+  `loadTeamIdentitySnapshot()` in `sprintData.ts` (4 new unit tests) and
+  `integration.teamIdentityBadge`/`teamIdentityBadgeTitle` i18n keys in
+  all four locales.
+  - Answers to the issue's open questions: (1) badge shown on the
+    Dashboard tab only, next to the project name, not persisted across
+    every tab — keeps other screens uncluttered; (2) the same badge
+    applies regardless of which project is active, since
+    `team-identity:lastSession` only ever holds one (the most recent)
+    team's data.
+
 ## 0.4.2 — Accessible data tables for charts (2026-09-05)
 
 - **a11y** (issue #54): `VelocityChart`, `BurnDownChart`, `BurnUpChart`,

@@ -115,7 +115,9 @@
     "improvementBoardLogLink": "Записать как улучшение",
     "teamSizeFromProfiles": "На основе {{count}} рабочих профилей",
     "kanbanCfdHint": "Автозаполнено из {{boardName}} — при необходимости скорректируйте",
-    "startRetro": "Начать ретроспективу"
+    "startRetro": "Начать ретроспективу",
+    "teamIdentityBadge": "{{teamName}} — панель спринта",
+    "teamIdentityBadgeTitle": "Просмотреть или обновить устав этой команды в Team Identity"
   },
   "burndown": {
     "title": "Burn-down спринта (схематично)",

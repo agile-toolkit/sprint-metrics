@@ -2,10 +2,10 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import type { ProjectRecord, SprintData } from './types'
 import {
   PROJECTS_KEY, ACTIVE_PROJECT_KEY, LEGACY_SPRINTS_KEY, LEGACY_CONFIG_KEY,
-  MOTIVATOR_KEY, MM_LAST_SESSION_KEY, SM_LAST_SESSION_KEY,
+  MOTIVATOR_KEY, MM_LAST_SESSION_KEY, SM_LAST_SESSION_KEY, TEAM_IDENTITY_KEY,
   hasTwoConsecutiveDeclines, tryParse, saveProjects, initAppState,
   loadMotivatorSnapshot, saveMotivatorSnapshot, writeLastSession,
-  parseCSV, exportCSV, buildImprovementBoardUrl,
+  parseCSV, exportCSV, buildImprovementBoardUrl, loadTeamIdentitySnapshot,
 } from './sprintData'
 
 beforeEach(() => {
@@ -107,6 +107,28 @@ describe('loadMotivatorSnapshot / saveMotivatorSnapshot', () => {
     localStorage.setItem(MOTIVATOR_KEY, JSON.stringify({ date: '2026-09-01', topMotivators: ['X'] }))
     saveMotivatorSnapshot(null)
     expect(localStorage.getItem(MOTIVATOR_KEY)).toBeNull()
+  })
+})
+
+describe('loadTeamIdentitySnapshot', () => {
+  it('returns null when nothing is stored', () => {
+    expect(loadTeamIdentitySnapshot()).toBeNull()
+  })
+
+  it('returns null for invalid JSON', () => {
+    localStorage.setItem(TEAM_IDENTITY_KEY, '{not json')
+    expect(loadTeamIdentitySnapshot()).toBeNull()
+  })
+
+  it('returns null when required fields are missing', () => {
+    localStorage.setItem(TEAM_IDENTITY_KEY, JSON.stringify({ teamName: 'Nightwatch' }))
+    expect(loadTeamIdentitySnapshot()).toBeNull()
+  })
+
+  it('parses a valid snapshot', () => {
+    const snapshot = { teamName: 'Nightwatch', symbol: '🦉', valuesCount: 5, agreementsCount: 3, membersCount: 6, savedAt: 1234 }
+    localStorage.setItem(TEAM_IDENTITY_KEY, JSON.stringify(snapshot))
+    expect(loadTeamIdentitySnapshot()).toEqual(snapshot)
   })
 })
 
