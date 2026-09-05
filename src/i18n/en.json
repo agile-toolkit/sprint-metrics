@@ -186,5 +186,12 @@
   "facilitator": {
     "toggle_on": "Facilitator Mode",
     "toggle_off": "Exit Facilitator Mode"
+  },
+  "a11y": {
+    "day": "Day",
+    "velocity_table": "Velocity chart data",
+    "burndown_table": "Burn-down chart data",
+    "burnup_table": "Burn-up chart data",
+    "cfd_table": "Cumulative flow diagram data"
   }
 }

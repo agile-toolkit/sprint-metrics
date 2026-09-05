@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+## 0.4.2 — Accessible data tables for charts (2026-09-05)
+
+- **a11y** (issue #54): `VelocityChart`, `BurnDownChart`, `BurnUpChart`,
+  and `CFDChart` render entirely as SVG via Recharts, with nothing for a
+  screen reader to read. Each chart's `<ResponsiveContainer>` is now
+  wrapped in `role="img" aria-hidden="true"`, paired with a visually
+  hidden (`sr-only`) `<table>` sibling summarising the same data with an
+  `aria-label` matching the chart's title — the standard accessible-chart
+  pattern (WCAG 2.1 SC 1.1.1). No visual change for sighted users;
+  verified in a real browser that the charts render identically and the
+  four accessible tables exist in the DOM with real data rows.
+  - `VelocityChart`: Sprint | Planned | Completed | Carried Over | Mood
+    (if present) | Normalised Velocity (if present)
+  - `BurnDownChart`: Day | Ideal Remaining | Actual Remaining
+  - `BurnUpChart`: Sprint | Cumulative Completed | Target Scope
+  - `CFDChart`: Sprint | To Do | In Progress | Done
+  - New `a11y` i18n keys (`day`, `velocity_table`, `burndown_table`,
+    `burnup_table`, `cfd_table`) in all four locales; every other table
+    header reuses an existing translation key.
+
 ## 0.4.1 — Lazy-load html2canvas (2026-09-05)
 
 - **perf** (issue #55): `html2canvas` (~200 KB gzipped ~50 KB) was

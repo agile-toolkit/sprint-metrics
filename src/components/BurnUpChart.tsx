@@ -46,6 +46,7 @@ export default function BurnUpChart({ sprints, config }: Props) {
   return (
     <div className="card">
       <h2 className="font-semibold text-gray-900 mb-4 dark:text-gray-50">{t('dashboard.burnup_title')}</h2>
+      <div role="img" aria-hidden="true">
       <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -81,6 +82,27 @@ export default function BurnUpChart({ sprints, config }: Props) {
           />
         </LineChart>
       </ResponsiveContainer>
+      </div>
+      <div className="sr-only">
+        <table aria-label={t('a11y.burnup_table')}>
+          <thead>
+            <tr>
+              <th>{t('data.sprint_name')}</th>
+              <th>{t('dashboard.cumulative')}</th>
+              <th>{t('dashboard.target')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map(row => (
+              <tr key={row.name}>
+                <td>{row.name}</td>
+                <td>{row[t('dashboard.cumulative')]}</td>
+                <td>{config.targetScope}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

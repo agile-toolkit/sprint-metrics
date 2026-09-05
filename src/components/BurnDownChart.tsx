@@ -59,6 +59,7 @@ export default function BurnDownChart({ sprints }: Props) {
           ))}
         </select>
       </div>
+      <div role="img" aria-hidden="true">
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -85,6 +86,27 @@ export default function BurnDownChart({ sprints }: Props) {
           />
         </LineChart>
       </ResponsiveContainer>
+      </div>
+      <div className="sr-only">
+        <table aria-label={t('a11y.burndown_table')}>
+          <thead>
+            <tr>
+              <th>{t('a11y.day')}</th>
+              <th>{t('burndown.ideal')}</th>
+              <th>{t('burndown.actual')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map(row => (
+              <tr key={row.day}>
+                <td>{row.day}</td>
+                <td>{row.ideal}</td>
+                <td>{row.actual}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </ChartWrapper>
   )
 }
