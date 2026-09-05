@@ -1,4 +1,4 @@
-export type Screen = 'dashboard' | 'data' | 'learn' | 'portfolio' | 'cfd' | 'evm'
+export type Screen = 'dashboard' | 'data' | 'learn' | 'portfolio' | 'cfd' | 'evm' | 'quarterly'
 
 export interface SprintData {
   id: string

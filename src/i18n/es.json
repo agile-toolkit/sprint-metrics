@@ -11,7 +11,8 @@
     "portfolio": "Portafolio",
     "cfd": "Flujo Kanban",
     "learn": "Aprender",
-    "evm": "EVM"
+    "evm": "EVM",
+    "quarterly": "Trimestral"
   },
   "project": {
     "portfolio": "Portafolio de Proyectos",
@@ -196,5 +197,15 @@
     "burndown_table": "Datos del gráfico de burn-down",
     "burnup_table": "Datos del gráfico de burn-up",
     "cfd_table": "Datos del diagrama de flujo acumulado"
+  },
+  "quarterly": {
+    "title": "Resumen Trimestral",
+    "noData": "Agrega datos de sprint para ver los totales trimestrales.",
+    "exportCsv": "Exportar CSV",
+    "sprints": "{{count}} sprint(s)",
+    "totalPlanned": "Total Planificado",
+    "totalCompleted": "Total Completado",
+    "avgVelocity": "Velocidad",
+    "avgMood": "Ánimo Promedio"
   }
 }

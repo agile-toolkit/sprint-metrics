@@ -18,6 +18,7 @@ import SprintDataTable from './components/SprintDataTable'
 import SprintDataView from './components/SprintDataView'
 import LearnView from './components/LearnView'
 import CFDChart from './components/CFDChart'
+import QuarterlyView from './components/QuarterlyView'
 import {
   ACTIVE_PROJECT_KEY, DEFAULT_CONFIG,
   hasTwoConsecutiveDeclines, saveProjects, initAppState,
@@ -232,6 +233,7 @@ export default function App() {
     { key: 'data', label: t('nav.data') },
     { key: 'cfd', label: t('nav.cfd') },
     { key: 'evm', label: t('nav.evm') },
+    { key: 'quarterly', label: t('nav.quarterly') },
     { key: 'portfolio', label: t('nav.portfolio') },
     { key: 'learn', label: t('nav.learn') },
   ]
@@ -364,6 +366,10 @@ export default function App() {
             <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">{t('nav.evm')}</h1>
             <AgileEvmView sprints={sprints} config={config} onUpdateConfig={updateConfig} />
           </div>
+        )}
+
+        {screen === 'quarterly' && (
+          <QuarterlyView sprints={sprints} sprintLengthWeeks={config.sprintLengthWeeks} projectName={config.name} />
         )}
 
         {screen === 'portfolio' && (

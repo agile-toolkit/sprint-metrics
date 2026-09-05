@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+## 0.5.0 — Quarterly rollup view (2026-09-05)
+
+- **feat** (issue #53): new "Quarterly" nav tab (`QuarterlyView.tsx`)
+  groups sprints into calendar-quarter cards with aggregated totals
+  (planned/completed/carried-over points, velocity %, average mood,
+  average team size), a tiny embedded Recharts bar chart of per-sprint
+  completed points, and a collapsible per-sprint breakdown. A separate
+  "Export CSV" button downloads the quarterly totals (not folded into
+  the existing per-sprint CSV, whose column schema is a stable contract
+  other tools may already parse).
+  - New `src/utils/quarterlyRollup.ts` (`groupSprintsIntoQuarters`,
+    `buildQuarterlyCsv`, `downloadQuarterlyCsv`) with 11 unit tests.
+  - **Grouping heuristic** (issue's question 1): if *every* sprint's
+    `name` embeds a recognizable "YYYY-Qn" or "Qn YYYY" pattern, groups
+    by that (sorted chronologically); a partial match would produce a
+    misleading mix of real and inferred quarters, so it only activates
+    when all sprints agree. Otherwise falls back to insertion-order
+    batching, sized to roughly one quarter (~13 weeks) of sprints given
+    the project's `sprintLengthWeeks`.
+  - New `nav.quarterly` and `quarterly.*` i18n keys in all four locales.
+
 ## 0.4.4 — Import retro notes from Scrum Facilitator (2026-09-05)
 
 - **feat** (issue #52): when the add-sprint form is open in either
