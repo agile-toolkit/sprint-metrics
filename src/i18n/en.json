@@ -11,7 +11,8 @@
     "portfolio": "Portfolio",
     "cfd": "Kanban Flow",
     "learn": "Learn",
-    "evm": "EVM"
+    "evm": "EVM",
+    "quarterly": "Quarterly"
   },
   "project": {
     "portfolio": "Project Portfolio",
@@ -196,5 +197,15 @@
     "burndown_table": "Burn-down chart data",
     "burnup_table": "Burn-up chart data",
     "cfd_table": "Cumulative flow diagram data"
+  },
+  "quarterly": {
+    "title": "Quarterly Rollup",
+    "noData": "Add sprint data to see quarterly totals.",
+    "exportCsv": "Export CSV",
+    "sprints": "{{count}} sprint(s)",
+    "totalPlanned": "Total Planned",
+    "totalCompleted": "Total Completed",
+    "avgVelocity": "Velocity",
+    "avgMood": "Avg Mood"
   }
 }
