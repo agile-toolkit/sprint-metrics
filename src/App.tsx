@@ -22,7 +22,7 @@ import {
   ACTIVE_PROJECT_KEY, DEFAULT_CONFIG,
   hasTwoConsecutiveDeclines, saveProjects, initAppState,
   loadMotivatorSnapshot, saveMotivatorSnapshot, writeLastSession,
-  parseCSV, exportCSV, buildImprovementBoardUrl,
+  parseCSV, exportCSV, buildImprovementBoardUrl, loadTeamIdentitySnapshot,
 } from './sprintData'
 
 export default function App() {
@@ -40,6 +40,7 @@ export default function App() {
   const [dataMode, setDataMode] = useState<'quick' | 'detailed'>('quick')
   const [copying, setCopying] = useState(false)
   const [motivatorSnapshot, setMotivatorSnapshot] = useState<MotivatorSnapshot | null>(loadMotivatorSnapshot)
+  const [teamIdentity] = useState(loadTeamIdentitySnapshot)
   const [improvementToast, setImprovementToast] = useState<number | null>(null)
   const [changePlannerDismissed, setChangePlannerDismissed] = useState(false)
   const [lastDeleted, setLastDeleted] = useState<{ sprint: SprintData; index: number } | null>(null)
@@ -432,6 +433,18 @@ export default function App() {
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">
                   {config.name || t('dashboard.title')}
                 </h1>
+                {teamIdentity && (
+                  <a
+                    href="https://agile-toolkit.github.io/team-identity/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 mt-0.5"
+                    title={t('integration.teamIdentityBadgeTitle')}
+                  >
+                    <span aria-hidden="true">{teamIdentity.symbol}</span>
+                    {t('integration.teamIdentityBadge', { teamName: teamIdentity.teamName })}
+                  </a>
+                )}
                 {sprints.length > 0 && sprints[sprints.length - 1].goal && (
                   <p className="text-sm text-gray-500 mt-0.5 italic dark:text-gray-400">
                     {sprints[sprints.length - 1].goal}

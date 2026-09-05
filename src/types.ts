@@ -42,3 +42,12 @@ export interface MotivatorSnapshot {
   topMotivators: string[]
   shifts?: { name: string; delta: number }[]
 }
+
+export interface TeamIdentitySnapshot {
+  teamName: string
+  symbol: string
+  valuesCount: number
+  agreementsCount: number
+  membersCount: number
+  savedAt: number
+}

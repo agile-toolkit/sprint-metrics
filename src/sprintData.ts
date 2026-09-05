@@ -1,4 +1,4 @@
-import type { SprintData, ProjectConfig, ProjectRecord, MotivatorSnapshot } from './types'
+import type { SprintData, ProjectConfig, ProjectRecord, MotivatorSnapshot, TeamIdentitySnapshot } from './types'
 
 export const PROJECTS_KEY = 'sprint-metrics-projects'
 export const ACTIVE_PROJECT_KEY = 'sprint-metrics-active-project'
@@ -7,6 +7,7 @@ export const LEGACY_CONFIG_KEY = 'sprint-metrics-config'
 export const MOTIVATOR_KEY = 'sprint-metrics:motivatorSnapshot'
 export const MM_LAST_SESSION_KEY = 'moving-motivators:lastSession'
 export const SM_LAST_SESSION_KEY = 'sprint-metrics:lastSession'
+export const TEAM_IDENTITY_KEY = 'team-identity:lastSession'
 
 export const DEFAULT_CONFIG: ProjectConfig = { name: 'My Project', targetScope: 200, sprintLengthWeeks: 2 }
 
@@ -128,6 +129,22 @@ export function loadMotivatorSnapshot(): MotivatorSnapshot | null {
 export function saveMotivatorSnapshot(s: MotivatorSnapshot | null) {
   if (s) localStorage.setItem(MOTIVATOR_KEY, JSON.stringify(s))
   else localStorage.removeItem(MOTIVATOR_KEY)
+}
+
+// Read-only: Team Identity writes this key on every charter save. This
+// only ever holds one (the most recent) team's data, so it applies the
+// same regardless of which Sprint Metrics project is active.
+export function loadTeamIdentitySnapshot(): TeamIdentitySnapshot | null {
+  try {
+    const raw = localStorage.getItem(TEAM_IDENTITY_KEY)
+    if (!raw) return null
+    const parsed: unknown = JSON.parse(raw)
+    const candidate = parsed as Partial<TeamIdentitySnapshot>
+    if (typeof candidate.teamName === 'string' && typeof candidate.symbol === 'string') {
+      return candidate as TeamIdentitySnapshot
+    }
+  } catch { /* ignore */ }
+  return null
 }
 
 export function writeLastSession(allSprints: SprintData[], config: ProjectConfig, projectId: string): void {
