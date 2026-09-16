@@ -41,6 +41,6 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/sprint-metrics/',
+  base: './',
   build: { outDir: 'dist', sourcemap: true },
 })
