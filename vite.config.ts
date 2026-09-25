@@ -44,5 +44,20 @@ export default defineConfig(({ mode }) => ({
     }),
   ],
   base: '/sprint-metrics/',
-  build: { outDir: 'dist', sourcemap: mode === 'debug' },
+  build: {
+    outDir: 'dist',
+    sourcemap: mode === 'debug',
+    rollupOptions: {
+      output: {
+        // The dashboard renders charts on first paint, so recharts can't be
+        // lazy-loaded; splitting it (with its d3/lodash deps) and React into
+        // their own chunks keeps them cached across app-only deploys.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return
+          if (/node_modules\/(recharts|recharts-scale|react-smooth|d3-[^/]+|internmap|lodash|decimal\.js-light|victory-vendor|fast-equals|eventemitter3|tiny-invariant)\//.test(id)) return 'charts'
+          if (/node_modules\/(react|react-dom|scheduler)\//.test(id)) return 'react'
+        },
+      },
+    },
+  },
 }))
