@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- **perf**: recharts (with its d3/lodash dependencies) and React are split
+  into their own `charts` and `react` chunks, so they stay cached across
+  deploys that only change app code. The entry chunk drops from 764 kB to
+  202 kB and Vite's "chunks larger than 500 kB" build warning is gone.
+
 - **build**: sourcemaps are now opt-in. `npm run build` (the production
   build that `deploy.yml` publishes) no longer emits `.map` files into
   `dist/`; `npm run build:debug` (`vite build --mode debug`) produces the
