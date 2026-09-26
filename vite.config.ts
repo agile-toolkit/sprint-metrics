@@ -43,7 +43,10 @@ export default defineConfig(({ mode }) => ({
       },
     }),
   ],
-  base: '/sprint-metrics/',
+  // Relative base: the same build artifact is deployed to more than one host
+  // (see AppHeader's isOnDashboardHost), so an absolute '/sprint-metrics/'
+  // path would break on hosts that don't serve it from that subpath.
+  base: './',
   build: {
     outDir: 'dist',
     sourcemap: mode === 'debug',
